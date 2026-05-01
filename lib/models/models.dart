@@ -115,6 +115,78 @@ class AvailabilitySlot {
   });
 }
 
+enum ScoutStatus { sent, accepted, declined, expired }
+
+class Scout {
+  final int id;
+  final int fromGiverId;
+  final String fromGiverName;
+  final int toWorkerId;
+  final String toWorkerName;
+  final int? jobId;
+  final String? jobTitle;
+  final String message;
+  final ScoutStatus status;
+  final DateTime createdAt;
+  final int? offerHourly;
+
+  const Scout({
+    required this.id,
+    required this.fromGiverId,
+    required this.fromGiverName,
+    required this.toWorkerId,
+    required this.toWorkerName,
+    this.jobId,
+    this.jobTitle,
+    required this.message,
+    required this.status,
+    required this.createdAt,
+    this.offerHourly,
+  });
+}
+
+class FavoriteCompany {
+  final int giverId;
+  final String name;
+  final String address;
+  final double rating;
+  final int reviewCount;
+  final List<String> badges;
+  final int recentJobsCount;
+  final DateTime addedAt;
+
+  const FavoriteCompany({
+    required this.giverId,
+    required this.name,
+    required this.address,
+    required this.rating,
+    required this.reviewCount,
+    this.badges = const [],
+    required this.recentJobsCount,
+    required this.addedAt,
+  });
+}
+
+class RegularWorker {
+  final int workerId;
+  final String name;
+  final double rating;
+  final int reviewCount;
+  final List<String> tags;
+  final int hireCount; // 함께 일한 횟수
+  final DateTime lastWorkedAt;
+
+  const RegularWorker({
+    required this.workerId,
+    required this.name,
+    required this.rating,
+    required this.reviewCount,
+    required this.tags,
+    required this.hireCount,
+    required this.lastWorkedAt,
+  });
+}
+
 class WorkerPreferences {
   final int preferredHourly;
   final int preferredRadiusKm;

@@ -657,6 +657,77 @@ class Dummy {
     AvailabilitySlot(weekday: 7, startHour: 9, endHour: 22),
   ];
 
+  static final List<Scout> scouts = [
+    Scout(
+      id: 1,
+      fromGiverId: 101,
+      fromGiverName: '카페 모카',
+      toWorkerId: 1,
+      toWorkerName: '김알바',
+      jobId: 1001,
+      jobTitle: '카페 주말 알바 구합니다',
+      message:
+          '안녕하세요! 프로필 보고 연락드려요. 다음 주말 함께 일하실 수 있을까요? 시급 우대해드릴게요.',
+      status: ScoutStatus.sent,
+      createdAt: DateTime.now().subtract(const Duration(hours: 2)),
+      offerHourly: 13500,
+    ),
+    Scout(
+      id: 2,
+      fromGiverId: 102,
+      fromGiverName: '한솔이벤트',
+      toWorkerId: 1,
+      toWorkerName: '김알바',
+      message: '5월에 진행되는 행사 스태프 풀에 등록해두고 싶어요. 관심 있으시면 회신 부탁드립니다!',
+      status: ScoutStatus.accepted,
+      createdAt: DateTime.now().subtract(const Duration(days: 3)),
+    ),
+  ];
+
+  static final List<FavoriteCompany> favoriteCompanies = [
+    FavoriteCompany(
+      giverId: 101,
+      name: '카페 모카',
+      address: '서울 강남구 역삼동',
+      rating: 4.9,
+      reviewCount: 128,
+      badges: const ['사업자', '본인인증', '단골'],
+      recentJobsCount: 4,
+      addedAt: DateTime.now().subtract(const Duration(days: 30)),
+    ),
+    FavoriteCompany(
+      giverId: 102,
+      name: '한솔이벤트',
+      address: '서울 송파구 잠실동',
+      rating: 4.6,
+      reviewCount: 87,
+      badges: const ['사업자'],
+      recentJobsCount: 2,
+      addedAt: DateTime.now().subtract(const Duration(days: 12)),
+    ),
+  ];
+
+  static final List<RegularWorker> regulars = [
+    RegularWorker(
+      workerId: 4,
+      name: '최열심',
+      rating: 4.9,
+      reviewCount: 64,
+      tags: const ['책임감', '경험많음', '바리스타'],
+      hireCount: 8,
+      lastWorkedAt: DateTime.now().subtract(const Duration(days: 5)),
+    ),
+    RegularWorker(
+      workerId: 2,
+      name: '이성실',
+      rating: 4.7,
+      reviewCount: 31,
+      tags: const ['친절함', '시간엄수', '서빙경험'],
+      hireCount: 3,
+      lastWorkedAt: DateTime.now().subtract(const Duration(days: 18)),
+    ),
+  ];
+
   static const WorkerPreferences preferences = WorkerPreferences(
     preferredHourly: 13000,
     preferredRadiusKm: 5,

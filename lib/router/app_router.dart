@@ -18,6 +18,9 @@ import '../screens/giver/giver_main_screen.dart';
 import '../screens/giver/job_create/job_create_screen.dart';
 import '../screens/giver/job_edit/job_edit_screen.dart';
 import '../screens/giver/payment_methods_screen.dart';
+import '../screens/giver/regulars_screen.dart';
+import '../screens/giver/workers/worker_detail_screen.dart';
+import '../screens/giver/workers/workers_search_screen.dart';
 import '../screens/job/checkin_screen.dart';
 import '../screens/job/contract_screen.dart';
 import '../screens/job/contract_sign_screen.dart';
@@ -26,12 +29,14 @@ import '../screens/me/availability_screen.dart';
 import '../screens/me/blocklist_screen.dart';
 import '../screens/me/credentials_list_screen.dart';
 import '../screens/me/credentials_new_screen.dart';
+import '../screens/me/favorite_companies_screen.dart';
 import '../screens/me/identity_status_screen.dart';
 import '../screens/me/notification_settings_screen.dart';
 import '../screens/me/payment_detail_screen.dart';
 import '../screens/me/portfolio_screen.dart';
 import '../screens/me/preferences_screen.dart';
 import '../screens/me/resume_screen.dart';
+import '../screens/worker/recommended_screen.dart';
 import '../screens/notice/notice_detail_screen.dart';
 import '../screens/notice/notice_list_screen.dart';
 import '../screens/splash/splash_screen.dart';
@@ -187,6 +192,29 @@ class AppRouter {
       GoRoute(
         path: '/me/preferences',
         builder: (_, __) => const PreferencesScreen(),
+      ),
+      GoRoute(
+        path: '/me/favorite-companies',
+        builder: (_, __) => const FavoriteCompaniesScreen(),
+      ),
+      GoRoute(
+        path: '/recommended',
+        builder: (_, __) => const RecommendedScreen(),
+      ),
+      GoRoute(
+        path: '/giver/workers',
+        builder: (_, __) => const WorkersSearchScreen(),
+      ),
+      GoRoute(
+        path: '/giver/workers/:id',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return WorkerDetailScreen(workerId: id);
+        },
+      ),
+      GoRoute(
+        path: '/giver/regulars',
+        builder: (_, __) => const RegularsScreen(),
       ),
       GoRoute(
         path: '/giver/business-verification',

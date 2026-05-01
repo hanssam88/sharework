@@ -138,7 +138,11 @@ class MyPageScreen extends StatelessWidget {
               label: '희망 조건',
               onTap: () => context.push('/me/preferences'),
             ),
-            _Tile(icon: Icons.bookmark_border, label: '즐겨찾는 업체', onTap: () {}),
+            _Tile(
+              icon: Icons.bookmark_border,
+              label: '즐겨찾는 업체',
+              onTap: () => context.push('/me/favorite-companies'),
+            ),
             _Tile(
               icon: Icons.account_balance_wallet_outlined,
               label: '정산 내역',
@@ -146,6 +150,16 @@ class MyPageScreen extends StatelessWidget {
             ),
           ] else ...[
             _Tile(icon: Icons.list_alt, label: '내 공고 관리', onTap: () {}),
+            _Tile(
+              icon: Icons.person_search,
+              label: '워커 찾기',
+              onTap: () => context.push('/giver/workers'),
+            ),
+            _Tile(
+              icon: Icons.people_outline,
+              label: '단골 워커',
+              onTap: () => context.push('/giver/regulars'),
+            ),
             _Tile(
               icon: Icons.account_balance_wallet_outlined,
               label: '지급 내역',
