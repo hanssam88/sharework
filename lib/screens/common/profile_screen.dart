@@ -98,9 +98,21 @@ class ProfileScreen extends StatelessWidget {
                           size: 44, color: AppColors.brandDark),
                     ),
                     const SizedBox(height: 12),
-                    Text(user.name,
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w800)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(user.name,
+                            style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w800)),
+                        if (user.identityVerified) ...[
+                          const SizedBox(width: 6),
+                          const Icon(Icons.verified,
+                              color: AppColors.brandDark, size: 20),
+                        ],
+                      ],
+                    ),
                     const SizedBox(height: 4),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -117,6 +129,44 @@ class ProfileScreen extends StatelessWidget {
                                 color: AppColors.textMuted, fontSize: 13)),
                       ],
                     ),
+                    if (user.verificationBadges.isNotEmpty) ...[
+                      const SizedBox(height: 10),
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        spacing: 6,
+                        runSpacing: 6,
+                        children: user.verificationBadges
+                            .map((b) => Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 3),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.brandSoft,
+                                    borderRadius: BorderRadius.circular(6),
+                                    border: Border.all(
+                                        color: AppColors.brandDark
+                                            .withValues(alpha: 0.3)),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(Icons.verified,
+                                          size: 12,
+                                          color: AppColors.brandDark),
+                                      const SizedBox(width: 3),
+                                      Text(
+                                        b,
+                                        style: const TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppColors.brandDark,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ))
+                            .toList(),
+                      ),
+                    ],
                     const SizedBox(height: 16),
                     Row(
                       children: [

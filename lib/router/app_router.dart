@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../screens/auth/identity_screen.dart';
 import '../screens/auth/phone_auth_screen.dart';
 import '../screens/auth/signup_screen.dart';
 import '../screens/common/job_info_screen.dart';
@@ -11,6 +12,7 @@ import '../screens/common/review_write_screen.dart';
 import '../screens/common/search_screen.dart';
 import '../screens/common/user_info_update_screen.dart';
 import '../screens/giver/applicants/applicants_screen.dart';
+import '../screens/giver/business_verification_screen.dart';
 import '../screens/giver/escrow_screen.dart';
 import '../screens/giver/giver_main_screen.dart';
 import '../screens/giver/job_create/job_create_screen.dart';
@@ -21,6 +23,9 @@ import '../screens/job/contract_screen.dart';
 import '../screens/job/contract_sign_screen.dart';
 import '../screens/legal/legal_screen.dart';
 import '../screens/me/blocklist_screen.dart';
+import '../screens/me/credentials_list_screen.dart';
+import '../screens/me/credentials_new_screen.dart';
+import '../screens/me/identity_status_screen.dart';
 import '../screens/me/notification_settings_screen.dart';
 import '../screens/me/payment_detail_screen.dart';
 import '../screens/notice/notice_detail_screen.dart';
@@ -47,6 +52,10 @@ class AppRouter {
       GoRoute(
         path: '/auth/signup',
         builder: (_, __) => const SignupScreen(),
+      ),
+      GoRoute(
+        path: '/auth/identity',
+        builder: (_, __) => const IdentityVerificationScreen(),
       ),
       GoRoute(
         path: '/worker',
@@ -146,6 +155,22 @@ class AppRouter {
       GoRoute(
         path: '/me/blocklist',
         builder: (_, __) => const BlocklistScreen(),
+      ),
+      GoRoute(
+        path: '/me/identity',
+        builder: (_, __) => const IdentityStatusScreen(),
+      ),
+      GoRoute(
+        path: '/me/credentials',
+        builder: (_, __) => const CredentialsListScreen(),
+      ),
+      GoRoute(
+        path: '/me/credentials/new',
+        builder: (_, __) => const CredentialsNewScreen(),
+      ),
+      GoRoute(
+        path: '/giver/business-verification',
+        builder: (_, __) => const BusinessVerificationScreen(),
       ),
       GoRoute(
         path: '/me/notification-settings',

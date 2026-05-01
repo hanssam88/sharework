@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 enum AppType { worker, giver }
 
 enum ApplicationStatus { applied, hired, completed, rejected, cancelled }
@@ -25,6 +27,63 @@ enum ContractStatus { none, sent, signed }
 enum PaymentMethodKind { card, bank }
 
 enum EscrowKind { deposit, payout, refund }
+
+enum CredentialKind {
+  idCard, // 신분증
+  driverLicense, // 운전면허
+  hygieneEdu, // 위생교육
+  health, // 건강진단서
+  barista,
+  cookCert, // 조리사 자격증
+  forkLift,
+  etc,
+}
+
+enum CredentialStatus { pending, verified, expired, rejected }
+
+extension CredentialKindX on CredentialKind {
+  String get label {
+    switch (this) {
+      case CredentialKind.idCard:
+        return '신분증';
+      case CredentialKind.driverLicense:
+        return '운전면허';
+      case CredentialKind.hygieneEdu:
+        return '위생교육 수료증';
+      case CredentialKind.health:
+        return '건강진단서';
+      case CredentialKind.barista:
+        return '바리스타 자격증';
+      case CredentialKind.cookCert:
+        return '조리사 자격증';
+      case CredentialKind.forkLift:
+        return '지게차 운전면허';
+      case CredentialKind.etc:
+        return '기타';
+    }
+  }
+
+  IconData get icon {
+    switch (this) {
+      case CredentialKind.idCard:
+        return Icons.badge_outlined;
+      case CredentialKind.driverLicense:
+        return Icons.directions_car_outlined;
+      case CredentialKind.hygieneEdu:
+        return Icons.school_outlined;
+      case CredentialKind.health:
+        return Icons.local_hospital_outlined;
+      case CredentialKind.barista:
+        return Icons.coffee_outlined;
+      case CredentialKind.cookCert:
+        return Icons.restaurant_menu_outlined;
+      case CredentialKind.forkLift:
+        return Icons.precision_manufacturing_outlined;
+      case CredentialKind.etc:
+        return Icons.description_outlined;
+    }
+  }
+}
 
 extension JobCategoryX on JobCategory {
   String get label {
@@ -78,6 +137,10 @@ class AppUser {
   final List<String> tags;
   final String introduction;
   final AppType appType;
+  final bool identityVerified;
+  final String? businessNumber; // Giver만
+  final bool businessVerified;
+  final List<String> verificationBadges; // 본인인증/사업자/위생교육 등 표시용
 
   const AppUser({
     required this.id,
@@ -91,6 +154,30 @@ class AppUser {
     required this.tags,
     required this.introduction,
     required this.appType,
+    this.identityVerified = false,
+    this.businessNumber,
+    this.businessVerified = false,
+    this.verificationBadges = const [],
+  });
+}
+
+class Credential {
+  final int id;
+  final CredentialKind kind;
+  final String? fileUrl; // 목업: 미사용
+  final DateTime issuedAt;
+  final DateTime? expiresAt;
+  final CredentialStatus status;
+  final String? memo;
+
+  const Credential({
+    required this.id,
+    required this.kind,
+    this.fileUrl,
+    required this.issuedAt,
+    this.expiresAt,
+    this.status = CredentialStatus.pending,
+    this.memo,
   });
 }
 

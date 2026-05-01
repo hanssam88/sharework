@@ -14,6 +14,8 @@ class Dummy {
     introduction:
         '안녕하세요. 3년차 단기알바 전문입니다. 카페·매장보조·행사스태프 경험이 풍부하고, 어떤 환경에서도 빠르게 적응합니다.',
     appType: AppType.worker,
+    identityVerified: true,
+    verificationBadges: const ['본인인증', '바리스타', '위생교육'],
   );
 
   static final List<AppUser> givers = [
@@ -29,6 +31,10 @@ class Dummy {
       tags: const ['친절함', '정시지급', '깔끔'],
       introduction: '강남역 도보 5분 거리의 카페입니다. 함께 일하실 분 찾습니다.',
       appType: AppType.giver,
+      identityVerified: true,
+      businessNumber: '123-45-67890',
+      businessVerified: true,
+      verificationBadges: const ['사업자', '본인인증'],
     ),
     AppUser(
       id: 102,
@@ -577,6 +583,47 @@ class Dummy {
   ];
 
   static const NotificationPrefs notificationPrefs = NotificationPrefs();
+
+  static final List<Credential> credentials = [
+    Credential(
+      id: 1,
+      kind: CredentialKind.idCard,
+      issuedAt: DateTime.now().subtract(const Duration(days: 800)),
+      status: CredentialStatus.verified,
+      memo: '주민등록증',
+    ),
+    Credential(
+      id: 2,
+      kind: CredentialKind.barista,
+      issuedAt: DateTime.now().subtract(const Duration(days: 400)),
+      status: CredentialStatus.verified,
+      memo: 'SCA Barista Foundation',
+    ),
+    Credential(
+      id: 3,
+      kind: CredentialKind.hygieneEdu,
+      issuedAt: DateTime.now().subtract(const Duration(days: 60)),
+      expiresAt: DateTime.now().add(const Duration(days: 305)),
+      status: CredentialStatus.verified,
+      memo: '식약처 위생교육 수료',
+    ),
+    Credential(
+      id: 4,
+      kind: CredentialKind.health,
+      issuedAt: DateTime.now().subtract(const Duration(days: 350)),
+      expiresAt: DateTime.now().subtract(const Duration(days: 5)),
+      status: CredentialStatus.expired,
+      memo: '갱신 필요',
+    ),
+    Credential(
+      id: 5,
+      kind: CredentialKind.driverLicense,
+      issuedAt: DateTime.now().subtract(const Duration(days: 1800)),
+      expiresAt: DateTime.now().add(const Duration(days: 1100)),
+      status: CredentialStatus.pending,
+      memo: '검토 중 (1~2 영업일)',
+    ),
+  ];
 
   static const Map<String, String> legalContents = {
     'terms': '''Sharework 서비스 이용약관 (요약본)

@@ -82,6 +82,23 @@ class MyPageScreen extends StatelessWidget {
           const SectionHeader(title: '계정'),
           _Tile(icon: Icons.edit, label: '내 프로필 수정', onTap: () => context.push('/me/edit')),
           _Tile(
+            icon: Icons.verified_user_outlined,
+            label: '본인인증',
+            onTap: () => context.push('/me/identity'),
+          ),
+          if (appType == 'worker')
+            _Tile(
+              icon: Icons.workspace_premium_outlined,
+              label: '보유 자격증·서류',
+              onTap: () => context.push('/me/credentials'),
+            )
+          else
+            _Tile(
+              icon: Icons.business_center_outlined,
+              label: '사업자 인증',
+              onTap: () => context.push('/giver/business-verification'),
+            ),
+          _Tile(
             icon: Icons.swap_horiz,
             label: appType == 'worker' ? '구인자 모드로 전환' : '구직자 모드로 전환',
             onTap: () =>

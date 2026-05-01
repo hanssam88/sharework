@@ -119,9 +119,17 @@ class _SignupScreenState extends State<SignupScreen> {
             const SizedBox(height: 24),
             FilledButton(
               onPressed: (_agreeTerms && _agreePrivacy)
-                  ? () => context.go(_appType == 'worker' ? '/worker' : '/giver')
+                  ? () => context.push('/auth/identity')
                   : null,
-              child: const Text('동의하고 시작하기'),
+              child: const Text('다음: 본인인증'),
+            ),
+            const SizedBox(height: 8),
+            TextButton(
+              onPressed: (_agreeTerms && _agreePrivacy)
+                  ? () => context
+                      .go(_appType == 'worker' ? '/worker' : '/giver')
+                  : null,
+              child: const Text('나중에 인증하기'),
             ),
           ],
         ),

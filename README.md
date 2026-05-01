@@ -102,7 +102,7 @@ flutter run
 | **S1** ✅ | P0 | 운영 핵심 | `/search`, `/giver/job/:id/applicants`, `/giver/job/:id/edit`, `/job/:id/review/write`, 지원 취소 플로우 |
 | **S2** ✅ | P0 | 신뢰·안전·지원 | `/report/...`, `/me/blocklist`, `/support/*`, `/notice/*`, `/terms·/privacy·/guide`, `/me/notification-settings`, 채팅·프로필 신고/차단 메뉴 |
 | **S3** ✅ | P0 | 출퇴근·계약·정산 | `/job/:id/checkin` (GPS·QR), `/job/:id/contract(/sign)` (전자서명 캔버스), `/me/payments/:id` (수수료·세금 분해), `/giver/payment-methods`, `/giver/escrow` |
-| **S4** | P0 | 인증·신원 | `/auth/identity`, `/me/identity`, `/me/credentials(/new)`, `/giver/business-verification` |
+| **S4** ✅ | P0 | 인증·신원 | `/auth/identity` (4 step 플로우), `/me/identity`, `/me/credentials(/new)` (5종 서류·만료일·상태), `/giver/business-verification` (국세청 조회 placeholder), 프로필 인증 배지 |
 | **S5** | P1 | 워커 프로필 강화 | `/me/resume`, `/me/portfolio`, `/me/availability`, `/me/preferences` |
 | **S6** | P1 | 매칭·스카웃 | `/recommended`, `/giver/workers(/:id)`, `/giver/regulars`, `/me/favorite-companies` |
 | **S7** | P1 | Giver 매출 도구 | `/giver/job/:id/stats`, `/giver/job/:id/boost`, `/giver/job/templates`, 정기/반복 공고 |
@@ -124,7 +124,8 @@ lib/
    ├─ splash/
    ├─ auth/
    │  ├─ phone_auth_screen.dart
-   │  └─ signup_screen.dart
+   │  ├─ signup_screen.dart
+   │  └─ identity_screen.dart                   [S4]
    ├─ worker/
    │  ├─ worker_main_screen.dart
    │  ├─ home/worker_home_screen.dart
@@ -140,7 +141,8 @@ lib/
    │  ├─ applicants/applicants_screen.dart      [S1]
    │  ├─ job_edit/job_edit_screen.dart          [S1]
    │  ├─ payment_methods_screen.dart            [S3]
-   │  └─ escrow_screen.dart                     [S3]
+   │  ├─ escrow_screen.dart                     [S3]
+   │  └─ business_verification_screen.dart      [S4]
    ├─ job/                                      [S3]
    │  ├─ checkin_screen.dart
    │  ├─ contract_screen.dart
@@ -156,7 +158,10 @@ lib/
    ├─ me/
    │  ├─ blocklist_screen.dart                  [S2]
    │  ├─ notification_settings_screen.dart      [S2]
-   │  └─ payment_detail_screen.dart             [S3]
+   │  ├─ payment_detail_screen.dart             [S3]
+   │  ├─ identity_status_screen.dart            [S4]
+   │  ├─ credentials_list_screen.dart           [S4]
+   │  └─ credentials_new_screen.dart            [S4]
    ├─ support/                                  [S2]
    │  ├─ support_hub_screen.dart
    │  ├─ faq_screen.dart
