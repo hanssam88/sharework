@@ -15,8 +15,11 @@ import '../screens/giver/applicants/applicants_screen.dart';
 import '../screens/giver/business_verification_screen.dart';
 import '../screens/giver/escrow_screen.dart';
 import '../screens/giver/giver_main_screen.dart';
+import '../screens/giver/job_boost/job_boost_screen.dart';
 import '../screens/giver/job_create/job_create_screen.dart';
 import '../screens/giver/job_edit/job_edit_screen.dart';
+import '../screens/giver/job_stats/job_stats_screen.dart';
+import '../screens/giver/job_templates/job_templates_screen.dart';
 import '../screens/giver/payment_methods_screen.dart';
 import '../screens/giver/regulars_screen.dart';
 import '../screens/giver/workers/worker_detail_screen.dart';
@@ -77,6 +80,24 @@ class AppRouter {
       GoRoute(
         path: '/giver/job/create',
         builder: (_, __) => const JobCreateScreen(),
+      ),
+      GoRoute(
+        path: '/giver/job/templates',
+        builder: (_, __) => const JobTemplatesScreen(),
+      ),
+      GoRoute(
+        path: '/giver/job/:id/stats',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return JobStatsScreen(jobId: id);
+        },
+      ),
+      GoRoute(
+        path: '/giver/job/:id/boost',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return JobBoostScreen(jobId: id);
+        },
       ),
       GoRoute(
         path: '/giver/job/:id/edit',

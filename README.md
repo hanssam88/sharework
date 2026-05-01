@@ -105,7 +105,7 @@ flutter run
 | **S4** ✅ | P0 | 인증·신원 | `/auth/identity` (4 step 플로우), `/me/identity`, `/me/credentials(/new)` (5종 서류·만료일·상태), `/giver/business-verification` (국세청 조회 placeholder), 프로필 인증 배지 |
 | **S5** ✅ | P1 | 워커 프로필 강화 | `/me/resume`, `/me/portfolio`, `/me/availability` (요일×시간 그리드), `/me/preferences` (시급·반경 슬라이더), 프로필 4탭 (소개/이력서/포트폴리오/리뷰) |
 | **S6** ✅ | P1 | 매칭·스카웃 | `/recommended` (AI 피드 + 받은 스카웃), `/giver/workers(/:id)` (필터·스카웃), `/giver/regulars` (단골 워커), `/me/favorite-companies` |
-| **S7** | P1 | Giver 매출 도구 | `/giver/job/:id/stats`, `/giver/job/:id/boost`, `/giver/job/templates`, 정기/반복 공고 |
+| **S7** ✅ | P1 | Giver 매출 도구 | `/giver/job/:id/stats` (KPI + 7일 막대차트 + 시급 비교), `/giver/job/:id/boost` (4종 상품), `/giver/job/templates` (사용 횟수 정렬), 공고 등록에 반복 요일·템플릿 불러오기 추가, 카드 메뉴에 통계/끌어올리기/복제 |
 | **S8** | P1 | 리워드·채팅 향상 | `/me/invite`, `/me/coupons`, `/me/level`, `/events`, 채팅 첨부·신고·안심전화 |
 
 > **백로그 (P2)**: 다국어(외국인 노동자), 다크모드, 응급콜, 단체채용, 커뮤니티 피드, 자동번역 — 본 코딩 진입 후 검토.
@@ -148,9 +148,12 @@ lib/
    │  ├─ escrow_screen.dart                     [S3]
    │  ├─ business_verification_screen.dart      [S4]
    │  ├─ regulars_screen.dart                   [S6]
-   │  └─ workers/                               [S6]
-   │     ├─ workers_search_screen.dart
-   │     └─ worker_detail_screen.dart
+   │  ├─ workers/                               [S6]
+   │  │  ├─ workers_search_screen.dart
+   │  │  └─ worker_detail_screen.dart
+   │  ├─ job_stats/job_stats_screen.dart        [S7]
+   │  ├─ job_boost/job_boost_screen.dart        [S7]
+   │  └─ job_templates/job_templates_screen.dart [S7]
    ├─ job/                                      [S3]
    │  ├─ checkin_screen.dart
    │  ├─ contract_screen.dart

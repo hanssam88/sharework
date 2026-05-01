@@ -138,6 +138,7 @@ class Dummy {
       status: JobStatus.open,
       category: JobCategory.mart,
       workType: WorkType.recurring,
+      recurrenceWeekdays: [1, 3, 5], // 월·수·금
     ),
     Job(
       id: 1004,
@@ -656,6 +657,98 @@ class Dummy {
     AvailabilitySlot(weekday: 6, startHour: 9, endHour: 22),
     AvailabilitySlot(weekday: 7, startHour: 9, endHour: 22),
   ];
+
+  static final List<JobTemplate> jobTemplates = [
+    JobTemplate(
+      id: 1,
+      name: '주말 카페 알바 (자주 사용)',
+      title: '카페 주말 알바 구합니다',
+      address: '서울 강남구 역삼동 123-4',
+      category: JobCategory.cafe,
+      workType: WorkType.shortTerm,
+      payHourly: 12000,
+      defaultPersonnel: 2,
+      tags: const ['카페', '주말'],
+      sameDayPayment: true,
+      foodProvided: true,
+      recurrenceWeekdays: [6, 7],
+      useCount: 8,
+    ),
+    JobTemplate(
+      id: 2,
+      name: '평일 저녁 클로징',
+      title: '평일 저녁 카페 클로징 알바',
+      address: '서울 강남구 역삼동 123-4',
+      category: JobCategory.cafe,
+      workType: WorkType.recurring,
+      payHourly: 13000,
+      defaultPersonnel: 1,
+      tags: const ['카페', '저녁', '클로징'],
+      sameDayPayment: false,
+      recurrenceWeekdays: [1, 2, 3, 4, 5],
+      useCount: 12,
+    ),
+    JobTemplate(
+      id: 3,
+      name: '대형 행사 스태프',
+      title: '행사 스태프 모집',
+      address: '서울 송파구 잠실동',
+      category: JobCategory.event,
+      workType: WorkType.oneDay,
+      payHourly: 100000,
+      defaultPersonnel: 10,
+      tags: const ['행사', '스태프'],
+      sameDayPayment: true,
+      foodProvided: true,
+      extraPay: true,
+      useCount: 3,
+    ),
+  ];
+
+  static const List<BoostProduct> boostProducts = [
+    BoostProduct(
+      kind: BoostKind.topPin,
+      name: '상단 고정',
+      desc: '검색 결과 상단에 24시간 고정 노출',
+      price: 5000,
+      duration: Duration(hours: 24),
+    ),
+    BoostProduct(
+      kind: BoostKind.brandColor,
+      name: '브랜드 강조',
+      desc: '리스트에서 카드 테두리·배지를 브랜드 컬러로 강조 (3일)',
+      price: 9000,
+      duration: Duration(days: 3),
+    ),
+    BoostProduct(
+      kind: BoostKind.push,
+      name: '관심 워커 푸시',
+      desc: '조건이 맞는 워커에게 즉시 푸시 알림 전송',
+      price: 12000,
+      duration: Duration(hours: 6),
+    ),
+    BoostProduct(
+      kind: BoostKind.premium,
+      name: '프리미엄 패키지',
+      desc: '상단 고정 + 푸시 + 추천 피드 노출 (7일)',
+      price: 25000,
+      duration: Duration(days: 7),
+    ),
+  ];
+
+  static JobStats statsForJob(int jobId) {
+    // 목업: jobId 기반 결정적 더미값
+    final base = jobId % 10;
+    return JobStats(
+      impressions: 1240 + base * 87,
+      clicks: 320 + base * 22,
+      applications: 18 + base * 2,
+      hires: 3 + (base % 4),
+      avgPay: 11800,
+      last7DaysImpressions: List.generate(
+          7, (i) => 100 + ((i + base) * 27) % 240),
+    );
+  }
 
   static final List<Scout> scouts = [
     Scout(

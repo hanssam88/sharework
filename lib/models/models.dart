@@ -187,6 +187,83 @@ class RegularWorker {
   });
 }
 
+class JobTemplate {
+  final int id;
+  final String name; // 템플릿 별명
+  final String title;
+  final String address;
+  final JobCategory category;
+  final WorkType workType;
+  final int payHourly;
+  final int defaultPersonnel;
+  final List<String> tags;
+  final bool sameDayPayment;
+  final bool foodProvided;
+  final bool extraPay;
+  final List<int> recurrenceWeekdays;
+  final int useCount; // 사용 횟수
+
+  const JobTemplate({
+    required this.id,
+    required this.name,
+    required this.title,
+    required this.address,
+    required this.category,
+    required this.workType,
+    required this.payHourly,
+    required this.defaultPersonnel,
+    this.tags = const [],
+    this.sameDayPayment = false,
+    this.foodProvided = false,
+    this.extraPay = false,
+    this.recurrenceWeekdays = const [],
+    this.useCount = 0,
+  });
+}
+
+class JobStats {
+  final int impressions; // 노출 수
+  final int clicks; // 상세 진입 수
+  final int applications; // 지원 수
+  final int hires; // 채용 확정
+  final int avgPay; // 동일 카테고리 평균 시급
+  final List<int> last7DaysImpressions; // 최근 7일 노출 추이
+
+  const JobStats({
+    required this.impressions,
+    required this.clicks,
+    required this.applications,
+    required this.hires,
+    required this.avgPay,
+    required this.last7DaysImpressions,
+  });
+
+  double get hireRate =>
+      applications == 0 ? 0 : hires / applications;
+  double get clickRate =>
+      impressions == 0 ? 0 : clicks / impressions;
+  double get applyRate =>
+      clicks == 0 ? 0 : applications / clicks;
+}
+
+enum BoostKind { topPin, brandColor, push, premium }
+
+class BoostProduct {
+  final BoostKind kind;
+  final String name;
+  final String desc;
+  final int price;
+  final Duration duration;
+
+  const BoostProduct({
+    required this.kind,
+    required this.name,
+    required this.desc,
+    required this.price,
+    required this.duration,
+  });
+}
+
 class WorkerPreferences {
   final int preferredHourly;
   final int preferredRadiusKm;
@@ -388,6 +465,8 @@ class Job {
   final ContractStatus contractStatus;
   final DateTime? checkinAt;
   final DateTime? checkoutAt;
+  final List<int> recurrenceWeekdays; // 1=월 ~ 7=일, 비어있으면 1회성
+  final DateTime? boostUntil;
 
   const Job({
     required this.id,
@@ -415,6 +494,8 @@ class Job {
     this.contractStatus = ContractStatus.none,
     this.checkinAt,
     this.checkoutAt,
+    this.recurrenceWeekdays = const [],
+    this.boostUntil,
   });
 }
 

@@ -106,8 +106,21 @@ class _JobList extends StatelessWidget {
                           case 'applicants':
                             context.push('/giver/job/${job.id}/applicants');
                             break;
+                          case 'stats':
+                            context.push('/giver/job/${job.id}/stats');
+                            break;
+                          case 'boost':
+                            context.push('/giver/job/${job.id}/boost');
+                            break;
                           case 'edit':
                             context.push('/giver/job/${job.id}/edit');
+                            break;
+                          case 'duplicate':
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('공고가 복제되었어요 (목업)')),
+                            );
+                            context.push('/giver/job/create');
                             break;
                           case 'view':
                             context.push('/job/${job.id}');
@@ -117,7 +130,12 @@ class _JobList extends StatelessWidget {
                       itemBuilder: (_) => const [
                         PopupMenuItem(
                             value: 'applicants', child: Text('지원자 보기')),
+                        PopupMenuItem(value: 'stats', child: Text('통계 보기')),
+                        PopupMenuItem(
+                            value: 'boost', child: Text('끌어올리기/광고')),
                         PopupMenuItem(value: 'edit', child: Text('수정/마감')),
+                        PopupMenuItem(
+                            value: 'duplicate', child: Text('공고 복제')),
                         PopupMenuItem(value: 'view', child: Text('공고 상세')),
                       ],
                     ),

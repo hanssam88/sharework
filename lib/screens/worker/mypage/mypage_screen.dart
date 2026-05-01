@@ -151,6 +151,11 @@ class MyPageScreen extends StatelessWidget {
           ] else ...[
             _Tile(icon: Icons.list_alt, label: '내 공고 관리', onTap: () {}),
             _Tile(
+              icon: Icons.dashboard_customize_outlined,
+              label: '공고 템플릿',
+              onTap: () => context.push('/giver/job/templates'),
+            ),
+            _Tile(
               icon: Icons.person_search,
               label: '워커 찾기',
               onTap: () => context.push('/giver/workers'),
