@@ -103,7 +103,7 @@ flutter run
 | **S2** ✅ | P0 | 신뢰·안전·지원 | `/report/...`, `/me/blocklist`, `/support/*`, `/notice/*`, `/terms·/privacy·/guide`, `/me/notification-settings`, 채팅·프로필 신고/차단 메뉴 |
 | **S3** ✅ | P0 | 출퇴근·계약·정산 | `/job/:id/checkin` (GPS·QR), `/job/:id/contract(/sign)` (전자서명 캔버스), `/me/payments/:id` (수수료·세금 분해), `/giver/payment-methods`, `/giver/escrow` |
 | **S4** ✅ | P0 | 인증·신원 | `/auth/identity` (4 step 플로우), `/me/identity`, `/me/credentials(/new)` (5종 서류·만료일·상태), `/giver/business-verification` (국세청 조회 placeholder), 프로필 인증 배지 |
-| **S5** | P1 | 워커 프로필 강화 | `/me/resume`, `/me/portfolio`, `/me/availability`, `/me/preferences` |
+| **S5** ✅ | P1 | 워커 프로필 강화 | `/me/resume`, `/me/portfolio`, `/me/availability` (요일×시간 그리드), `/me/preferences` (시급·반경 슬라이더), 프로필 4탭 (소개/이력서/포트폴리오/리뷰) |
 | **S6** | P1 | 매칭·스카웃 | `/recommended`, `/giver/workers(/:id)`, `/giver/regulars`, `/me/favorite-companies` |
 | **S7** | P1 | Giver 매출 도구 | `/giver/job/:id/stats`, `/giver/job/:id/boost`, `/giver/job/templates`, 정기/반복 공고 |
 | **S8** | P1 | 리워드·채팅 향상 | `/me/invite`, `/me/coupons`, `/me/level`, `/events`, 채팅 첨부·신고·안심전화 |
@@ -119,7 +119,10 @@ lib/
 ├─ router/app_router.dart     go_router 설정
 ├─ models/models.dart         User / Job / Application / Review / Notification ...
 ├─ data/dummy_data.dart       모든 더미 데이터 (한국어)
-├─ widgets/shared.dart        JobCard, ReviewCard, NotificationCard, TagChip ...
+├─ widgets/
+│  ├─ shared.dart             JobCard, ReviewCard, NotificationCard, TagChip ...
+│  ├─ resume_view.dart        [S5] 이력서 뷰 (프로필 탭/이력서 화면 공유)
+│  └─ portfolio_grid.dart     [S5] 포트폴리오 2열 그리드
 └─ screens/
    ├─ splash/
    ├─ auth/
@@ -161,7 +164,11 @@ lib/
    │  ├─ payment_detail_screen.dart             [S3]
    │  ├─ identity_status_screen.dart            [S4]
    │  ├─ credentials_list_screen.dart           [S4]
-   │  └─ credentials_new_screen.dart            [S4]
+   │  ├─ credentials_new_screen.dart            [S4]
+   │  ├─ resume_screen.dart                     [S5]
+   │  ├─ portfolio_screen.dart                  [S5]
+   │  ├─ availability_screen.dart               [S5]
+   │  └─ preferences_screen.dart                [S5]
    ├─ support/                                  [S2]
    │  ├─ support_hub_screen.dart
    │  ├─ faq_screen.dart

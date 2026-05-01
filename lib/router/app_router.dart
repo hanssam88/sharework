@@ -22,12 +22,16 @@ import '../screens/job/checkin_screen.dart';
 import '../screens/job/contract_screen.dart';
 import '../screens/job/contract_sign_screen.dart';
 import '../screens/legal/legal_screen.dart';
+import '../screens/me/availability_screen.dart';
 import '../screens/me/blocklist_screen.dart';
 import '../screens/me/credentials_list_screen.dart';
 import '../screens/me/credentials_new_screen.dart';
 import '../screens/me/identity_status_screen.dart';
 import '../screens/me/notification_settings_screen.dart';
 import '../screens/me/payment_detail_screen.dart';
+import '../screens/me/portfolio_screen.dart';
+import '../screens/me/preferences_screen.dart';
+import '../screens/me/resume_screen.dart';
 import '../screens/notice/notice_detail_screen.dart';
 import '../screens/notice/notice_list_screen.dart';
 import '../screens/splash/splash_screen.dart';
@@ -167,6 +171,22 @@ class AppRouter {
       GoRoute(
         path: '/me/credentials/new',
         builder: (_, __) => const CredentialsNewScreen(),
+      ),
+      GoRoute(
+        path: '/me/resume',
+        builder: (_, __) => const ResumeScreen(),
+      ),
+      GoRoute(
+        path: '/me/portfolio',
+        builder: (_, __) => const PortfolioScreen(),
+      ),
+      GoRoute(
+        path: '/me/availability',
+        builder: (_, __) => const AvailabilityScreen(),
+      ),
+      GoRoute(
+        path: '/me/preferences',
+        builder: (_, __) => const PreferencesScreen(),
       ),
       GoRoute(
         path: '/giver/business-verification',

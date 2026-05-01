@@ -584,6 +584,92 @@ class Dummy {
 
   static const NotificationPrefs notificationPrefs = NotificationPrefs();
 
+  static const Resume resume = Resume(
+    headline: '시간 엄수 · 카페·서빙 3년차',
+    summary:
+        '안녕하세요. 3년차 단기알바 전문입니다.\n카페·매장보조·행사스태프 경험이 풍부하고, 어떤 환경에서도 빠르게 적응합니다.\n새로운 메뉴·매장 시스템 학습이 빠른 편이며, 손님 응대를 좋아합니다.',
+    careers: [
+      CareerEntry(
+        company: '카페 모카 강남점',
+        role: '바리스타 / 홀',
+        period: '2024.03 ~ 현재',
+        description: '오픈 ~ 점심 피크 운영. 신메뉴 시즌 메뉴 5종 개발 보조.',
+      ),
+      CareerEntry(
+        company: '한솔 이벤트',
+        role: '행사 스태프',
+        period: '2023.05 ~ 2024.02',
+        description: '코엑스·잠실 등 대형 행사 안내 및 관람객 대응. 누적 12회.',
+      ),
+      CareerEntry(
+        company: '편의점 GS25',
+        role: '야간 알바',
+        period: '2022.06 ~ 2023.04',
+        description: '야간 (22:00~07:00) 매대 정리·발주 보조.',
+      ),
+    ],
+    educations: [
+      EducationEntry(
+        school: '한국대학교 경영학과',
+        degree: '재학',
+        period: '2021.03 ~ 현재',
+      ),
+    ],
+    skills: ['바리스타 (라떼아트)', '엑셀 기본', '영어 회화 가능', '운전면허 1종 보통'],
+  );
+
+  static final List<PortfolioItem> portfolio = [
+    PortfolioItem(
+      id: 1,
+      kind: PortfolioKind.image,
+      title: '카페 시즌 메뉴 개발',
+      subtitle: '2024 봄 — 라떼 4종',
+      colorTag: '#E6F8F6',
+    ),
+    PortfolioItem(
+      id: 2,
+      kind: PortfolioKind.image,
+      title: '코엑스 행사 운영',
+      subtitle: '2023.11 IT 컨퍼런스',
+      colorTag: '#FFF6E5',
+    ),
+    PortfolioItem(
+      id: 3,
+      kind: PortfolioKind.image,
+      title: '점포 디스플레이',
+      subtitle: '연말 시즌 데코',
+      colorTag: '#EEF4FF',
+    ),
+    PortfolioItem(
+      id: 4,
+      kind: PortfolioKind.link,
+      title: '개인 인스타그램',
+      subtitle: '@kim_alba',
+      url: 'https://instagram.com/example',
+    ),
+  ];
+
+  static const List<AvailabilitySlot> availability = [
+    AvailabilitySlot(weekday: 1, startHour: 9, endHour: 18),
+    AvailabilitySlot(weekday: 2, startHour: 9, endHour: 18),
+    AvailabilitySlot(weekday: 3, startHour: 14, endHour: 22),
+    AvailabilitySlot(weekday: 6, startHour: 9, endHour: 22),
+    AvailabilitySlot(weekday: 7, startHour: 9, endHour: 22),
+  ];
+
+  static const WorkerPreferences preferences = WorkerPreferences(
+    preferredHourly: 13000,
+    preferredRadiusKm: 5,
+    preferredCategories: [
+      JobCategory.cafe,
+      JobCategory.event,
+      JobCategory.restaurant,
+    ],
+    preferredWorkTypes: [WorkType.shortTerm, WorkType.oneDay],
+    allowSameDay: true,
+    allowNight: false,
+  );
+
   static final List<Credential> credentials = [
     Credential(
       id: 1,

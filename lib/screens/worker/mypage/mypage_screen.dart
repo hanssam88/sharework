@@ -118,6 +118,26 @@ class MyPageScreen extends StatelessWidget {
           const Divider(thickness: 8, color: AppColors.bg),
           const SectionHeader(title: '활동'),
           if (appType == 'worker') ...[
+            _Tile(
+              icon: Icons.description_outlined,
+              label: '이력서',
+              onTap: () => context.push('/me/resume'),
+            ),
+            _Tile(
+              icon: Icons.collections_outlined,
+              label: '포트폴리오',
+              onTap: () => context.push('/me/portfolio'),
+            ),
+            _Tile(
+              icon: Icons.calendar_view_week,
+              label: '가용 시간',
+              onTap: () => context.push('/me/availability'),
+            ),
+            _Tile(
+              icon: Icons.tune,
+              label: '희망 조건',
+              onTap: () => context.push('/me/preferences'),
+            ),
             _Tile(icon: Icons.bookmark_border, label: '즐겨찾는 업체', onTap: () {}),
             _Tile(
               icon: Icons.account_balance_wallet_outlined,

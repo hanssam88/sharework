@@ -41,6 +41,115 @@ enum CredentialKind {
 
 enum CredentialStatus { pending, verified, expired, rejected }
 
+class CareerEntry {
+  final String company;
+  final String role;
+  final String period; // ex) 2023.03 ~ 2023.09
+  final String description;
+
+  const CareerEntry({
+    required this.company,
+    required this.role,
+    required this.period,
+    required this.description,
+  });
+}
+
+class EducationEntry {
+  final String school;
+  final String degree;
+  final String period;
+
+  const EducationEntry({
+    required this.school,
+    required this.degree,
+    required this.period,
+  });
+}
+
+class Resume {
+  final String headline; // 한 줄 소개
+  final String summary; // 자기소개
+  final List<CareerEntry> careers;
+  final List<EducationEntry> educations;
+  final List<String> skills;
+
+  const Resume({
+    this.headline = '',
+    this.summary = '',
+    this.careers = const [],
+    this.educations = const [],
+    this.skills = const [],
+  });
+}
+
+enum PortfolioKind { image, link }
+
+class PortfolioItem {
+  final int id;
+  final PortfolioKind kind;
+  final String title;
+  final String? subtitle;
+  final String? url; // link인 경우
+  final String? colorTag; // image placeholder 색
+
+  const PortfolioItem({
+    required this.id,
+    required this.kind,
+    required this.title,
+    this.subtitle,
+    this.url,
+    this.colorTag,
+  });
+}
+
+class AvailabilitySlot {
+  final int weekday; // 1=월 ~ 7=일
+  final int startHour; // 0~24
+  final int endHour;
+
+  const AvailabilitySlot({
+    required this.weekday,
+    required this.startHour,
+    required this.endHour,
+  });
+}
+
+class WorkerPreferences {
+  final int preferredHourly;
+  final int preferredRadiusKm;
+  final List<JobCategory> preferredCategories;
+  final List<WorkType> preferredWorkTypes;
+  final bool allowSameDay; // 당일 지원 알림
+  final bool allowNight; // 야간 근무 가능
+
+  const WorkerPreferences({
+    this.preferredHourly = 12000,
+    this.preferredRadiusKm = 5,
+    this.preferredCategories = const [],
+    this.preferredWorkTypes = const [],
+    this.allowSameDay = true,
+    this.allowNight = false,
+  });
+
+  WorkerPreferences copyWith({
+    int? preferredHourly,
+    int? preferredRadiusKm,
+    List<JobCategory>? preferredCategories,
+    List<WorkType>? preferredWorkTypes,
+    bool? allowSameDay,
+    bool? allowNight,
+  }) =>
+      WorkerPreferences(
+        preferredHourly: preferredHourly ?? this.preferredHourly,
+        preferredRadiusKm: preferredRadiusKm ?? this.preferredRadiusKm,
+        preferredCategories: preferredCategories ?? this.preferredCategories,
+        preferredWorkTypes: preferredWorkTypes ?? this.preferredWorkTypes,
+        allowSameDay: allowSameDay ?? this.allowSameDay,
+        allowNight: allowNight ?? this.allowNight,
+      );
+}
+
 extension CredentialKindX on CredentialKind {
   String get label {
     switch (this) {

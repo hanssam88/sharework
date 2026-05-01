@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../data/dummy_data.dart';
+import '../../models/models.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/portfolio_grid.dart';
+import '../../widgets/resume_view.dart';
 import '../../widgets/shared.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -71,8 +74,10 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Dummy.userById(userId);
     final reviews = Dummy.reviews;
+    final isWorker = user.appType == AppType.worker;
+    final tabCount = isWorker ? 4 : 2;
     return DefaultTabController(
-      length: 2,
+      length: tabCount,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('프로필'),
@@ -195,13 +200,19 @@ class ProfileScreen extends StatelessWidget {
           ],
           body: Column(
             children: [
-              const ColoredBox(
+              ColoredBox(
                 color: Colors.white,
                 child: TabBar(
+                  isScrollable: !isWorker ? false : true,
                   indicatorColor: AppColors.brandDark,
                   labelColor: AppColors.brandDark,
                   unselectedLabelColor: AppColors.textMuted,
-                  tabs: [Tab(text: '소개'), Tab(text: '리뷰')],
+                  tabs: [
+                    const Tab(text: '소개'),
+                    if (isWorker) const Tab(text: '이력서'),
+                    if (isWorker) const Tab(text: '포트폴리오'),
+                    const Tab(text: '리뷰'),
+                  ],
                 ),
               ),
               Expanded(
@@ -231,6 +242,13 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ],
                     ),
+                    if (isWorker)
+                      ResumeView(
+                        resume: Dummy.resume,
+                        userTags: user.tags,
+                      ),
+                    if (isWorker)
+                      PortfolioGrid(items: Dummy.portfolio),
                     ListView.separated(
                       padding: const EdgeInsets.all(16),
                       itemCount: reviews.length,
