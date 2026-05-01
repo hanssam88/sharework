@@ -11,12 +11,18 @@ import '../screens/common/review_write_screen.dart';
 import '../screens/common/search_screen.dart';
 import '../screens/common/user_info_update_screen.dart';
 import '../screens/giver/applicants/applicants_screen.dart';
+import '../screens/giver/escrow_screen.dart';
 import '../screens/giver/giver_main_screen.dart';
 import '../screens/giver/job_create/job_create_screen.dart';
 import '../screens/giver/job_edit/job_edit_screen.dart';
+import '../screens/giver/payment_methods_screen.dart';
+import '../screens/job/checkin_screen.dart';
+import '../screens/job/contract_screen.dart';
+import '../screens/job/contract_sign_screen.dart';
 import '../screens/legal/legal_screen.dart';
 import '../screens/me/blocklist_screen.dart';
 import '../screens/me/notification_settings_screen.dart';
+import '../screens/me/payment_detail_screen.dart';
 import '../screens/notice/notice_detail_screen.dart';
 import '../screens/notice/notice_list_screen.dart';
 import '../screens/splash/splash_screen.dart';
@@ -87,6 +93,27 @@ class AppRouter {
         },
       ),
       GoRoute(
+        path: '/job/:id/checkin',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return CheckinScreen(jobId: id);
+        },
+      ),
+      GoRoute(
+        path: '/job/:id/contract',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return ContractScreen(jobId: id);
+        },
+      ),
+      GoRoute(
+        path: '/job/:id/contract/sign',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return ContractSignScreen(jobId: id);
+        },
+      ),
+      GoRoute(
         path: '/profile/:id',
         builder: (ctx, state) {
           final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
@@ -100,6 +127,21 @@ class AppRouter {
       GoRoute(
         path: '/me/payments',
         builder: (_, __) => const PaymentHistoryScreen(),
+      ),
+      GoRoute(
+        path: '/me/payments/:id',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return PaymentDetailScreen(paymentId: id);
+        },
+      ),
+      GoRoute(
+        path: '/giver/payment-methods',
+        builder: (_, __) => const PaymentMethodsScreen(),
+      ),
+      GoRoute(
+        path: '/giver/escrow',
+        builder: (_, __) => const EscrowScreen(),
       ),
       GoRoute(
         path: '/me/blocklist',

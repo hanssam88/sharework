@@ -20,6 +20,12 @@ enum JobCategory {
 
 enum WorkType { oneDay, shortTerm, recurring, longTerm }
 
+enum ContractStatus { none, sent, signed }
+
+enum PaymentMethodKind { card, bank }
+
+enum EscrowKind { deposit, payout, refund }
+
 extension JobCategoryX on JobCategory {
   String get label {
     switch (this) {
@@ -111,6 +117,9 @@ class Job {
   final JobStatus status;
   final JobCategory category;
   final WorkType workType;
+  final ContractStatus contractStatus;
+  final DateTime? checkinAt;
+  final DateTime? checkoutAt;
 
   const Job({
     required this.id,
@@ -135,6 +144,9 @@ class Job {
     required this.status,
     this.category = JobCategory.etc,
     this.workType = WorkType.shortTerm,
+    this.contractStatus = ContractStatus.none,
+    this.checkinAt,
+    this.checkoutAt,
   });
 }
 
@@ -240,17 +252,63 @@ class LocationFavorite {
 
 class PaymentItem {
   final int id;
+  final int? jobId;
   final String jobTitle;
+  final String giverName;
   final DateTime workedAt;
-  final int amount;
+  final int amount; // 총 지급액 (gross)
+  final int fee; // 플랫폼 수수료 (구직자에게는 0)
+  final int tax; // 원천징수 (3.3% 등)
+  final int netAmount; // 실수령액
+  final String? bankAccount; // 입금 계좌 마스킹
   final bool paid;
+  final DateTime? paidAt;
 
   const PaymentItem({
     required this.id,
+    this.jobId,
     required this.jobTitle,
+    this.giverName = '',
     required this.workedAt,
     required this.amount,
+    this.fee = 0,
+    this.tax = 0,
+    int? netAmount,
+    this.bankAccount,
     required this.paid,
+    this.paidAt,
+  }) : netAmount = netAmount ?? amount;
+}
+
+class PaymentMethod {
+  final int id;
+  final PaymentMethodKind kind;
+  final String label; // ex) 신한카드 1234, 카카오뱅크 1111
+  final String maskedNumber;
+  final bool isDefault;
+
+  const PaymentMethod({
+    required this.id,
+    required this.kind,
+    required this.label,
+    required this.maskedNumber,
+    this.isDefault = false,
+  });
+}
+
+class EscrowEntry {
+  final int id;
+  final EscrowKind kind;
+  final String description;
+  final int amount; // + 입금, - 출금
+  final DateTime createdAt;
+
+  const EscrowEntry({
+    required this.id,
+    required this.kind,
+    required this.description,
+    required this.amount,
+    required this.createdAt,
   });
 }
 

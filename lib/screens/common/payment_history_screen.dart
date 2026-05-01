@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../data/dummy_data.dart';
 import '../../theme/app_theme.dart';
@@ -53,6 +54,7 @@ class PaymentHistoryScreen extends StatelessWidget {
                 return ListTile(
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  onTap: () => context.push('/me/payments/${p.id}'),
                   title: Text(p.jobTitle,
                       style: const TextStyle(fontWeight: FontWeight.w600)),
                   subtitle: Text(fmtDate(p.workedAt),

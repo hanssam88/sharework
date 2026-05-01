@@ -114,6 +114,16 @@ class MyPageScreen extends StatelessWidget {
               label: '지급 내역',
               onTap: () => context.push('/me/payments'),
             ),
+            _Tile(
+              icon: Icons.shield_outlined,
+              label: '에스크로 잔액',
+              onTap: () => context.push('/giver/escrow'),
+            ),
+            _Tile(
+              icon: Icons.credit_card,
+              label: '결제수단 관리',
+              onTap: () => context.push('/giver/payment-methods'),
+            ),
           ],
           const Divider(thickness: 8, color: AppColors.bg),
           const SectionHeader(title: '고객센터'),

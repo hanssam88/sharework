@@ -101,7 +101,7 @@ flutter run
 |---|---|---|---|
 | **S1** ✅ | P0 | 운영 핵심 | `/search`, `/giver/job/:id/applicants`, `/giver/job/:id/edit`, `/job/:id/review/write`, 지원 취소 플로우 |
 | **S2** ✅ | P0 | 신뢰·안전·지원 | `/report/...`, `/me/blocklist`, `/support/*`, `/notice/*`, `/terms·/privacy·/guide`, `/me/notification-settings`, 채팅·프로필 신고/차단 메뉴 |
-| **S3** | P0 | 출퇴근·계약·정산 | `/job/:id/checkin`, `/job/:id/contract(/sign)`, `/me/payments/:id`, `/giver/payment-methods`, `/giver/escrow` |
+| **S3** ✅ | P0 | 출퇴근·계약·정산 | `/job/:id/checkin` (GPS·QR), `/job/:id/contract(/sign)` (전자서명 캔버스), `/me/payments/:id` (수수료·세금 분해), `/giver/payment-methods`, `/giver/escrow` |
 | **S4** | P0 | 인증·신원 | `/auth/identity`, `/me/identity`, `/me/credentials(/new)`, `/giver/business-verification` |
 | **S5** | P1 | 워커 프로필 강화 | `/me/resume`, `/me/portfolio`, `/me/availability`, `/me/preferences` |
 | **S6** | P1 | 매칭·스카웃 | `/recommended`, `/giver/workers(/:id)`, `/giver/regulars`, `/me/favorite-companies` |
@@ -138,7 +138,13 @@ lib/
    │  └─ job_create/job_create_screen.dart
    ├─ giver/
    │  ├─ applicants/applicants_screen.dart      [S1]
-   │  └─ job_edit/job_edit_screen.dart          [S1]
+   │  ├─ job_edit/job_edit_screen.dart          [S1]
+   │  ├─ payment_methods_screen.dart            [S3]
+   │  └─ escrow_screen.dart                     [S3]
+   ├─ job/                                      [S3]
+   │  ├─ checkin_screen.dart
+   │  ├─ contract_screen.dart
+   │  └─ contract_sign_screen.dart
    └─ common/
       ├─ job_info_screen.dart
       ├─ profile_screen.dart
@@ -147,9 +153,10 @@ lib/
       ├─ search_screen.dart                     [S1]
       ├─ review_write_screen.dart               [S1]
       └─ report_screen.dart                     [S2]
-   ├─ me/                                       [S2]
-   │  ├─ blocklist_screen.dart
-   │  └─ notification_settings_screen.dart
+   ├─ me/
+   │  ├─ blocklist_screen.dart                  [S2]
+   │  ├─ notification_settings_screen.dart      [S2]
+   │  └─ payment_detail_screen.dart             [S3]
    ├─ support/                                  [S2]
    │  ├─ support_hub_screen.dart
    │  ├─ faq_screen.dart

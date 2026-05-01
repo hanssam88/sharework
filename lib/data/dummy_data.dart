@@ -82,6 +82,7 @@ class Dummy {
       status: JobStatus.open,
       category: JobCategory.cafe,
       workType: WorkType.shortTerm,
+      contractStatus: ContractStatus.none,
     ),
     Job(
       id: 1002,
@@ -106,6 +107,7 @@ class Dummy {
       status: JobStatus.open,
       category: JobCategory.event,
       workType: WorkType.oneDay,
+      contractStatus: ContractStatus.sent,
     ),
     Job(
       id: 1003,
@@ -154,6 +156,9 @@ class Dummy {
       status: JobStatus.done,
       category: JobCategory.cafe,
       workType: WorkType.shortTerm,
+      contractStatus: ContractStatus.signed,
+      checkinAt: DateTime.now().subtract(const Duration(days: 5, hours: 0)),
+      checkoutAt: DateTime.now().subtract(const Duration(days: 5, hours: -6)),
     ),
   ];
 
@@ -309,24 +314,92 @@ class Dummy {
   static final List<PaymentItem> payments = [
     PaymentItem(
       id: 1,
+      jobId: 1004,
       jobTitle: '평일 오전 카페 오픈 알바',
+      giverName: '카페 모카',
       workedAt: DateTime.now().subtract(const Duration(days: 5)),
       amount: 75000,
+      fee: 0,
+      tax: 2475, // 3.3%
+      netAmount: 72525,
+      bankAccount: '카카오뱅크 ****-**-1234',
       paid: true,
+      paidAt: DateTime.now().subtract(const Duration(days: 5, hours: -8)),
     ),
     PaymentItem(
       id: 2,
+      jobId: null,
       jobTitle: '코엑스 행사 스태프',
+      giverName: '한솔이벤트',
       workedAt: DateTime.now().subtract(const Duration(days: 12)),
       amount: 100000,
+      fee: 0,
+      tax: 3300,
+      netAmount: 96700,
+      bankAccount: '카카오뱅크 ****-**-1234',
       paid: true,
+      paidAt: DateTime.now().subtract(const Duration(days: 12, hours: -10)),
     ),
     PaymentItem(
       id: 3,
+      jobId: null,
       jobTitle: '주말 마트 진열',
+      giverName: '마트친구',
       workedAt: DateTime.now().subtract(const Duration(days: 22)),
       amount: 88000,
+      fee: 0,
+      tax: 2904,
+      netAmount: 85096,
+      bankAccount: '카카오뱅크 ****-**-1234',
       paid: true,
+      paidAt: DateTime.now().subtract(const Duration(days: 22, hours: -12)),
+    ),
+  ];
+
+  static final List<PaymentMethod> paymentMethods = [
+    PaymentMethod(
+      id: 1,
+      kind: PaymentMethodKind.card,
+      label: '신한카드',
+      maskedNumber: '****-****-****-1234',
+      isDefault: true,
+    ),
+    PaymentMethod(
+      id: 2,
+      kind: PaymentMethodKind.bank,
+      label: '카카오뱅크',
+      maskedNumber: '3333-**-1234567',
+    ),
+  ];
+
+  static final List<EscrowEntry> escrow = [
+    EscrowEntry(
+      id: 1,
+      kind: EscrowKind.deposit,
+      description: '카페 주말 알바 공고 예치',
+      amount: 240000,
+      createdAt: DateTime.now().subtract(const Duration(hours: 6)),
+    ),
+    EscrowEntry(
+      id: 2,
+      kind: EscrowKind.payout,
+      description: '평일 오전 카페 오픈 알바 정산',
+      amount: -75000,
+      createdAt: DateTime.now().subtract(const Duration(days: 5)),
+    ),
+    EscrowEntry(
+      id: 3,
+      kind: EscrowKind.deposit,
+      description: '잠실 행사 스태프 공고 예치',
+      amount: 1000000,
+      createdAt: DateTime.now().subtract(const Duration(days: 1)),
+    ),
+    EscrowEntry(
+      id: 4,
+      kind: EscrowKind.refund,
+      description: '취소된 공고 환불',
+      amount: -50000,
+      createdAt: DateTime.now().subtract(const Duration(days: 8)),
     ),
   ];
 
