@@ -6,17 +6,25 @@ import '../../../models/models.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/shared.dart';
 
-class HistoryScreen extends StatelessWidget {
+class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
+
+  @override
+  State<HistoryScreen> createState() => _HistoryScreenState();
+}
+
+class _HistoryScreenState extends State<HistoryScreen> {
+  final Set<int> _cancelledIds = {};
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('지원내역'),
           bottom: const TabBar(
+            isScrollable: true,
             indicatorColor: AppColors.brandDark,
             labelColor: AppColors.brandDark,
             unselectedLabelColor: AppColors.textMuted,
@@ -24,28 +32,30 @@ class HistoryScreen extends StatelessWidget {
               Tab(text: '지원중'),
               Tab(text: '채용됨'),
               Tab(text: '완료'),
+              Tab(text: '취소'),
             ],
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
-            _HistoryList(status: ApplicationStatus.applied),
-            _HistoryList(status: ApplicationStatus.hired),
-            _HistoryList(status: ApplicationStatus.completed),
+            _list(ApplicationStatus.applied),
+            _list(ApplicationStatus.hired),
+            _list(ApplicationStatus.completed),
+            _list(ApplicationStatus.cancelled),
           ],
         ),
       ),
     );
   }
-}
 
-class _HistoryList extends StatelessWidget {
-  final ApplicationStatus status;
-  const _HistoryList({required this.status});
-
-  @override
-  Widget build(BuildContext context) {
-    final items = Dummy.applications.where((a) => a.status == status).toList();
+  Widget _list(ApplicationStatus status) {
+    final items = Dummy.applications.where((a) {
+      if (status == ApplicationStatus.cancelled) {
+        return _cancelledIds.contains(a.id);
+      }
+      if (_cancelledIds.contains(a.id)) return false;
+      return a.status == status;
+    }).toList();
     if (items.isEmpty) {
       return const EmptyState(
         icon: Icons.inbox_outlined,
@@ -69,11 +79,101 @@ class _HistoryList extends StatelessWidget {
             Positioned(
               top: 12,
               right: 12,
-              child: _StatusBadge(status: status),
+              child: Row(
+                children: [
+                  _StatusBadge(status: status),
+                  if (status == ApplicationStatus.applied)
+                    IconButton(
+                      iconSize: 18,
+                      visualDensity: VisualDensity.compact,
+                      icon: const Icon(Icons.more_vert),
+                      onPressed: () => _showCancel(app.id),
+                    ),
+                ],
+              ),
             ),
           ],
         );
       },
+    );
+  }
+
+  void _showCancel(int appId) {
+    final reasons = const [
+      '일정이 변경되었어요',
+      '거리가 멀어요',
+      '다른 공고에 지원했어요',
+      '단순 변심',
+      '기타',
+    ];
+    String? selected;
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (sheetCtx) => StatefulBuilder(
+        builder: (_, setSheet) => SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('지원 취소 사유',
+                    style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w800)),
+                const SizedBox(height: 4),
+                const Text(
+                  '잦은 취소는 신뢰 점수에 반영될 수 있어요.',
+                  style: TextStyle(
+                      fontSize: 12, color: AppColors.textMuted),
+                ),
+                const SizedBox(height: 12),
+                ...reasons.map((r) => RadioListTile<String>(
+                      contentPadding: EdgeInsets.zero,
+                      dense: true,
+                      title: Text(r),
+                      value: r,
+                      groupValue: selected,
+                      activeColor: AppColors.brandDark,
+                      onChanged: (v) => setSheet(() => selected = v),
+                    )),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.pop(sheetCtx),
+                        child: const Text('돌아가기'),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: FilledButton(
+                        style: FilledButton.styleFrom(
+                            backgroundColor: AppColors.danger),
+                        onPressed: selected == null
+                            ? null
+                            : () {
+                                Navigator.pop(sheetCtx);
+                                setState(() => _cancelledIds.add(appId));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text('지원이 취소되었습니다 (목업)')),
+                                );
+                              },
+                        child: const Text('취소하기'),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -107,6 +207,11 @@ class _StatusBadge extends StatelessWidget {
         text = '미선정';
         bg = const Color(0xFFFDECEC);
         fg = const Color(0xFFC53030);
+        break;
+      case ApplicationStatus.cancelled:
+        text = '취소';
+        bg = AppColors.chipBg;
+        fg = AppColors.textMuted;
         break;
     }
     return Container(

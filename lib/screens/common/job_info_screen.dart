@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../data/dummy_data.dart';
+import '../../models/models.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/shared.dart';
 
@@ -181,10 +182,18 @@ class JobInfoScreen extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Expanded(
-                child: FilledButton(
-                  onPressed: () => _showApplyDialog(context, job.checklists),
-                  child: const Text('지원하기'),
-                ),
+                child: job.status == JobStatus.done
+                    ? FilledButton.icon(
+                        onPressed: () =>
+                            context.push('/job/${job.id}/review/write'),
+                        icon: const Icon(Icons.rate_review_outlined),
+                        label: const Text('리뷰 작성'),
+                      )
+                    : FilledButton(
+                        onPressed: () =>
+                            _showApplyDialog(context, job.checklists),
+                        child: const Text('지원하기'),
+                      ),
               ),
             ],
           ),

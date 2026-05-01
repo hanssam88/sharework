@@ -1,10 +1,64 @@
 enum AppType { worker, giver }
 
-enum ApplicationStatus { applied, hired, completed, rejected }
+enum ApplicationStatus { applied, hired, completed, rejected, cancelled }
 
 enum JobStatus { open, ongoing, done, closed }
 
 enum NotificationKind { application, hire, complete, review, system }
+
+enum JobCategory {
+  cafe,
+  restaurant,
+  mart,
+  logistics,
+  delivery,
+  event,
+  cleaning,
+  office,
+  etc,
+}
+
+enum WorkType { oneDay, shortTerm, recurring, longTerm }
+
+extension JobCategoryX on JobCategory {
+  String get label {
+    switch (this) {
+      case JobCategory.cafe:
+        return '카페';
+      case JobCategory.restaurant:
+        return '음식점';
+      case JobCategory.mart:
+        return '마트/매장';
+      case JobCategory.logistics:
+        return '물류/창고';
+      case JobCategory.delivery:
+        return '배달/운반';
+      case JobCategory.event:
+        return '행사/스태프';
+      case JobCategory.cleaning:
+        return '청소';
+      case JobCategory.office:
+        return '사무보조';
+      case JobCategory.etc:
+        return '기타';
+    }
+  }
+}
+
+extension WorkTypeX on WorkType {
+  String get label {
+    switch (this) {
+      case WorkType.oneDay:
+        return '하루';
+      case WorkType.shortTerm:
+        return '단기';
+      case WorkType.recurring:
+        return '정기';
+      case WorkType.longTerm:
+        return '장기';
+    }
+  }
+}
 
 class AppUser {
   final int id;
@@ -55,6 +109,8 @@ class Job {
   final String description;
   final List<String> checklists;
   final JobStatus status;
+  final JobCategory category;
+  final WorkType workType;
 
   const Job({
     required this.id,
@@ -77,6 +133,8 @@ class Job {
     required this.description,
     required this.checklists,
     required this.status,
+    this.category = JobCategory.etc,
+    this.workType = WorkType.shortTerm,
   });
 }
 
@@ -87,6 +145,7 @@ class JobApplication {
   final ApplicationStatus status;
   final DateTime appliedAt;
   final double distanceKm;
+  final String? cancelReason;
 
   const JobApplication({
     required this.id,
@@ -95,6 +154,7 @@ class JobApplication {
     required this.status,
     required this.appliedAt,
     required this.distanceKm,
+    this.cancelReason,
   });
 }
 
@@ -107,6 +167,7 @@ class Review {
   final double rating;
   final String content;
   final DateTime createdAt;
+  final List<String> tags;
 
   const Review({
     required this.id,
@@ -117,6 +178,7 @@ class Review {
     required this.rating,
     required this.content,
     required this.createdAt,
+    this.tags = const [],
   });
 }
 

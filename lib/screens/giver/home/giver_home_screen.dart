@@ -64,30 +64,64 @@ class _JobList extends StatelessWidget {
         final job = jobs[i];
         return Stack(
           children: [
-            JobCard(job: job, onTap: () => context.push('/job/${job.id}')),
+            JobCard(
+              job: job,
+              onTap: status == JobStatus.open
+                  ? () => context.push('/giver/job/${job.id}/applicants')
+                  : () => context.push('/job/${job.id}'),
+            ),
             Positioned(
               top: 12,
               right: 12,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: status == JobStatus.open
-                      ? AppColors.brandSoft
-                      : AppColors.chipBg,
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  status == JobStatus.open
-                      ? '지원자 ${job.hiredCount + 2}명'
-                      : '완료',
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                    color: status == JobStatus.open
-                        ? AppColors.brandDark
-                        : AppColors.textMuted,
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: status == JobStatus.open
+                          ? AppColors.brandSoft
+                          : AppColors.chipBg,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      status == JobStatus.open
+                          ? '지원자 ${job.hiredCount + 2}명'
+                          : '완료',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        color: status == JobStatus.open
+                            ? AppColors.brandDark
+                            : AppColors.textMuted,
+                      ),
+                    ),
                   ),
-                ),
+                  if (status == JobStatus.open)
+                    PopupMenuButton<String>(
+                      iconSize: 20,
+                      padding: EdgeInsets.zero,
+                      onSelected: (v) {
+                        switch (v) {
+                          case 'applicants':
+                            context.push('/giver/job/${job.id}/applicants');
+                            break;
+                          case 'edit':
+                            context.push('/giver/job/${job.id}/edit');
+                            break;
+                          case 'view':
+                            context.push('/job/${job.id}');
+                            break;
+                        }
+                      },
+                      itemBuilder: (_) => const [
+                        PopupMenuItem(
+                            value: 'applicants', child: Text('지원자 보기')),
+                        PopupMenuItem(value: 'edit', child: Text('수정/마감')),
+                        PopupMenuItem(value: 'view', child: Text('공고 상세')),
+                      ],
+                    ),
+                ],
               ),
             ),
           ],

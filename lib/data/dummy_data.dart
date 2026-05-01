@@ -80,6 +80,8 @@ class Dummy {
       description: '주말 오전 9시 ~ 오후 5시까지 카페 홀 서빙·주문 받기 도와주실 분 구합니다. 친절하게 손님 응대 가능하신 분 환영해요.',
       checklists: const ['카페 알바 경험 있으신가요?', '바리스타 자격증 보유?', '주말 8시간 근무 가능?'],
       status: JobStatus.open,
+      category: JobCategory.cafe,
+      workType: WorkType.shortTerm,
     ),
     Job(
       id: 1002,
@@ -102,6 +104,8 @@ class Dummy {
       description: '잠실 종합운동장 일대에서 진행되는 대형 행사의 안내·진행 보조 인력 모집합니다. 단정한 복장 필수.',
       checklists: const ['장시간 서서 근무 가능?', '행사 진행 경험?'],
       status: JobStatus.open,
+      category: JobCategory.event,
+      workType: WorkType.oneDay,
     ),
     Job(
       id: 1003,
@@ -124,6 +128,8 @@ class Dummy {
       description: '저녁 6시~10시 사이 진열 정리 및 계산 보조해주실 분 구합니다.',
       checklists: const ['마트 알바 경험?', '4시간 연속 근무 가능?'],
       status: JobStatus.open,
+      category: JobCategory.mart,
+      workType: WorkType.recurring,
     ),
     Job(
       id: 1004,
@@ -146,6 +152,8 @@ class Dummy {
       description: '오픈 멤버 모집',
       checklists: const ['오픈 경험?'],
       status: JobStatus.done,
+      category: JobCategory.cafe,
+      workType: WorkType.shortTerm,
     ),
   ];
 
@@ -186,6 +194,7 @@ class Dummy {
       rating: 5.0,
       content: '시간 엄수하시고 너무 친절하게 일해주셨어요. 다음에도 또 부탁드리고 싶습니다.',
       createdAt: DateTime.now().subtract(const Duration(days: 4)),
+      tags: const ['시간엄수', '친절함', '성실'],
     ),
     Review(
       id: 2,
@@ -196,6 +205,7 @@ class Dummy {
       rating: 4.5,
       content: '책임감 있고 침착하게 잘 해주셨습니다.',
       createdAt: DateTime.now().subtract(const Duration(days: 12)),
+      tags: const ['책임감', '침착함'],
     ),
     Review(
       id: 3,
@@ -206,6 +216,7 @@ class Dummy {
       rating: 4.8,
       content: '꼼꼼하시고 빠르세요. 추천합니다!',
       createdAt: DateTime.now().subtract(const Duration(days: 22)),
+      tags: const ['꼼꼼함', '빠릿함'],
     ),
   ];
 
@@ -319,11 +330,97 @@ class Dummy {
     ),
   ];
 
+  static final List<AppUser> workers = [
+    me,
+    AppUser(
+      id: 2,
+      name: '이성실',
+      phone: '010-2222-3333',
+      email: 'lee@sharework.kr',
+      address: '서울 송파구 잠실동',
+      profileUrl: null,
+      rating: 4.7,
+      reviewCount: 31,
+      tags: const ['친절함', '시간엄수', '서빙경험'],
+      introduction: '서빙·홀 경험 2년차입니다. 시간 엄수가 강점이에요.',
+      appType: AppType.worker,
+    ),
+    AppUser(
+      id: 3,
+      name: '박빠릿',
+      phone: '010-3333-4444',
+      email: 'park@sharework.kr',
+      address: '서울 마포구 합정동',
+      profileUrl: null,
+      rating: 4.5,
+      reviewCount: 18,
+      tags: const ['체력좋음', '꼼꼼함'],
+      introduction: '물류·진열 경험 많고 체력 자신 있습니다.',
+      appType: AppType.worker,
+    ),
+    AppUser(
+      id: 4,
+      name: '최열심',
+      phone: '010-4444-5555',
+      email: 'choi@sharework.kr',
+      address: '서울 강남구 역삼동',
+      profileUrl: null,
+      rating: 4.9,
+      reviewCount: 64,
+      tags: const ['책임감', '경험많음', '바리스타'],
+      introduction: '바리스타 자격증 보유, 카페 경력 3년.',
+      appType: AppType.worker,
+    ),
+  ];
+
+  static List<JobApplication> applicantsForJob(int jobId) {
+    final base = DateTime.now();
+    return [
+      JobApplication(
+        id: 9001,
+        jobId: jobId,
+        workerId: 2,
+        status: ApplicationStatus.applied,
+        appliedAt: base.subtract(const Duration(hours: 2)),
+        distanceKm: 3.2,
+      ),
+      JobApplication(
+        id: 9002,
+        jobId: jobId,
+        workerId: 3,
+        status: ApplicationStatus.applied,
+        appliedAt: base.subtract(const Duration(hours: 5)),
+        distanceKm: 5.8,
+      ),
+      JobApplication(
+        id: 9003,
+        jobId: jobId,
+        workerId: 4,
+        status: ApplicationStatus.hired,
+        appliedAt: base.subtract(const Duration(hours: 12)),
+        distanceKm: 1.4,
+      ),
+    ];
+  }
+
+  static const List<String> reviewTagPresets = [
+    '시간엄수',
+    '친절함',
+    '성실함',
+    '책임감',
+    '꼼꼼함',
+    '체력좋음',
+    '소통원활',
+    '재고용의향',
+  ];
+
   static Job jobById(int id) =>
       jobs.firstWhere((j) => j.id == id, orElse: () => jobs.first);
 
   static AppUser userById(int id) {
     if (id == me.id) return me;
+    final w = workers.where((u) => u.id == id);
+    if (w.isNotEmpty) return w.first;
     return givers.firstWhere((u) => u.id == id, orElse: () => givers.first);
   }
 }

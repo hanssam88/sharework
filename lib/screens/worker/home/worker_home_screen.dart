@@ -32,7 +32,10 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
             top: MediaQuery.of(context).padding.top + 12,
             left: 16,
             right: 16,
-            child: _SearchBar(),
+            child: GestureDetector(
+              onTap: () => context.push('/search'),
+              child: _SearchBar(),
+            ),
           ),
           Positioned(
             top: MediaQuery.of(context).padding.top + 70,
@@ -113,7 +116,12 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
                                 ),
                               ),
                               const Spacer(),
-                              const Icon(Icons.tune, size: 18),
+                              IconButton(
+                                visualDensity: VisualDensity.compact,
+                                padding: EdgeInsets.zero,
+                                onPressed: () => context.push('/search'),
+                                icon: const Icon(Icons.tune, size: 18),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 12),
