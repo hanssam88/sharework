@@ -182,6 +182,28 @@ class MyPageScreen extends StatelessWidget {
             ),
           ],
           const Divider(thickness: 8, color: AppColors.bg),
+          const SectionHeader(title: '리워드'),
+          _Tile(
+            icon: Icons.workspace_premium_outlined,
+            label: '내 등급·포인트',
+            onTap: () => context.push('/me/level'),
+          ),
+          _Tile(
+            icon: Icons.confirmation_number_outlined,
+            label: '쿠폰함',
+            onTap: () => context.push('/me/coupons'),
+          ),
+          _Tile(
+            icon: Icons.group_add_outlined,
+            label: '친구초대',
+            onTap: () => context.push('/me/invite'),
+          ),
+          _Tile(
+            icon: Icons.celebration_outlined,
+            label: '이벤트·미션',
+            onTap: () => context.push('/events'),
+          ),
+          const Divider(thickness: 8, color: AppColors.bg),
           const SectionHeader(title: '고객센터'),
           _Tile(
             icon: Icons.headset_mic_outlined,

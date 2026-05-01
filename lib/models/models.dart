@@ -248,6 +248,123 @@ class JobStats {
 
 enum BoostKind { topPin, brandColor, push, premium }
 
+enum CouponStatus { available, used, expired }
+
+class Coupon {
+  final int id;
+  final String name;
+  final String desc;
+  final int discountPercent; // 0이면 정액
+  final int discountAmount;
+  final int minOrder;
+  final DateTime expiresAt;
+  final CouponStatus status;
+
+  const Coupon({
+    required this.id,
+    required this.name,
+    required this.desc,
+    this.discountPercent = 0,
+    this.discountAmount = 0,
+    this.minOrder = 0,
+    required this.expiresAt,
+    this.status = CouponStatus.available,
+  });
+}
+
+enum MissionStatus { ongoing, completed, claimed }
+
+class Mission {
+  final int id;
+  final String title;
+  final String desc;
+  final int progress;
+  final int goal;
+  final int rewardPoint;
+  final MissionStatus status;
+  final IconData icon;
+
+  const Mission({
+    required this.id,
+    required this.title,
+    required this.desc,
+    required this.progress,
+    required this.goal,
+    required this.rewardPoint,
+    required this.icon,
+    this.status = MissionStatus.ongoing,
+  });
+
+  double get rate => goal == 0 ? 0 : (progress / goal).clamp(0.0, 1.0);
+}
+
+class LevelInfo {
+  final String name; // ex) Bronze / Silver / Gold / Platinum
+  final int currentPoint;
+  final int nextLevelPoint;
+  final List<String> benefits;
+  final IconData icon;
+  final Color color;
+
+  const LevelInfo({
+    required this.name,
+    required this.currentPoint,
+    required this.nextLevelPoint,
+    required this.benefits,
+    required this.icon,
+    required this.color,
+  });
+
+  double get progress =>
+      nextLevelPoint == 0 ? 1 : (currentPoint / nextLevelPoint).clamp(0.0, 1.0);
+}
+
+class EventBanner {
+  final int id;
+  final String title;
+  final String subtitle;
+  final String? cta;
+  final DateTime endAt;
+  final String colorTag;
+
+  const EventBanner({
+    required this.id,
+    required this.title,
+    required this.subtitle,
+    this.cta,
+    required this.endAt,
+    this.colorTag = '#E6F8F6',
+  });
+}
+
+enum ChatMessageKind {
+  text,
+  image,
+  location,
+  jobCard,
+  contract,
+  paymentCard,
+  system,
+}
+
+class ChatMessage {
+  final int id;
+  final ChatMessageKind kind;
+  final String body;
+  final String? attachment; // image url / job id / contract id 등
+  final bool mine;
+  final DateTime createdAt;
+
+  const ChatMessage({
+    required this.id,
+    required this.kind,
+    required this.body,
+    this.attachment,
+    required this.mine,
+    required this.createdAt,
+  });
+}
+
 class BoostProduct {
   final BoostKind kind;
   final String name;

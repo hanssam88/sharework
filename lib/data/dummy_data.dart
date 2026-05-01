@@ -750,6 +750,195 @@ class Dummy {
     );
   }
 
+  static final List<Coupon> coupons = [
+    Coupon(
+      id: 1,
+      name: '신규 가입 축하 쿠폰',
+      desc: '첫 정산 시 5,000원 즉시 할인',
+      discountAmount: 5000,
+      expiresAt: DateTime.now().add(const Duration(days: 7)),
+    ),
+    Coupon(
+      id: 2,
+      name: '친구초대 쿠폰',
+      desc: '플랫폼 수수료 10% 할인',
+      discountPercent: 10,
+      minOrder: 50000,
+      expiresAt: DateTime.now().add(const Duration(days: 14)),
+    ),
+    Coupon(
+      id: 3,
+      name: '5월 봄맞이 쿠폰',
+      desc: '에스크로 충전 3,000원 할인',
+      discountAmount: 3000,
+      minOrder: 30000,
+      expiresAt: DateTime.now().add(const Duration(days: 3)),
+    ),
+    Coupon(
+      id: 4,
+      name: '재방문 환영 쿠폰',
+      desc: '시급 알바 1회 무료',
+      discountAmount: 12000,
+      expiresAt: DateTime.now().subtract(const Duration(days: 2)),
+      status: CouponStatus.expired,
+    ),
+  ];
+
+  static final List<Mission> missions = [
+    Mission(
+      id: 1,
+      title: '이번 주 3건 근무',
+      desc: '한 주 3건 이상 근무 완료 시 500P 적립',
+      progress: 2,
+      goal: 3,
+      rewardPoint: 500,
+      icon: Icons.directions_run,
+    ),
+    Mission(
+      id: 2,
+      title: '리뷰 5개 받기',
+      desc: '리뷰 누적 5개 달성 시 1,000P',
+      progress: 5,
+      goal: 5,
+      rewardPoint: 1000,
+      icon: Icons.rate_review_outlined,
+      status: MissionStatus.completed,
+    ),
+    Mission(
+      id: 3,
+      title: '연속 출석 7일',
+      desc: '7일 연속 앱 출석 시 300P',
+      progress: 4,
+      goal: 7,
+      rewardPoint: 300,
+      icon: Icons.calendar_month_outlined,
+    ),
+    Mission(
+      id: 4,
+      title: '친구 1명 초대',
+      desc: '추천코드로 친구가 가입 시 양쪽 5,000원 쿠폰',
+      progress: 0,
+      goal: 1,
+      rewardPoint: 0,
+      icon: Icons.group_add_outlined,
+    ),
+  ];
+
+  static const LevelInfo levelInfo = LevelInfo(
+    name: 'Silver',
+    currentPoint: 1240,
+    nextLevelPoint: 2000,
+    benefits: [
+      '일감 추천 우선순위 +5%',
+      '플랫폼 수수료 5% 할인',
+      'Silver 전용 쿠폰',
+    ],
+    icon: Icons.workspace_premium,
+    color: Color(0xFF94A3B8),
+  );
+
+  static final List<EventBanner> eventBanners = [
+    EventBanner(
+      id: 1,
+      title: '5월 친구초대 더블 이벤트',
+      subtitle: '친구초대 시 양쪽 5,000원 쿠폰 지급',
+      cta: '초대하기',
+      endAt: DateTime.now().add(const Duration(days: 12)),
+      colorTag: '#E6F8F6',
+    ),
+    EventBanner(
+      id: 2,
+      title: '주말 한정 시급 +500원',
+      subtitle: '카페·서빙 카테고리 주말 공고에 자동 적용',
+      endAt: DateTime.now().add(const Duration(days: 5)),
+      colorTag: '#FFF6E5',
+    ),
+    EventBanner(
+      id: 3,
+      title: '신규 워커 첫 정산 5,000원 할인',
+      subtitle: '가입 7일 이내 워커 한정',
+      endAt: DateTime.now().add(const Duration(days: 7)),
+      colorTag: '#EEF4FF',
+    ),
+  ];
+
+  static final List<ChatMessage> demoChatMessages = [
+    ChatMessage(
+      id: 1,
+      kind: ChatMessageKind.text,
+      body: '안녕하세요, 지원해주셔서 감사합니다.',
+      mine: false,
+      createdAt: DateTime.now().subtract(const Duration(minutes: 30)),
+    ),
+    ChatMessage(
+      id: 2,
+      kind: ChatMessageKind.text,
+      body: '네 안녕하세요! 잘 부탁드립니다.',
+      mine: true,
+      createdAt: DateTime.now().subtract(const Duration(minutes: 28)),
+    ),
+    ChatMessage(
+      id: 3,
+      kind: ChatMessageKind.jobCard,
+      body: '잠실 행사 스태프 모집',
+      attachment: '1002',
+      mine: false,
+      createdAt: DateTime.now().subtract(const Duration(minutes: 25)),
+    ),
+    ChatMessage(
+      id: 4,
+      kind: ChatMessageKind.location,
+      body: '잠실역 2번 출구',
+      attachment: '37.5145,127.1000',
+      mine: false,
+      createdAt: DateTime.now().subtract(const Duration(minutes: 20)),
+    ),
+    ChatMessage(
+      id: 5,
+      kind: ChatMessageKind.text,
+      body: '내일 8시까지 잠실역 2번 출구로 와주세요!',
+      mine: false,
+      createdAt: DateTime.now().subtract(const Duration(minutes: 18)),
+    ),
+    ChatMessage(
+      id: 6,
+      kind: ChatMessageKind.contract,
+      body: '근로계약서 발송',
+      attachment: '1002',
+      mine: false,
+      createdAt: DateTime.now().subtract(const Duration(minutes: 15)),
+    ),
+    ChatMessage(
+      id: 7,
+      kind: ChatMessageKind.text,
+      body: '네, 계약서 확인하고 서명할게요.',
+      mine: true,
+      createdAt: DateTime.now().subtract(const Duration(minutes: 12)),
+    ),
+    ChatMessage(
+      id: 8,
+      kind: ChatMessageKind.system,
+      body: '근로계약서 서명이 완료되었습니다.',
+      mine: false,
+      createdAt: DateTime.now().subtract(const Duration(minutes: 10)),
+    ),
+    ChatMessage(
+      id: 9,
+      kind: ChatMessageKind.image,
+      body: '오시는 길 사진',
+      attachment: 'image1',
+      mine: false,
+      createdAt: DateTime.now().subtract(const Duration(minutes: 8)),
+    ),
+    ChatMessage(
+      id: 10,
+      kind: ChatMessageKind.text,
+      body: '확인했습니다 :)',
+      mine: true,
+      createdAt: DateTime.now().subtract(const Duration(minutes: 5)),
+    ),
+  ];
+
   static final List<Scout> scouts = [
     Scout(
       id: 1,
