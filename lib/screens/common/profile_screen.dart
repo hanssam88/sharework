@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../data/dummy_data.dart';
 import '../../theme/app_theme.dart';
@@ -8,6 +9,64 @@ class ProfileScreen extends StatelessWidget {
   final int userId;
   const ProfileScreen({super.key, required this.userId});
 
+  void _showMore(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (sheetCtx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.flag_outlined,
+                  color: AppColors.danger),
+              title: const Text('신고하기'),
+              onTap: () {
+                Navigator.pop(sheetCtx);
+                context.push('/report/user/$userId');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.block, color: AppColors.danger),
+              title: const Text('차단하기'),
+              onTap: () {
+                Navigator.pop(sheetCtx);
+                showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    title: const Text('사용자 차단'),
+                    content: const Text(
+                        '차단하면 이 사용자의 공고/메시지가 더 이상 표시되지 않습니다.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('취소'),
+                      ),
+                      FilledButton(
+                        style: FilledButton.styleFrom(
+                            backgroundColor: AppColors.danger),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('차단되었습니다 (목업)')),
+                          );
+                        },
+                        child: const Text('차단'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Dummy.userById(userId);
@@ -15,7 +74,15 @@ class ProfileScreen extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(title: const Text('프로필')),
+        appBar: AppBar(
+          title: const Text('프로필'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.more_vert),
+              onPressed: () => _showMore(context),
+            ),
+          ],
+        ),
         body: NestedScrollView(
           headerSliverBuilder: (_, __) => [
             SliverToBoxAdapter(

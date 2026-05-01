@@ -403,6 +403,178 @@ class Dummy {
     ];
   }
 
+  static final List<Notice> notices = [
+    Notice(
+      id: 1,
+      title: '[필독] 2026년 5월 이용약관 개정 안내',
+      body:
+          '안녕하세요, Sharework 팀입니다.\n2026년 5월 1일부터 이용약관 일부가 개정됩니다.\n\n주요 변경사항:\n• 분쟁 조정 절차 신설\n• 정산 처리 기간 명확화 (영업일 기준 D+1)\n• 개인정보 위탁 처리 업체 추가\n\n자세한 내용은 변경된 이용약관에서 확인해주세요.',
+      createdAt: DateTime.now().subtract(const Duration(days: 7)),
+      pinned: true,
+    ),
+    Notice(
+      id: 2,
+      title: '추천인 코드 이벤트 (5월 한정)',
+      body: '친구 초대 시 양쪽 모두 5,000원 쿠폰을 지급합니다. 자세한 내용은 이벤트 페이지를 참고해주세요.',
+      createdAt: DateTime.now().subtract(const Duration(days: 2)),
+    ),
+    Notice(
+      id: 3,
+      title: '서버 정기 점검 안내 (5/15 02:00~04:00)',
+      body: '서비스 안정화를 위한 정기 점검이 진행됩니다. 해당 시간 동안 일시적으로 서비스 이용이 제한될 수 있습니다.',
+      createdAt: DateTime.now().subtract(const Duration(days: 1)),
+    ),
+    Notice(
+      id: 4,
+      title: '신고센터 운영시간 변경',
+      body: '4월 1일부터 신고센터 운영시간이 평일 09:00~18:00 → 매일 08:00~22:00 으로 확대됩니다.',
+      createdAt: DateTime.now().subtract(const Duration(days: 30)),
+    ),
+  ];
+
+  static const List<FaqItem> faqs = [
+    FaqItem(
+      category: '계정',
+      question: '회원가입은 어떻게 하나요?',
+      answer: '휴대폰 본인인증 후 이름·이메일·약관 동의를 거쳐 가입할 수 있어요. 만 14세 미만은 가입이 제한됩니다.',
+    ),
+    FaqItem(
+      category: '계정',
+      question: '구직자/구인자 모드는 어떻게 전환하나요?',
+      answer: '마이페이지 상단의 "모드 전환" 버튼으로 언제든 두 모드를 오갈 수 있습니다. 두 모드는 같은 계정·전화번호를 공유합니다.',
+    ),
+    FaqItem(
+      category: '지원·채용',
+      question: '지원을 취소할 수 있나요?',
+      answer: '지원내역 → 지원중 탭의 더보기에서 취소가 가능합니다. 잦은 취소는 신뢰 점수에 반영될 수 있어요.',
+    ),
+    FaqItem(
+      category: '지원·채용',
+      question: '채용된 후 잠수하면 어떻게 되나요?',
+      answer: '노쇼는 평점 차감 및 일정 기간 매칭 제한 사유가 됩니다. 부득이한 사정은 채팅으로 미리 알려주세요.',
+    ),
+    FaqItem(
+      category: '정산',
+      question: '당일지급은 어떻게 받나요?',
+      answer: '근무 종료 후 출퇴근 체크가 확인되면 등록한 계좌로 자동 송금됩니다. 영업시간 외에는 익영업일 처리될 수 있어요.',
+    ),
+    FaqItem(
+      category: '정산',
+      question: '플랫폼 수수료는 얼마인가요?',
+      answer: '구인자에게만 결제 금액의 일정 비율이 부과되며, 구직자에게는 수수료가 없습니다. 자세한 내역은 정산 명세서에서 확인하세요.',
+    ),
+    FaqItem(
+      category: '신고·안전',
+      question: '부적절한 사용자를 신고하려면?',
+      answer: '프로필 또는 채팅방의 더보기에서 "신고하기"를 누르면 사유를 선택해 신고할 수 있습니다.',
+    ),
+    FaqItem(
+      category: '신고·안전',
+      question: '안심번호란 무엇인가요?',
+      answer: '실제 휴대폰 번호 대신 050으로 시작하는 가상 번호로 통화·문자할 수 있어 개인정보가 노출되지 않습니다.',
+    ),
+  ];
+
+  static final List<Inquiry> inquiries = [
+    Inquiry(
+      id: 1,
+      category: '정산',
+      title: '당일지급이 안 들어왔어요',
+      body: '어제 카페 알바 끝나고 당일지급 처리됐다고 알림이 왔는데 통장에 입금이 안 됐어요.',
+      status: InquiryStatus.answered,
+      createdAt: DateTime.now().subtract(const Duration(days: 2)),
+      answer: '확인해보니 등록 계좌 정보 오류로 보류된 상태였습니다. 정상 계좌로 재처리하여 오늘 14:00 입금 완료되었습니다.',
+    ),
+    Inquiry(
+      id: 2,
+      category: '계정',
+      title: '비밀번호를 잊어버렸어요',
+      body: '로그인이 안 되는데 어떻게 해야 하나요?',
+      status: InquiryStatus.open,
+      createdAt: DateTime.now().subtract(const Duration(hours: 4)),
+    ),
+  ];
+
+  static final List<BlockedUser> blocked = [
+    BlockedUser(
+      userId: 999,
+      name: '익명 사용자',
+      blockedAt: DateTime.now().subtract(const Duration(days: 14)),
+    ),
+  ];
+
+  static const NotificationPrefs notificationPrefs = NotificationPrefs();
+
+  static const Map<String, String> legalContents = {
+    'terms': '''Sharework 서비스 이용약관 (요약본)
+
+제1조 (목적)
+이 약관은 Sharework(이하 "회사")가 제공하는 긱워크 매칭 서비스의 이용에 관한 사항을 규정합니다.
+
+제2조 (정의)
+1. "구직자(Worker)"란 일자리를 검색·지원하는 회원을 말합니다.
+2. "구인자(Giver)"란 일자리를 등록·채용하는 회원을 말합니다.
+3. "공고"란 구인자가 등록한 일자리 모집 게시물을 말합니다.
+
+제3조 (서비스의 제공)
+회사는 다음과 같은 서비스를 제공합니다.
+• 일자리 매칭 (검색·지원·채용)
+• 전자근로계약서 작성·서명
+• 안전결제(에스크로) 및 정산
+• 신원인증·자격증 검증
+• 분쟁 조정
+
+제4조 (이용계약의 성립 및 해지)
+이용계약은 회원가입 신청 후 회사가 승낙함으로써 성립합니다. 회원은 언제든 탈퇴를 신청할 수 있습니다.
+
+(이하 약관 본문이 이어집니다 — 목업 화면)''',
+    'privacy': '''개인정보 처리방침 (요약본)
+
+1. 수집하는 개인정보
+회사는 회원가입·서비스 제공을 위해 다음 정보를 수집합니다.
+• 필수: 이름, 휴대폰 번호, 이메일, 주민등록번호(본인확인용 단방향 암호화)
+• 선택: 프로필 사진, 자격증, 가용 시간
+
+2. 개인정보의 이용 목적
+• 회원 식별·본인확인·연령 확인
+• 일자리 매칭·정산·세금 신고
+• 분쟁 조정·고객 응대
+• 부정 이용 방지
+
+3. 개인정보 보유·이용 기간
+관련 법령에 따라 거래 기록은 5년, 본인확인 기록은 6개월 보관됩니다.
+
+4. 개인정보 처리 위탁
+• 결제 PG: 토스페이먼츠
+• SMS 발송: NHN Cloud
+• 클라우드: AWS
+
+5. 정보주체의 권리
+회원은 언제든 본인 정보 열람·수정·삭제를 요청할 수 있습니다.
+
+(이하 본문이 이어집니다 — 목업 화면)''',
+    'guide': '''Sharework 이용가이드
+
+🎯 구직자(Worker) 가이드
+1. 홈에서 주변 일자리를 확인하거나 상단 검색바로 직접 검색
+2. 마음에 드는 공고에 지원 → 구인자가 검토 후 채용 확정
+3. 채팅으로 세부 일정 조율 → 출퇴근 체크 → 정산 수령
+4. 근무 후 리뷰 작성 (양방향)
+
+🏪 구인자(Giver) 가이드
+1. "일감등록" 탭에서 공고 작성 (제목·시간·임금·태그)
+2. 지원자 관리 화면에서 프로필 확인 후 채용 확정
+3. 전자근로계약서 발송 → 서명 받기
+4. 근무 완료 후 자동 정산 (에스크로)
+
+🔒 안전 가이드
+• 처음 보는 사용자와는 안심번호로 통화하세요
+• 채팅 외부에서 별도 송금을 요구하면 신고해주세요
+• 사고·분쟁 시 24시간 내 신고센터 접수
+
+(자세한 영상 가이드는 추후 추가될 예정 — 목업 화면)''',
+  };
+
   static const List<String> reviewTagPresets = [
     '시간엄수',
     '친절함',

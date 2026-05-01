@@ -6,6 +6,7 @@ import '../screens/auth/signup_screen.dart';
 import '../screens/common/job_info_screen.dart';
 import '../screens/common/payment_history_screen.dart';
 import '../screens/common/profile_screen.dart';
+import '../screens/common/report_screen.dart';
 import '../screens/common/review_write_screen.dart';
 import '../screens/common/search_screen.dart';
 import '../screens/common/user_info_update_screen.dart';
@@ -13,7 +14,16 @@ import '../screens/giver/applicants/applicants_screen.dart';
 import '../screens/giver/giver_main_screen.dart';
 import '../screens/giver/job_create/job_create_screen.dart';
 import '../screens/giver/job_edit/job_edit_screen.dart';
+import '../screens/legal/legal_screen.dart';
+import '../screens/me/blocklist_screen.dart';
+import '../screens/me/notification_settings_screen.dart';
+import '../screens/notice/notice_detail_screen.dart';
+import '../screens/notice/notice_list_screen.dart';
 import '../screens/splash/splash_screen.dart';
+import '../screens/support/faq_screen.dart';
+import '../screens/support/inquiry_list_screen.dart';
+import '../screens/support/inquiry_new_screen.dart';
+import '../screens/support/support_hub_screen.dart';
 import '../screens/worker/worker_main_screen.dart';
 
 class AppRouter {
@@ -90,6 +100,61 @@ class AppRouter {
       GoRoute(
         path: '/me/payments',
         builder: (_, __) => const PaymentHistoryScreen(),
+      ),
+      GoRoute(
+        path: '/me/blocklist',
+        builder: (_, __) => const BlocklistScreen(),
+      ),
+      GoRoute(
+        path: '/me/notification-settings',
+        builder: (_, __) => const NotificationSettingsScreen(),
+      ),
+      GoRoute(
+        path: '/report/:targetType/:targetId',
+        builder: (ctx, state) {
+          final type = state.pathParameters['targetType'] ?? 'user';
+          final id = int.tryParse(state.pathParameters['targetId'] ?? '') ?? 0;
+          return ReportScreen(targetType: type, targetId: id);
+        },
+      ),
+      GoRoute(
+        path: '/support',
+        builder: (_, __) => const SupportHubScreen(),
+      ),
+      GoRoute(
+        path: '/support/faq',
+        builder: (_, __) => const FaqScreen(),
+      ),
+      GoRoute(
+        path: '/support/inquiry',
+        builder: (_, __) => const InquiryListScreen(),
+      ),
+      GoRoute(
+        path: '/support/inquiry/new',
+        builder: (_, __) => const InquiryNewScreen(),
+      ),
+      GoRoute(
+        path: '/notice',
+        builder: (_, __) => const NoticeListScreen(),
+      ),
+      GoRoute(
+        path: '/notice/:id',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return NoticeDetailScreen(noticeId: id);
+        },
+      ),
+      GoRoute(
+        path: '/terms',
+        builder: (_, __) => const LegalScreen(docType: 'terms'),
+      ),
+      GoRoute(
+        path: '/privacy',
+        builder: (_, __) => const LegalScreen(docType: 'privacy'),
+      ),
+      GoRoute(
+        path: '/guide',
+        builder: (_, __) => const LegalScreen(docType: 'guide'),
       ),
     ],
     errorBuilder: (_, state) => Scaffold(

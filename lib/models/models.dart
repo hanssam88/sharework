@@ -253,3 +253,104 @@ class PaymentItem {
     required this.paid,
   });
 }
+
+class Notice {
+  final int id;
+  final String title;
+  final String body;
+  final DateTime createdAt;
+  final bool pinned;
+
+  const Notice({
+    required this.id,
+    required this.title,
+    required this.body,
+    required this.createdAt,
+    this.pinned = false,
+  });
+}
+
+class FaqItem {
+  final String category;
+  final String question;
+  final String answer;
+
+  const FaqItem({
+    required this.category,
+    required this.question,
+    required this.answer,
+  });
+}
+
+enum InquiryStatus { open, answered }
+
+class Inquiry {
+  final int id;
+  final String category;
+  final String title;
+  final String body;
+  final InquiryStatus status;
+  final DateTime createdAt;
+  final String? answer;
+
+  const Inquiry({
+    required this.id,
+    required this.category,
+    required this.title,
+    required this.body,
+    required this.status,
+    required this.createdAt,
+    this.answer,
+  });
+}
+
+class BlockedUser {
+  final int userId;
+  final String name;
+  final DateTime blockedAt;
+
+  const BlockedUser({
+    required this.userId,
+    required this.name,
+    required this.blockedAt,
+  });
+}
+
+class NotificationPrefs {
+  final bool application;
+  final bool hire;
+  final bool chat;
+  final bool review;
+  final bool system;
+  final bool marketing;
+  final bool nightQuiet;
+
+  const NotificationPrefs({
+    this.application = true,
+    this.hire = true,
+    this.chat = true,
+    this.review = true,
+    this.system = true,
+    this.marketing = false,
+    this.nightQuiet = true,
+  });
+
+  NotificationPrefs copyWith({
+    bool? application,
+    bool? hire,
+    bool? chat,
+    bool? review,
+    bool? system,
+    bool? marketing,
+    bool? nightQuiet,
+  }) =>
+      NotificationPrefs(
+        application: application ?? this.application,
+        hire: hire ?? this.hire,
+        chat: chat ?? this.chat,
+        review: review ?? this.review,
+        system: system ?? this.system,
+        marketing: marketing ?? this.marketing,
+        nightQuiet: nightQuiet ?? this.nightQuiet,
+      );
+}

@@ -87,6 +87,16 @@ class MyPageScreen extends StatelessWidget {
             onTap: () =>
                 context.go(appType == 'worker' ? '/giver' : '/worker'),
           ),
+          _Tile(
+            icon: Icons.notifications_outlined,
+            label: '알림 설정',
+            onTap: () => context.push('/me/notification-settings'),
+          ),
+          _Tile(
+            icon: Icons.block,
+            label: '차단 목록',
+            onTap: () => context.push('/me/blocklist'),
+          ),
           _Tile(icon: Icons.logout, label: '로그아웃', onTap: () => context.go('/auth/phone')),
           const Divider(thickness: 8, color: AppColors.bg),
           const SectionHeader(title: '활동'),
@@ -107,12 +117,36 @@ class MyPageScreen extends StatelessWidget {
           ],
           const Divider(thickness: 8, color: AppColors.bg),
           const SectionHeader(title: '고객센터'),
-          _Tile(icon: Icons.help_outline, label: '이용안내', onTap: () {}),
           _Tile(
-              icon: Icons.description_outlined,
-              label: '이용약관 / 개인정보처리방침',
-              onTap: () {}),
-          _Tile(icon: Icons.campaign_outlined, label: '공지사항', onTap: () {}),
+            icon: Icons.headset_mic_outlined,
+            label: '고객센터 / 1:1 문의',
+            onTap: () => context.push('/support'),
+          ),
+          _Tile(
+            icon: Icons.help_outline,
+            label: '자주 묻는 질문',
+            onTap: () => context.push('/support/faq'),
+          ),
+          _Tile(
+            icon: Icons.book_outlined,
+            label: '이용가이드',
+            onTap: () => context.push('/guide'),
+          ),
+          _Tile(
+            icon: Icons.gavel_outlined,
+            label: '이용약관',
+            onTap: () => context.push('/terms'),
+          ),
+          _Tile(
+            icon: Icons.privacy_tip_outlined,
+            label: '개인정보 처리방침',
+            onTap: () => context.push('/privacy'),
+          ),
+          _Tile(
+            icon: Icons.campaign_outlined,
+            label: '공지사항',
+            onTap: () => context.push('/notice'),
+          ),
           const SizedBox(height: 32),
           const Center(
             child: Text(

@@ -100,7 +100,7 @@ flutter run
 | 세션 | 우선순위 | 영역 | 주요 신규 화면 |
 |---|---|---|---|
 | **S1** ✅ | P0 | 운영 핵심 | `/search`, `/giver/job/:id/applicants`, `/giver/job/:id/edit`, `/job/:id/review/write`, 지원 취소 플로우 |
-| **S2** | P0 | 신뢰·안전·지원 | `/report/...`, `/me/blocklist`, `/support/*`, `/notice/*`, `/terms·/privacy·/guide`, `/me/notification-settings` |
+| **S2** ✅ | P0 | 신뢰·안전·지원 | `/report/...`, `/me/blocklist`, `/support/*`, `/notice/*`, `/terms·/privacy·/guide`, `/me/notification-settings`, 채팅·프로필 신고/차단 메뉴 |
 | **S3** | P0 | 출퇴근·계약·정산 | `/job/:id/checkin`, `/job/:id/contract(/sign)`, `/me/payments/:id`, `/giver/payment-methods`, `/giver/escrow` |
 | **S4** | P0 | 인증·신원 | `/auth/identity`, `/me/identity`, `/me/credentials(/new)`, `/giver/business-verification` |
 | **S5** | P1 | 워커 프로필 강화 | `/me/resume`, `/me/portfolio`, `/me/availability`, `/me/preferences` |
@@ -145,7 +145,20 @@ lib/
       ├─ user_info_update_screen.dart
       ├─ payment_history_screen.dart
       ├─ search_screen.dart                     [S1]
-      └─ review_write_screen.dart               [S1]
+      ├─ review_write_screen.dart               [S1]
+      └─ report_screen.dart                     [S2]
+   ├─ me/                                       [S2]
+   │  ├─ blocklist_screen.dart
+   │  └─ notification_settings_screen.dart
+   ├─ support/                                  [S2]
+   │  ├─ support_hub_screen.dart
+   │  ├─ faq_screen.dart
+   │  ├─ inquiry_list_screen.dart
+   │  └─ inquiry_new_screen.dart
+   ├─ notice/                                   [S2]
+   │  ├─ notice_list_screen.dart
+   │  └─ notice_detail_screen.dart
+   └─ legal/legal_screen.dart                   [S2]
 ```
 
 ## 시연 흐름

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../data/dummy_data.dart';
 import '../../../theme/app_theme.dart';
@@ -125,6 +126,58 @@ class _ChatRoomScreen extends StatelessWidget {
   final String otherName;
   const _ChatRoomScreen({required this.otherName});
 
+  void _showMore(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (sheetCtx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.phone_outlined,
+                  color: AppColors.brandDark),
+              title: const Text('안심번호로 통화'),
+              subtitle: const Text(
+                '050으로 시작하는 가상번호로 연결돼요',
+                style: TextStyle(fontSize: 11),
+              ),
+              onTap: () {
+                Navigator.pop(sheetCtx);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('050-xxxx-xxxx 로 연결합니다 (목업)')),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.flag_outlined,
+                  color: AppColors.danger),
+              title: const Text('신고하기'),
+              onTap: () {
+                Navigator.pop(sheetCtx);
+                context.push('/report/chat/0');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.block, color: AppColors.danger),
+              title: const Text('차단 후 나가기'),
+              onTap: () {
+                Navigator.pop(sheetCtx);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('차단 후 나갔어요 (목업)')),
+                );
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final messages = [
@@ -134,7 +187,15 @@ class _ChatRoomScreen extends StatelessWidget {
       _Msg('네 알겠습니다 :)', mine: true, ago: '오후 2:33'),
     ];
     return Scaffold(
-      appBar: AppBar(title: Text(otherName)),
+      appBar: AppBar(
+        title: Text(otherName),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.more_vert),
+            onPressed: () => _showMore(context),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Expanded(
