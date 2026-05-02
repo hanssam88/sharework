@@ -223,6 +223,11 @@ class _SearchScreenState extends State<SearchScreen> {
           onChanged: (v) => setState(() => _keyword = v),
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications_active_outlined),
+            tooltip: '이 검색 알림으로 저장',
+            onPressed: () => context.push('/me/saved-searches/new'),
+          ),
           if (_keyword.isNotEmpty)
             IconButton(
               icon: const Icon(Icons.close),

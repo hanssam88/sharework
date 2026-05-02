@@ -51,6 +51,10 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
                     count: hiredCount,
                     color: AppColors.brandDark),
                 const Spacer(),
+                _CategoryPill(
+                  onTap: () => context.push('/categories'),
+                ),
+                const SizedBox(width: 6),
                 _RecommendedPill(
                   onTap: () => context.push('/recommended'),
                 ),
@@ -207,6 +211,43 @@ class _SearchBar extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _CategoryPill extends StatelessWidget {
+  final VoidCallback onTap;
+  const _CategoryPill({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: const [
+            BoxShadow(
+                color: Colors.black12, blurRadius: 4, offset: Offset(0, 1))
+          ],
+        ),
+        child: const Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.grid_view_rounded,
+                color: AppColors.brandDark, size: 14),
+            SizedBox(width: 4),
+            Text('카테고리',
+                style: TextStyle(
+                    fontSize: 12,
+                    color: AppColors.text,
+                    fontWeight: FontWeight.w800)),
+          ],
+        ),
       ),
     );
   }

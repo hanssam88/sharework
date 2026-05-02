@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../models/models.dart';
 import '../screens/auth/identity_screen.dart';
 import '../screens/auth/phone_auth_screen.dart';
 import '../screens/auth/signup_screen.dart';
+import '../screens/categories/categories_screen.dart';
+import '../screens/categories/category_jobs_screen.dart';
 import '../screens/events/events_screen.dart';
 import '../screens/common/job_info_screen.dart';
 import '../screens/common/payment_history_screen.dart';
@@ -31,6 +34,7 @@ import '../screens/job/checkin_screen.dart';
 import '../screens/job/contract_screen.dart';
 import '../screens/job/contract_sign_screen.dart';
 import '../screens/legal/legal_screen.dart';
+import '../screens/me/activity_report_screen.dart';
 import '../screens/me/availability_screen.dart';
 import '../screens/me/bank_account_screen.dart';
 import '../screens/me/blocklist_screen.dart';
@@ -46,12 +50,19 @@ import '../screens/me/payment_detail_screen.dart';
 import '../screens/me/portfolio_screen.dart';
 import '../screens/me/preferences_screen.dart';
 import '../screens/me/resume_screen.dart';
+import '../screens/me/safety_screen.dart';
+import '../screens/me/saved_search_new_screen.dart';
+import '../screens/me/saved_searches_screen.dart';
+import '../screens/me/security_screen.dart';
+import '../screens/me/tax_docs_screen.dart';
 import '../screens/me/withdraw_screen.dart';
 import '../screens/worker/recommended_screen.dart';
 import '../screens/worker/scouts/scout_detail_screen.dart';
 import '../screens/worker/scouts/scouts_screen.dart';
 import '../screens/notice/notice_detail_screen.dart';
 import '../screens/notice/notice_list_screen.dart';
+import '../screens/onboarding/onboarding_screen.dart';
+import '../screens/onboarding/permissions_screen.dart';
 import '../screens/splash/splash_screen.dart';
 import '../screens/support/dispute_detail_screen.dart';
 import '../screens/support/dispute_list_screen.dart';
@@ -69,6 +80,14 @@ class AppRouter {
       GoRoute(
         path: '/splash',
         builder: (_, __) => const SplashScreen(),
+      ),
+      GoRoute(
+        path: '/onboarding',
+        builder: (_, __) => const OnboardingScreen(),
+      ),
+      GoRoute(
+        path: '/onboarding/permissions',
+        builder: (_, __) => const PermissionsScreen(),
       ),
       GoRoute(
         path: '/auth/phone',
@@ -133,6 +152,21 @@ class AppRouter {
       GoRoute(
         path: '/search',
         builder: (_, __) => const SearchScreen(),
+      ),
+      GoRoute(
+        path: '/categories',
+        builder: (_, __) => const CategoriesScreen(),
+      ),
+      GoRoute(
+        path: '/categories/:name',
+        builder: (ctx, state) {
+          final name = state.pathParameters['name'] ?? '';
+          final cat = JobCategory.values.firstWhere(
+            (c) => c.name == name,
+            orElse: () => JobCategory.etc,
+          );
+          return CategoryJobsScreen(category: cat);
+        },
       ),
       GoRoute(
         path: '/job/:id',
@@ -214,6 +248,30 @@ class AppRouter {
       GoRoute(
         path: '/me/withdraw',
         builder: (_, __) => const WithdrawScreen(),
+      ),
+      GoRoute(
+        path: '/me/saved-searches',
+        builder: (_, __) => const SavedSearchesScreen(),
+      ),
+      GoRoute(
+        path: '/me/saved-searches/new',
+        builder: (_, __) => const SavedSearchNewScreen(),
+      ),
+      GoRoute(
+        path: '/me/report',
+        builder: (_, __) => const ActivityReportScreen(),
+      ),
+      GoRoute(
+        path: '/me/payments/tax-docs',
+        builder: (_, __) => const TaxDocsScreen(),
+      ),
+      GoRoute(
+        path: '/me/safety',
+        builder: (_, __) => const SafetyScreen(),
+      ),
+      GoRoute(
+        path: '/me/security',
+        builder: (_, __) => const SecurityScreen(),
       ),
       GoRoute(
         path: '/me/identity',

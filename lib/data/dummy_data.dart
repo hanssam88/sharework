@@ -1223,6 +1223,60 @@ class Dummy {
     ),
   ];
 
+  static final List<SavedSearch> savedSearches = [
+    SavedSearch(
+      id: 1,
+      label: '강남 카페 시급 1.3만↑',
+      keyword: '카페',
+      categories: const [JobCategory.cafe],
+      minHourly: 13000,
+      radiusKm: 3,
+      pushEnabled: true,
+      createdAt: DateTime.now().subtract(const Duration(days: 4)),
+    ),
+    SavedSearch(
+      id: 2,
+      label: '주말 행사 스태프 (식사제공)',
+      keyword: '행사',
+      categories: const [JobCategory.event],
+      minHourly: 90000,
+      sameDayOnly: false,
+      pushEnabled: true,
+      createdAt: DateTime.now().subtract(const Duration(days: 11)),
+    ),
+    SavedSearch(
+      id: 3,
+      label: '야간 마트 진열',
+      categories: const [JobCategory.mart, JobCategory.logistics],
+      nightOk: true,
+      radiusKm: 5,
+      pushEnabled: false,
+      createdAt: DateTime.now().subtract(const Duration(days: 30)),
+    ),
+  ];
+
+  static final List<EmergencyContact> emergencyContacts = [
+    EmergencyContact(
+      id: 1,
+      name: '엄마',
+      relation: '가족',
+      phone: '010-9876-5432',
+    ),
+    EmergencyContact(
+      id: 2,
+      name: '이성실',
+      relation: '친구',
+      phone: '010-2222-3333',
+    ),
+  ];
+
+  static const SecurityPrefs securityPrefs = SecurityPrefs(
+    pinEnabled: false,
+    biometricEnabled: false,
+    autoLock: Duration(minutes: 5),
+    requireAuthOnPay: true,
+  );
+
   static Job jobById(int id) =>
       jobs.firstWhere((j) => j.id == id, orElse: () => jobs.first);
 

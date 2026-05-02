@@ -110,6 +110,16 @@ class MyPageScreen extends StatelessWidget {
             onTap: () => context.push('/me/notification-settings'),
           ),
           _Tile(
+            icon: Icons.lock_outline,
+            label: '계정 보안',
+            onTap: () => context.push('/me/security'),
+          ),
+          _Tile(
+            icon: Icons.shield_outlined,
+            label: '안전·SOS',
+            onTap: () => context.push('/me/safety'),
+          ),
+          _Tile(
             icon: Icons.block,
             label: '차단 목록',
             onTap: () => context.push('/me/blocklist'),
@@ -127,6 +137,16 @@ class MyPageScreen extends StatelessWidget {
               icon: Icons.mark_email_unread_outlined,
               label: '스카우트 제안',
               onTap: () => context.push('/worker/scouts'),
+            ),
+            _Tile(
+              icon: Icons.bookmark_added_outlined,
+              label: '저장된 검색·알림',
+              onTap: () => context.push('/me/saved-searches'),
+            ),
+            _Tile(
+              icon: Icons.insights_outlined,
+              label: '내 활동 리포트',
+              onTap: () => context.push('/me/report'),
             ),
             _Tile(
               icon: Icons.description_outlined,
@@ -162,6 +182,11 @@ class MyPageScreen extends StatelessWidget {
               icon: Icons.account_balance_outlined,
               label: '정산 계좌 관리',
               onTap: () => context.push('/me/bank-account'),
+            ),
+            _Tile(
+              icon: Icons.receipt_long_outlined,
+              label: '세금·소득 명세',
+              onTap: () => context.push('/me/payments/tax-docs'),
             ),
           ] else ...[
             _Tile(icon: Icons.list_alt, label: '내 공고 관리', onTap: () {}),
