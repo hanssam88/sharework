@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../data/dummy_data.dart';
 import '../../models/models.dart';
@@ -59,11 +60,7 @@ class EscrowScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: OutlinedButton.icon(
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('충전 화면 (목업)')),
-                          );
-                        },
+                        onPressed: () => context.push('/giver/escrow/topup'),
                         icon: const Icon(Icons.add, size: 18),
                         label: const Text('충전'),
                       ),

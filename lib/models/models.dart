@@ -840,6 +840,95 @@ class BlockedUser {
   });
 }
 
+enum BankAccountStatus { unverified, pending, verified }
+
+class BankAccount {
+  final int id;
+  final String bank;
+  final String holder;
+  final String maskedNumber;
+  final BankAccountStatus status;
+  final bool isDefault;
+
+  const BankAccount({
+    required this.id,
+    required this.bank,
+    required this.holder,
+    required this.maskedNumber,
+    required this.status,
+    this.isDefault = false,
+  });
+}
+
+enum DisputeStage { received, reviewing, mediation, resolved }
+
+enum DisputeReason {
+  noShowGiver,
+  noShowWorker,
+  payDelay,
+  payAmount,
+  workCondition,
+  injury,
+  etc,
+}
+
+extension DisputeReasonX on DisputeReason {
+  String get label {
+    switch (this) {
+      case DisputeReason.noShowGiver:
+        return '구인자 노쇼';
+      case DisputeReason.noShowWorker:
+        return '구직자 노쇼';
+      case DisputeReason.payDelay:
+        return '정산 지연';
+      case DisputeReason.payAmount:
+        return '정산 금액 불일치';
+      case DisputeReason.workCondition:
+        return '근무 조건 불일치';
+      case DisputeReason.injury:
+        return '근무 중 사고/부상';
+      case DisputeReason.etc:
+        return '기타';
+    }
+  }
+}
+
+class DisputeEvent {
+  final DisputeStage stage;
+  final String description;
+  final DateTime at;
+
+  const DisputeEvent({
+    required this.stage,
+    required this.description,
+    required this.at,
+  });
+}
+
+class Dispute {
+  final int id;
+  final int? jobId;
+  final String jobTitle;
+  final String otherPartyName;
+  final DisputeReason reason;
+  final String description;
+  final DisputeStage stage;
+  final DateTime createdAt;
+  final List<DisputeEvent> timeline;
+
+  const Dispute({
+    required this.id,
+    this.jobId,
+    required this.jobTitle,
+    required this.otherPartyName,
+    required this.reason,
+    required this.description,
+    required this.stage,
+    required this.createdAt,
+    this.timeline = const [],
+  });
+}
+
 class NotificationPrefs {
   final bool application;
   final bool hire;

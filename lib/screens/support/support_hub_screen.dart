@@ -79,12 +79,27 @@ class SupportHubScreen extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: _ActionCard(
+                  icon: Icons.gavel_outlined,
+                  label: '분쟁 조정',
+                  desc: '정산·근무 분쟁 중재',
+                  onTap: () => context.push('/support/dispute'),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                child: _ActionCard(
                   icon: Icons.campaign_outlined,
                   label: '공지사항',
                   desc: '최신 공지/업데이트',
                   onTap: () => context.push('/notice'),
                 ),
               ),
+              const SizedBox(width: 10),
+              const Expanded(child: SizedBox()),
             ],
           ),
           const SizedBox(height: 20),

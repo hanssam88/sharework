@@ -17,7 +17,9 @@ import '../screens/giver/business_verification_screen.dart';
 import '../screens/giver/escrow_screen.dart';
 import '../screens/giver/giver_main_screen.dart';
 import '../screens/giver/job_boost/job_boost_screen.dart';
+import '../screens/giver/escrow_topup_screen.dart';
 import '../screens/giver/job_create/job_create_screen.dart';
+import '../screens/giver/job_create/job_preview_screen.dart';
 import '../screens/giver/job_edit/job_edit_screen.dart';
 import '../screens/giver/job_stats/job_stats_screen.dart';
 import '../screens/giver/job_templates/job_templates_screen.dart';
@@ -30,6 +32,7 @@ import '../screens/job/contract_screen.dart';
 import '../screens/job/contract_sign_screen.dart';
 import '../screens/legal/legal_screen.dart';
 import '../screens/me/availability_screen.dart';
+import '../screens/me/bank_account_screen.dart';
 import '../screens/me/blocklist_screen.dart';
 import '../screens/me/coupons_screen.dart';
 import '../screens/me/credentials_list_screen.dart';
@@ -43,10 +46,16 @@ import '../screens/me/payment_detail_screen.dart';
 import '../screens/me/portfolio_screen.dart';
 import '../screens/me/preferences_screen.dart';
 import '../screens/me/resume_screen.dart';
+import '../screens/me/withdraw_screen.dart';
 import '../screens/worker/recommended_screen.dart';
+import '../screens/worker/scouts/scout_detail_screen.dart';
+import '../screens/worker/scouts/scouts_screen.dart';
 import '../screens/notice/notice_detail_screen.dart';
 import '../screens/notice/notice_list_screen.dart';
 import '../screens/splash/splash_screen.dart';
+import '../screens/support/dispute_detail_screen.dart';
+import '../screens/support/dispute_list_screen.dart';
+import '../screens/support/dispute_new_screen.dart';
 import '../screens/support/faq_screen.dart';
 import '../screens/support/inquiry_list_screen.dart';
 import '../screens/support/inquiry_new_screen.dart';
@@ -88,6 +97,10 @@ class AppRouter {
       GoRoute(
         path: '/giver/job/templates',
         builder: (_, __) => const JobTemplatesScreen(),
+      ),
+      GoRoute(
+        path: '/giver/job/preview',
+        builder: (_, __) => const JobPreviewScreen(),
       ),
       GoRoute(
         path: '/giver/job/:id/stats',
@@ -187,8 +200,20 @@ class AppRouter {
         builder: (_, __) => const EscrowScreen(),
       ),
       GoRoute(
+        path: '/giver/escrow/topup',
+        builder: (_, __) => const EscrowTopupScreen(),
+      ),
+      GoRoute(
         path: '/me/blocklist',
         builder: (_, __) => const BlocklistScreen(),
+      ),
+      GoRoute(
+        path: '/me/bank-account',
+        builder: (_, __) => const BankAccountScreen(),
+      ),
+      GoRoute(
+        path: '/me/withdraw',
+        builder: (_, __) => const WithdrawScreen(),
       ),
       GoRoute(
         path: '/me/identity',
@@ -243,6 +268,17 @@ class AppRouter {
         builder: (_, __) => const RecommendedScreen(),
       ),
       GoRoute(
+        path: '/worker/scouts',
+        builder: (_, __) => const ScoutsScreen(),
+      ),
+      GoRoute(
+        path: '/worker/scouts/:id',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return ScoutDetailScreen(scoutId: id);
+        },
+      ),
+      GoRoute(
         path: '/giver/workers',
         builder: (_, __) => const WorkersSearchScreen(),
       ),
@@ -288,6 +324,21 @@ class AppRouter {
       GoRoute(
         path: '/support/inquiry/new',
         builder: (_, __) => const InquiryNewScreen(),
+      ),
+      GoRoute(
+        path: '/support/dispute',
+        builder: (_, __) => const DisputeListScreen(),
+      ),
+      GoRoute(
+        path: '/support/dispute/new',
+        builder: (_, __) => const DisputeNewScreen(),
+      ),
+      GoRoute(
+        path: '/support/dispute/:id',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return DisputeDetailScreen(disputeId: id);
+        },
       ),
       GoRoute(
         path: '/notice',
