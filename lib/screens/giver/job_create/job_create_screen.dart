@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../data/dummy_data.dart';
+import '../../../models/models.dart';
 import '../../../theme/app_theme.dart';
 
 class JobCreateScreen extends StatefulWidget {
@@ -15,16 +17,140 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
   bool _sameDayPay = true;
   bool _foodProvided = false;
   bool _extraPay = false;
+  bool _recurring = false;
+  final Set<int> _recurrenceWeekdays = {};
   final List<String> _tags = ['카페'];
   final List<String> _checklists = [];
+  String? _appliedTemplate;
+
+  static const _weekdayLabels = ['월', '화', '수', '목', '금', '토', '일'];
+
+  void _openTemplateSheet() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (sheetCtx) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('템플릿에서 불러오기',
+                  style: TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w800)),
+              const SizedBox(height: 12),
+              ...Dummy.jobTemplates.map((t) => ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: AppColors.brandSoft,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(Icons.dashboard_customize,
+                          color: AppColors.brandDark, size: 18),
+                    ),
+                    title: Text(t.name,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w700)),
+                    subtitle: Text(
+                        '${t.title} · ${t.payHourly}원/시간 · ${t.defaultPersonnel}명',
+                        style: const TextStyle(fontSize: 12)),
+                    onTap: () {
+                      Navigator.pop(sheetCtx);
+                      _applyTemplate(t);
+                    },
+                  )),
+              const SizedBox(height: 8),
+              OutlinedButton.icon(
+                onPressed: () {
+                  Navigator.pop(sheetCtx);
+                  context.push('/giver/job/templates');
+                },
+                icon: const Icon(Icons.dashboard_customize_outlined),
+                label: const Text('템플릿 관리'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _applyTemplate(JobTemplate t) {
+    setState(() {
+      _appliedTemplate = t.name;
+      _sameDayPay = t.sameDayPayment;
+      _foodProvided = t.foodProvided;
+      _extraPay = t.extraPay;
+      _tags
+        ..clear()
+        ..addAll(t.tags);
+      _recurrenceWeekdays
+        ..clear()
+        ..addAll(t.recurrenceWeekdays);
+      _recurring = _recurrenceWeekdays.isNotEmpty;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('템플릿 「${t.name}」 적용 완료')),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('공고 등록')),
+      appBar: AppBar(
+        title: const Text('공고 등록'),
+        actions: [
+          TextButton.icon(
+            onPressed: _openTemplateSheet,
+            icon: const Icon(Icons.dashboard_customize_outlined,
+                size: 18),
+            label: const Text('템플릿'),
+          ),
+        ],
+      ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 100),
         children: [
+          if (_appliedTemplate != null)
+            Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 12, vertical: 10),
+              decoration: BoxDecoration(
+                color: AppColors.brandSoft,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.check_circle,
+                      color: AppColors.brandDark, size: 18),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      '템플릿 「$_appliedTemplate」 적용됨',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w700, fontSize: 12),
+                    ),
+                  ),
+                  IconButton(
+                    iconSize: 16,
+                    visualDensity: VisualDensity.compact,
+                    icon: const Icon(Icons.close,
+                        color: AppColors.brandDark),
+                    onPressed: () =>
+                        setState(() => _appliedTemplate = null),
+                  ),
+                ],
+              ),
+            ),
           const _SectionTitle('기본 정보'),
           const _Label('공고 제목'),
           const TextField(
@@ -146,6 +272,79 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
                   onTap: () => setState(() => _extraPay = !_extraPay)),
             ],
           ),
+          const SizedBox(height: 24),
+          const _SectionTitle('반복 일정'),
+          const Text('정기 반복 공고는 매주 같은 요일에 자동으로 재게시됩니다.',
+              style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
+          const SizedBox(height: 8),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            value: _recurring,
+            onChanged: (v) {
+              setState(() {
+                _recurring = v;
+                if (!v) _recurrenceWeekdays.clear();
+              });
+            },
+            title: const Text('반복 공고로 등록',
+                style: TextStyle(fontSize: 14)),
+            activeColor: AppColors.brandDark,
+          ),
+          if (_recurring) ...[
+            const SizedBox(height: 6),
+            Row(
+              children: List.generate(7, (i) {
+                final d = i + 1;
+                final on = _recurrenceWeekdays.contains(d);
+                final isWeekend = i >= 5;
+                return Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
+                    child: GestureDetector(
+                      onTap: () => setState(() {
+                        if (on) {
+                          _recurrenceWeekdays.remove(d);
+                        } else {
+                          _recurrenceWeekdays.add(d);
+                        }
+                      }),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 120),
+                        height: 44,
+                        decoration: BoxDecoration(
+                          color: on
+                              ? AppColors.brandDark
+                              : AppColors.chipBg,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          _weekdayLabels[i],
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            color: on
+                                ? Colors.white
+                                : (isWeekend
+                                    ? AppColors.danger
+                                    : AppColors.text),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ),
+            const SizedBox(height: 6),
+            if (_recurrenceWeekdays.isNotEmpty)
+              Text(
+                '매주 ${(_recurrenceWeekdays.toList()..sort()).map((d) => _weekdayLabels[d - 1]).join('·')} 자동 재게시',
+                style: const TextStyle(
+                    fontSize: 11,
+                    color: AppColors.brandDark,
+                    fontWeight: FontWeight.w700),
+              ),
+          ],
           const SizedBox(height: 24),
           const _SectionTitle('체크리스트'),
           const Text('알바에게 궁금한 항목을 선택해주세요.\n알바가 지원할 때 체크하게 됩니다.',

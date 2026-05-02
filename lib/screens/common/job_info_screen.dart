@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../data/dummy_data.dart';
+import '../../models/models.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/shared.dart';
 
@@ -12,6 +13,10 @@ class JobInfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final job = Dummy.jobById(jobId);
+    final isHired = Dummy.applications.any((a) =>
+        a.jobId == jobId &&
+        a.workerId == Dummy.me.id &&
+        a.status == ApplicationStatus.hired);
     return Scaffold(
       appBar: AppBar(
         title: const Text('공고 상세'),
@@ -163,29 +168,71 @@ class JobInfoScreen extends StatelessWidget {
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
-          child: Row(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                width: 56,
-                height: 52,
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                  ),
-                  onPressed: () {},
-                  child: const Icon(Icons.chat_bubble_outline,
-                      color: AppColors.text),
+              if (isHired && job.status != JobStatus.done) ...[
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        onPressed: () =>
+                            context.push('/job/${job.id}/contract'),
+                        icon: const Icon(Icons.description_outlined,
+                            size: 18),
+                        label: Text(
+                          job.contractStatus == ContractStatus.signed
+                              ? '계약서 보기'
+                              : '계약서 서명',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: FilledButton.icon(
+                        onPressed: () =>
+                            context.push('/job/${job.id}/checkin'),
+                        icon: const Icon(Icons.login, size: 18),
+                        label: const Text('출퇴근 체크'),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: FilledButton(
-                  onPressed: () => _showApplyDialog(context, job.checklists),
-                  child: const Text('지원하기'),
+              ] else
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 56,
+                      height: 52,
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                        ),
+                        onPressed: () {},
+                        child: const Icon(Icons.chat_bubble_outline,
+                            color: AppColors.text),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: job.status == JobStatus.done
+                          ? FilledButton.icon(
+                              onPressed: () => context
+                                  .push('/job/${job.id}/review/write'),
+                              icon:
+                                  const Icon(Icons.rate_review_outlined),
+                              label: const Text('리뷰 작성'),
+                            )
+                          : FilledButton(
+                              onPressed: () => _showApplyDialog(
+                                  context, job.checklists),
+                              child: const Text('지원하기'),
+                            ),
+                    ),
+                  ],
                 ),
-              ),
             ],
           ),
         ),

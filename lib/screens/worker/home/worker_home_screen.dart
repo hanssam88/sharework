@@ -32,11 +32,15 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
             top: MediaQuery.of(context).padding.top + 12,
             left: 16,
             right: 16,
-            child: _SearchBar(),
+            child: GestureDetector(
+              onTap: () => context.push('/search'),
+              child: _SearchBar(),
+            ),
           ),
           Positioned(
             top: MediaQuery.of(context).padding.top + 70,
             left: 16,
+            right: 16,
             child: Row(
               children: [
                 _StatusPill(
@@ -46,6 +50,10 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
                     label: '다가오는알바',
                     count: hiredCount,
                     color: AppColors.brandDark),
+                const Spacer(),
+                _RecommendedPill(
+                  onTap: () => context.push('/recommended'),
+                ),
               ],
             ),
           ),
@@ -113,7 +121,12 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
                                 ),
                               ),
                               const Spacer(),
-                              const Icon(Icons.tune, size: 18),
+                              IconButton(
+                                visualDensity: VisualDensity.compact,
+                                padding: EdgeInsets.zero,
+                                onPressed: () => context.push('/search'),
+                                icon: const Icon(Icons.tune, size: 18),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 12),
@@ -194,6 +207,42 @@ class _SearchBar extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _RecommendedPill extends StatelessWidget {
+  final VoidCallback onTap;
+  const _RecommendedPill({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: AppColors.brandDark,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: const [
+            BoxShadow(
+                color: Colors.black26, blurRadius: 4, offset: Offset(0, 1))
+          ],
+        ),
+        child: const Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.auto_awesome, color: Colors.white, size: 14),
+            SizedBox(width: 4),
+            Text('추천',
+                style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800)),
+          ],
+        ),
       ),
     );
   }

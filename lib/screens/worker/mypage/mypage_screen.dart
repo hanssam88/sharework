@@ -82,16 +82,67 @@ class MyPageScreen extends StatelessWidget {
           const SectionHeader(title: '계정'),
           _Tile(icon: Icons.edit, label: '내 프로필 수정', onTap: () => context.push('/me/edit')),
           _Tile(
+            icon: Icons.verified_user_outlined,
+            label: '본인인증',
+            onTap: () => context.push('/me/identity'),
+          ),
+          if (appType == 'worker')
+            _Tile(
+              icon: Icons.workspace_premium_outlined,
+              label: '보유 자격증·서류',
+              onTap: () => context.push('/me/credentials'),
+            )
+          else
+            _Tile(
+              icon: Icons.business_center_outlined,
+              label: '사업자 인증',
+              onTap: () => context.push('/giver/business-verification'),
+            ),
+          _Tile(
             icon: Icons.swap_horiz,
             label: appType == 'worker' ? '구인자 모드로 전환' : '구직자 모드로 전환',
             onTap: () =>
                 context.go(appType == 'worker' ? '/giver' : '/worker'),
           ),
+          _Tile(
+            icon: Icons.notifications_outlined,
+            label: '알림 설정',
+            onTap: () => context.push('/me/notification-settings'),
+          ),
+          _Tile(
+            icon: Icons.block,
+            label: '차단 목록',
+            onTap: () => context.push('/me/blocklist'),
+          ),
           _Tile(icon: Icons.logout, label: '로그아웃', onTap: () => context.go('/auth/phone')),
           const Divider(thickness: 8, color: AppColors.bg),
           const SectionHeader(title: '활동'),
           if (appType == 'worker') ...[
-            _Tile(icon: Icons.bookmark_border, label: '즐겨찾는 업체', onTap: () {}),
+            _Tile(
+              icon: Icons.description_outlined,
+              label: '이력서',
+              onTap: () => context.push('/me/resume'),
+            ),
+            _Tile(
+              icon: Icons.collections_outlined,
+              label: '포트폴리오',
+              onTap: () => context.push('/me/portfolio'),
+            ),
+            _Tile(
+              icon: Icons.calendar_view_week,
+              label: '가용 시간',
+              onTap: () => context.push('/me/availability'),
+            ),
+            _Tile(
+              icon: Icons.tune,
+              label: '희망 조건',
+              onTap: () => context.push('/me/preferences'),
+            ),
+            _Tile(
+              icon: Icons.bookmark_border,
+              label: '즐겨찾는 업체',
+              onTap: () => context.push('/me/favorite-companies'),
+            ),
             _Tile(
               icon: Icons.account_balance_wallet_outlined,
               label: '정산 내역',
@@ -100,19 +151,90 @@ class MyPageScreen extends StatelessWidget {
           ] else ...[
             _Tile(icon: Icons.list_alt, label: '내 공고 관리', onTap: () {}),
             _Tile(
+              icon: Icons.dashboard_customize_outlined,
+              label: '공고 템플릿',
+              onTap: () => context.push('/giver/job/templates'),
+            ),
+            _Tile(
+              icon: Icons.person_search,
+              label: '워커 찾기',
+              onTap: () => context.push('/giver/workers'),
+            ),
+            _Tile(
+              icon: Icons.people_outline,
+              label: '단골 워커',
+              onTap: () => context.push('/giver/regulars'),
+            ),
+            _Tile(
               icon: Icons.account_balance_wallet_outlined,
               label: '지급 내역',
               onTap: () => context.push('/me/payments'),
             ),
+            _Tile(
+              icon: Icons.shield_outlined,
+              label: '에스크로 잔액',
+              onTap: () => context.push('/giver/escrow'),
+            ),
+            _Tile(
+              icon: Icons.credit_card,
+              label: '결제수단 관리',
+              onTap: () => context.push('/giver/payment-methods'),
+            ),
           ],
           const Divider(thickness: 8, color: AppColors.bg),
-          const SectionHeader(title: '고객센터'),
-          _Tile(icon: Icons.help_outline, label: '이용안내', onTap: () {}),
+          const SectionHeader(title: '리워드'),
           _Tile(
-              icon: Icons.description_outlined,
-              label: '이용약관 / 개인정보처리방침',
-              onTap: () {}),
-          _Tile(icon: Icons.campaign_outlined, label: '공지사항', onTap: () {}),
+            icon: Icons.workspace_premium_outlined,
+            label: '내 등급·포인트',
+            onTap: () => context.push('/me/level'),
+          ),
+          _Tile(
+            icon: Icons.confirmation_number_outlined,
+            label: '쿠폰함',
+            onTap: () => context.push('/me/coupons'),
+          ),
+          _Tile(
+            icon: Icons.group_add_outlined,
+            label: '친구초대',
+            onTap: () => context.push('/me/invite'),
+          ),
+          _Tile(
+            icon: Icons.celebration_outlined,
+            label: '이벤트·미션',
+            onTap: () => context.push('/events'),
+          ),
+          const Divider(thickness: 8, color: AppColors.bg),
+          const SectionHeader(title: '고객센터'),
+          _Tile(
+            icon: Icons.headset_mic_outlined,
+            label: '고객센터 / 1:1 문의',
+            onTap: () => context.push('/support'),
+          ),
+          _Tile(
+            icon: Icons.help_outline,
+            label: '자주 묻는 질문',
+            onTap: () => context.push('/support/faq'),
+          ),
+          _Tile(
+            icon: Icons.book_outlined,
+            label: '이용가이드',
+            onTap: () => context.push('/guide'),
+          ),
+          _Tile(
+            icon: Icons.gavel_outlined,
+            label: '이용약관',
+            onTap: () => context.push('/terms'),
+          ),
+          _Tile(
+            icon: Icons.privacy_tip_outlined,
+            label: '개인정보 처리방침',
+            onTap: () => context.push('/privacy'),
+          ),
+          _Tile(
+            icon: Icons.campaign_outlined,
+            label: '공지사항',
+            onTap: () => context.push('/notice'),
+          ),
           const SizedBox(height: 32),
           const Center(
             child: Text(

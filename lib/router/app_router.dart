@@ -1,15 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../screens/auth/identity_screen.dart';
 import '../screens/auth/phone_auth_screen.dart';
 import '../screens/auth/signup_screen.dart';
+import '../screens/events/events_screen.dart';
 import '../screens/common/job_info_screen.dart';
 import '../screens/common/payment_history_screen.dart';
 import '../screens/common/profile_screen.dart';
+import '../screens/common/report_screen.dart';
+import '../screens/common/review_write_screen.dart';
+import '../screens/common/search_screen.dart';
 import '../screens/common/user_info_update_screen.dart';
+import '../screens/giver/applicants/applicants_screen.dart';
+import '../screens/giver/business_verification_screen.dart';
+import '../screens/giver/escrow_screen.dart';
 import '../screens/giver/giver_main_screen.dart';
+import '../screens/giver/job_boost/job_boost_screen.dart';
 import '../screens/giver/job_create/job_create_screen.dart';
+import '../screens/giver/job_edit/job_edit_screen.dart';
+import '../screens/giver/job_stats/job_stats_screen.dart';
+import '../screens/giver/job_templates/job_templates_screen.dart';
+import '../screens/giver/payment_methods_screen.dart';
+import '../screens/giver/regulars_screen.dart';
+import '../screens/giver/workers/worker_detail_screen.dart';
+import '../screens/giver/workers/workers_search_screen.dart';
+import '../screens/job/checkin_screen.dart';
+import '../screens/job/contract_screen.dart';
+import '../screens/job/contract_sign_screen.dart';
+import '../screens/legal/legal_screen.dart';
+import '../screens/me/availability_screen.dart';
+import '../screens/me/blocklist_screen.dart';
+import '../screens/me/coupons_screen.dart';
+import '../screens/me/credentials_list_screen.dart';
+import '../screens/me/credentials_new_screen.dart';
+import '../screens/me/favorite_companies_screen.dart';
+import '../screens/me/identity_status_screen.dart';
+import '../screens/me/invite_screen.dart';
+import '../screens/me/level_screen.dart';
+import '../screens/me/notification_settings_screen.dart';
+import '../screens/me/payment_detail_screen.dart';
+import '../screens/me/portfolio_screen.dart';
+import '../screens/me/preferences_screen.dart';
+import '../screens/me/resume_screen.dart';
+import '../screens/worker/recommended_screen.dart';
+import '../screens/notice/notice_detail_screen.dart';
+import '../screens/notice/notice_list_screen.dart';
 import '../screens/splash/splash_screen.dart';
+import '../screens/support/faq_screen.dart';
+import '../screens/support/inquiry_list_screen.dart';
+import '../screens/support/inquiry_new_screen.dart';
+import '../screens/support/support_hub_screen.dart';
 import '../screens/worker/worker_main_screen.dart';
 
 class AppRouter {
@@ -29,6 +70,10 @@ class AppRouter {
         builder: (_, __) => const SignupScreen(),
       ),
       GoRoute(
+        path: '/auth/identity',
+        builder: (_, __) => const IdentityVerificationScreen(),
+      ),
+      GoRoute(
         path: '/worker',
         builder: (_, __) => const WorkerMainScreen(),
       ),
@@ -41,10 +86,74 @@ class AppRouter {
         builder: (_, __) => const JobCreateScreen(),
       ),
       GoRoute(
+        path: '/giver/job/templates',
+        builder: (_, __) => const JobTemplatesScreen(),
+      ),
+      GoRoute(
+        path: '/giver/job/:id/stats',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return JobStatsScreen(jobId: id);
+        },
+      ),
+      GoRoute(
+        path: '/giver/job/:id/boost',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return JobBoostScreen(jobId: id);
+        },
+      ),
+      GoRoute(
+        path: '/giver/job/:id/edit',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return JobEditScreen(jobId: id);
+        },
+      ),
+      GoRoute(
+        path: '/giver/job/:id/applicants',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return ApplicantsScreen(jobId: id);
+        },
+      ),
+      GoRoute(
+        path: '/search',
+        builder: (_, __) => const SearchScreen(),
+      ),
+      GoRoute(
         path: '/job/:id',
         builder: (ctx, state) {
           final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
           return JobInfoScreen(jobId: id);
+        },
+      ),
+      GoRoute(
+        path: '/job/:id/review/write',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return ReviewWriteScreen(jobId: id);
+        },
+      ),
+      GoRoute(
+        path: '/job/:id/checkin',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return CheckinScreen(jobId: id);
+        },
+      ),
+      GoRoute(
+        path: '/job/:id/contract',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return ContractScreen(jobId: id);
+        },
+      ),
+      GoRoute(
+        path: '/job/:id/contract/sign',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return ContractSignScreen(jobId: id);
         },
       ),
       GoRoute(
@@ -61,6 +170,147 @@ class AppRouter {
       GoRoute(
         path: '/me/payments',
         builder: (_, __) => const PaymentHistoryScreen(),
+      ),
+      GoRoute(
+        path: '/me/payments/:id',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return PaymentDetailScreen(paymentId: id);
+        },
+      ),
+      GoRoute(
+        path: '/giver/payment-methods',
+        builder: (_, __) => const PaymentMethodsScreen(),
+      ),
+      GoRoute(
+        path: '/giver/escrow',
+        builder: (_, __) => const EscrowScreen(),
+      ),
+      GoRoute(
+        path: '/me/blocklist',
+        builder: (_, __) => const BlocklistScreen(),
+      ),
+      GoRoute(
+        path: '/me/identity',
+        builder: (_, __) => const IdentityStatusScreen(),
+      ),
+      GoRoute(
+        path: '/me/credentials',
+        builder: (_, __) => const CredentialsListScreen(),
+      ),
+      GoRoute(
+        path: '/me/credentials/new',
+        builder: (_, __) => const CredentialsNewScreen(),
+      ),
+      GoRoute(
+        path: '/me/resume',
+        builder: (_, __) => const ResumeScreen(),
+      ),
+      GoRoute(
+        path: '/me/portfolio',
+        builder: (_, __) => const PortfolioScreen(),
+      ),
+      GoRoute(
+        path: '/me/availability',
+        builder: (_, __) => const AvailabilityScreen(),
+      ),
+      GoRoute(
+        path: '/me/preferences',
+        builder: (_, __) => const PreferencesScreen(),
+      ),
+      GoRoute(
+        path: '/me/favorite-companies',
+        builder: (_, __) => const FavoriteCompaniesScreen(),
+      ),
+      GoRoute(
+        path: '/me/invite',
+        builder: (_, __) => const InviteScreen(),
+      ),
+      GoRoute(
+        path: '/me/coupons',
+        builder: (_, __) => const CouponsScreen(),
+      ),
+      GoRoute(
+        path: '/me/level',
+        builder: (_, __) => const LevelScreen(),
+      ),
+      GoRoute(
+        path: '/events',
+        builder: (_, __) => const EventsScreen(),
+      ),
+      GoRoute(
+        path: '/recommended',
+        builder: (_, __) => const RecommendedScreen(),
+      ),
+      GoRoute(
+        path: '/giver/workers',
+        builder: (_, __) => const WorkersSearchScreen(),
+      ),
+      GoRoute(
+        path: '/giver/workers/:id',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return WorkerDetailScreen(workerId: id);
+        },
+      ),
+      GoRoute(
+        path: '/giver/regulars',
+        builder: (_, __) => const RegularsScreen(),
+      ),
+      GoRoute(
+        path: '/giver/business-verification',
+        builder: (_, __) => const BusinessVerificationScreen(),
+      ),
+      GoRoute(
+        path: '/me/notification-settings',
+        builder: (_, __) => const NotificationSettingsScreen(),
+      ),
+      GoRoute(
+        path: '/report/:targetType/:targetId',
+        builder: (ctx, state) {
+          final type = state.pathParameters['targetType'] ?? 'user';
+          final id = int.tryParse(state.pathParameters['targetId'] ?? '') ?? 0;
+          return ReportScreen(targetType: type, targetId: id);
+        },
+      ),
+      GoRoute(
+        path: '/support',
+        builder: (_, __) => const SupportHubScreen(),
+      ),
+      GoRoute(
+        path: '/support/faq',
+        builder: (_, __) => const FaqScreen(),
+      ),
+      GoRoute(
+        path: '/support/inquiry',
+        builder: (_, __) => const InquiryListScreen(),
+      ),
+      GoRoute(
+        path: '/support/inquiry/new',
+        builder: (_, __) => const InquiryNewScreen(),
+      ),
+      GoRoute(
+        path: '/notice',
+        builder: (_, __) => const NoticeListScreen(),
+      ),
+      GoRoute(
+        path: '/notice/:id',
+        builder: (ctx, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return NoticeDetailScreen(noticeId: id);
+        },
+      ),
+      GoRoute(
+        path: '/terms',
+        builder: (_, __) => const LegalScreen(docType: 'terms'),
+      ),
+      GoRoute(
+        path: '/privacy',
+        builder: (_, __) => const LegalScreen(docType: 'privacy'),
+      ),
+      GoRoute(
+        path: '/guide',
+        builder: (_, __) => const LegalScreen(docType: 'guide'),
       ),
     ],
     errorBuilder: (_, state) => Scaffold(

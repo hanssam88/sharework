@@ -1,21 +1,93 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../data/dummy_data.dart';
+import '../../models/models.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/portfolio_grid.dart';
+import '../../widgets/resume_view.dart';
 import '../../widgets/shared.dart';
 
 class ProfileScreen extends StatelessWidget {
   final int userId;
   const ProfileScreen({super.key, required this.userId});
 
+  void _showMore(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (sheetCtx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.flag_outlined,
+                  color: AppColors.danger),
+              title: const Text('신고하기'),
+              onTap: () {
+                Navigator.pop(sheetCtx);
+                context.push('/report/user/$userId');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.block, color: AppColors.danger),
+              title: const Text('차단하기'),
+              onTap: () {
+                Navigator.pop(sheetCtx);
+                showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    title: const Text('사용자 차단'),
+                    content: const Text(
+                        '차단하면 이 사용자의 공고/메시지가 더 이상 표시되지 않습니다.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('취소'),
+                      ),
+                      FilledButton(
+                        style: FilledButton.styleFrom(
+                            backgroundColor: AppColors.danger),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('차단되었습니다 (목업)')),
+                          );
+                        },
+                        child: const Text('차단'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Dummy.userById(userId);
     final reviews = Dummy.reviews;
+    final isWorker = user.appType == AppType.worker;
+    final tabCount = isWorker ? 4 : 2;
     return DefaultTabController(
-      length: 2,
+      length: tabCount,
       child: Scaffold(
-        appBar: AppBar(title: const Text('프로필')),
+        appBar: AppBar(
+          title: const Text('프로필'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.more_vert),
+              onPressed: () => _showMore(context),
+            ),
+          ],
+        ),
         body: NestedScrollView(
           headerSliverBuilder: (_, __) => [
             SliverToBoxAdapter(
@@ -31,9 +103,21 @@ class ProfileScreen extends StatelessWidget {
                           size: 44, color: AppColors.brandDark),
                     ),
                     const SizedBox(height: 12),
-                    Text(user.name,
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w800)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(user.name,
+                            style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w800)),
+                        if (user.identityVerified) ...[
+                          const SizedBox(width: 6),
+                          const Icon(Icons.verified,
+                              color: AppColors.brandDark, size: 20),
+                        ],
+                      ],
+                    ),
                     const SizedBox(height: 4),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -50,6 +134,44 @@ class ProfileScreen extends StatelessWidget {
                                 color: AppColors.textMuted, fontSize: 13)),
                       ],
                     ),
+                    if (user.verificationBadges.isNotEmpty) ...[
+                      const SizedBox(height: 10),
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        spacing: 6,
+                        runSpacing: 6,
+                        children: user.verificationBadges
+                            .map((b) => Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 3),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.brandSoft,
+                                    borderRadius: BorderRadius.circular(6),
+                                    border: Border.all(
+                                        color: AppColors.brandDark
+                                            .withValues(alpha: 0.3)),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(Icons.verified,
+                                          size: 12,
+                                          color: AppColors.brandDark),
+                                      const SizedBox(width: 3),
+                                      Text(
+                                        b,
+                                        style: const TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppColors.brandDark,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ))
+                            .toList(),
+                      ),
+                    ],
                     const SizedBox(height: 16),
                     Row(
                       children: [
@@ -78,13 +200,19 @@ class ProfileScreen extends StatelessWidget {
           ],
           body: Column(
             children: [
-              const ColoredBox(
+              ColoredBox(
                 color: Colors.white,
                 child: TabBar(
+                  isScrollable: !isWorker ? false : true,
                   indicatorColor: AppColors.brandDark,
                   labelColor: AppColors.brandDark,
                   unselectedLabelColor: AppColors.textMuted,
-                  tabs: [Tab(text: '소개'), Tab(text: '리뷰')],
+                  tabs: [
+                    const Tab(text: '소개'),
+                    if (isWorker) const Tab(text: '이력서'),
+                    if (isWorker) const Tab(text: '포트폴리오'),
+                    const Tab(text: '리뷰'),
+                  ],
                 ),
               ),
               Expanded(
@@ -114,6 +242,13 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ],
                     ),
+                    if (isWorker)
+                      ResumeView(
+                        resume: Dummy.resume,
+                        userTags: user.tags,
+                      ),
+                    if (isWorker)
+                      PortfolioGrid(items: Dummy.portfolio),
                     ListView.separated(
                       padding: const EdgeInsets.all(16),
                       itemCount: reviews.length,
