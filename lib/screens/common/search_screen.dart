@@ -8,6 +8,25 @@ import '../../widgets/shared.dart';
 
 enum _Sort { recent, payDesc, distance }
 
+enum _DateFilter { any, today, tomorrow, thisWeek, thisMonth }
+
+extension _DateFilterX on _DateFilter {
+  String get label {
+    switch (this) {
+      case _DateFilter.any:
+        return '전체';
+      case _DateFilter.today:
+        return '오늘';
+      case _DateFilter.tomorrow:
+        return '내일';
+      case _DateFilter.thisWeek:
+        return '이번 주';
+      case _DateFilter.thisMonth:
+        return '이번 달';
+    }
+  }
+}
+
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
@@ -23,11 +42,57 @@ class _SearchScreenState extends State<SearchScreen> {
   RangeValues _payRange = const RangeValues(10000, 30000);
   _Sort _sort = _Sort.recent;
   bool _sameDayOnly = false;
+  _DateFilter _dateFilter = _DateFilter.any;
+  double _radiusKm = 10;
+
+  // 최근 검색어 / 본 공고 (목업: 상태로만)
+  final List<String> _recentSearches = ['카페', '잠실 행사', '주말 알바', '강남'];
+  final List<int> _recentViewed = [1001, 1002, 1003];
+
+  static const _popular = [
+    '주말 알바',
+    '카페',
+    '단기',
+    '식사제공',
+    '당일지급',
+    '행사',
+    '마트',
+    '야간',
+  ];
+
+  static const _suggestions = [
+    '강남구 카페',
+    '카페 알바',
+    '잠실 행사 스태프',
+    '주말 8시간',
+    '평일 저녁',
+  ];
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  bool _matchDateFilter(Job j) {
+    final now = DateTime.now();
+    switch (_dateFilter) {
+      case _DateFilter.any:
+        return true;
+      case _DateFilter.today:
+        return j.startAt.year == now.year &&
+            j.startAt.month == now.month &&
+            j.startAt.day == now.day;
+      case _DateFilter.tomorrow:
+        final t = now.add(const Duration(days: 1));
+        return j.startAt.year == t.year &&
+            j.startAt.month == t.month &&
+            j.startAt.day == t.day;
+      case _DateFilter.thisWeek:
+        return j.startAt.difference(now).inDays.abs() <= 7;
+      case _DateFilter.thisMonth:
+        return j.startAt.year == now.year && j.startAt.month == now.month;
+    }
   }
 
   List<Job> get _results {
@@ -52,6 +117,8 @@ class _SearchScreenState extends State<SearchScreen> {
     if (_sameDayOnly) {
       items = items.where((j) => j.sameDayPayment).toList();
     }
+    items = items.where(_matchDateFilter).toList();
+
     switch (_sort) {
       case _Sort.recent:
         items.sort((a, b) => a.startAt.compareTo(b.startAt));
@@ -60,12 +127,28 @@ class _SearchScreenState extends State<SearchScreen> {
         items.sort((a, b) => b.pay.compareTo(a.pay));
         break;
       case _Sort.distance:
-        // 목업: 거리 데이터 없음 → id 기준 임의 정렬
         items.sort((a, b) => a.id.compareTo(b.id));
         break;
     }
     return items;
   }
+
+  void _runSearch(String kw) {
+    _controller.text = kw;
+    setState(() {
+      _keyword = kw;
+      if (kw.isNotEmpty && !_recentSearches.contains(kw)) {
+        _recentSearches.insert(0, kw);
+        if (_recentSearches.length > 8) _recentSearches.removeLast();
+      }
+    });
+  }
+
+  int get _filterCount =>
+      _categories.length +
+      _workTypes.length +
+      (_sameDayOnly ? 1 : 0) +
+      (_dateFilter == _DateFilter.any ? 0 : 1);
 
   void _openFilter() {
     showModalBottomSheet(
@@ -89,6 +172,28 @@ class _SearchScreenState extends State<SearchScreen> {
                 const Text('상세 필터',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
+                const SizedBox(height: 16),
+                const Text('근무 시작',
+                    style: TextStyle(fontWeight: FontWeight.w700)),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: _DateFilter.values.map((d) {
+                    final on = _dateFilter == d;
+                    return ChoiceChip(
+                      label: Text(d.label),
+                      selected: on,
+                      showCheckmark: false,
+                      selectedColor: AppColors.brandDark,
+                      labelStyle: TextStyle(
+                        color: on ? Colors.white : AppColors.text,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      onSelected: (_) => setSheet(() => _dateFilter = d),
+                    );
+                  }).toList(),
+                ),
                 const SizedBox(height: 16),
                 const Text('카테고리',
                     style: TextStyle(fontWeight: FontWeight.w700)),
@@ -158,6 +263,18 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                   onChanged: (v) => setSheet(() => _payRange = v),
                 ),
+                const SizedBox(height: 8),
+                Text('반경 ${_radiusKm.toStringAsFixed(0)}km',
+                    style: const TextStyle(fontWeight: FontWeight.w700)),
+                Slider(
+                  value: _radiusKm,
+                  min: 1,
+                  max: 30,
+                  divisions: 29,
+                  activeColor: AppColors.brandDark,
+                  label: '${_radiusKm.toStringAsFixed(0)}km',
+                  onChanged: (v) => setSheet(() => _radiusKm = v),
+                ),
                 SwitchListTile(
                   contentPadding: EdgeInsets.zero,
                   value: _sameDayOnly,
@@ -176,6 +293,8 @@ class _SearchScreenState extends State<SearchScreen> {
                             _workTypes.clear();
                             _payRange = const RangeValues(10000, 30000);
                             _sameDayOnly = false;
+                            _dateFilter = _DateFilter.any;
+                            _radiusKm = 10;
                           });
                         },
                         child: const Text('초기화'),
@@ -201,12 +320,323 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
+  Widget _activeFiltersBar() {
+    final chips = <Widget>[];
+
+    if (_dateFilter != _DateFilter.any) {
+      chips.add(_filterChip(_dateFilter.label, () {
+        setState(() => _dateFilter = _DateFilter.any);
+      }));
+    }
+    for (final c in _categories) {
+      chips.add(_filterChip(c.label, () {
+        setState(() => _categories.remove(c));
+      }));
+    }
+    for (final w in _workTypes) {
+      chips.add(_filterChip(w.label, () {
+        setState(() => _workTypes.remove(w));
+      }));
+    }
+    if (_sameDayOnly) {
+      chips.add(_filterChip('당일지급', () {
+        setState(() => _sameDayOnly = false);
+      }));
+    }
+
+    if (chips.isEmpty) return const SizedBox.shrink();
+
+    chips.add(GestureDetector(
+      onTap: () {
+        setState(() {
+          _categories.clear();
+          _workTypes.clear();
+          _sameDayOnly = false;
+          _dateFilter = _DateFilter.any;
+        });
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Text(
+          '전체 해제',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w800,
+            color: AppColors.danger.withOpacity(0.8),
+          ),
+        ),
+      ),
+    ));
+
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: chips
+              .map((c) =>
+                  Padding(padding: const EdgeInsets.only(right: 6), child: c))
+              .toList(),
+        ),
+      ),
+    );
+  }
+
+  Widget _filterChip(String label, VoidCallback onRemove) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: AppColors.brandSoft,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(label,
+              style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.brandDark)),
+          const SizedBox(width: 4),
+          GestureDetector(
+            onTap: onRemove,
+            child: const Icon(Icons.close,
+                size: 14, color: AppColors.brandDark),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _emptyKeywordView() {
+    return ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        // 추천 검색어 / 인기 키워드
+        Container(
+          color: Colors.white,
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: const [
+                  Icon(Icons.trending_up,
+                      size: 18, color: AppColors.brandDark),
+                  SizedBox(width: 4),
+                  Text('인기 검색어',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 14)),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 6,
+                runSpacing: 6,
+                children: _popular.asMap().entries.map((e) {
+                  return ActionChip(
+                    label: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('${e.key + 1}.',
+                            style: const TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w800,
+                                color: AppColors.brandDark)),
+                        const SizedBox(width: 4),
+                        Text(e.value,
+                            style: const TextStyle(fontSize: 12)),
+                      ],
+                    ),
+                    onPressed: () => _runSearch(e.value),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+        ),
+        const Divider(height: 1, color: AppColors.divider),
+
+        // 최근 검색어
+        if (_recentSearches.isNotEmpty)
+          Container(
+            color: Colors.white,
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.history,
+                        size: 18, color: AppColors.textMuted),
+                    const SizedBox(width: 4),
+                    const Text('최근 검색',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 14)),
+                    const Spacer(),
+                    TextButton(
+                      onPressed: () =>
+                          setState(() => _recentSearches.clear()),
+                      child: const Text('모두 지우기',
+                          style: TextStyle(
+                              fontSize: 12, color: AppColors.textMuted)),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                Wrap(
+                  spacing: 6,
+                  runSpacing: 6,
+                  children: _recentSearches
+                      .map((kw) => InputChip(
+                            label: Text(kw,
+                                style: const TextStyle(fontSize: 12)),
+                            onPressed: () => _runSearch(kw),
+                            onDeleted: () =>
+                                setState(() => _recentSearches.remove(kw)),
+                          ))
+                      .toList(),
+                ),
+              ],
+            ),
+          ),
+
+        // 최근 본 공고
+        if (_recentViewed.isNotEmpty) ...[
+          const Divider(height: 8, thickness: 8, color: AppColors.bg),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: Row(
+              children: const [
+                Icon(Icons.visibility_outlined,
+                    size: 18, color: AppColors.textMuted),
+                SizedBox(width: 4),
+                Text('최근 본 공고',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w800, fontSize: 14)),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 170,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: _recentViewed.length,
+              separatorBuilder: (_, __) => const SizedBox(width: 10),
+              itemBuilder: (_, i) {
+                final j = Dummy.jobById(_recentViewed[i]);
+                return SizedBox(
+                  width: 240,
+                  child: JobCard(
+                    job: j,
+                    onTap: () => context.push('/job/${j.id}'),
+                  ),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 24),
+        ],
+
+        // 카테고리 진입
+        const Divider(height: 8, thickness: 8, color: AppColors.bg),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          child: Row(
+            children: [
+              const Text('카테고리로 둘러보기',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w800, fontSize: 14)),
+              const Spacer(),
+              TextButton(
+                onPressed: () => context.push('/categories'),
+                child: const Text('전체 보기'),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 60,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            itemCount: JobCategory.values.length,
+            separatorBuilder: (_, __) => const SizedBox(width: 8),
+            itemBuilder: (_, i) {
+              final c = JobCategory.values[i];
+              return ActionChip(
+                label: Text(c.label),
+                onPressed: () => context.push('/categories/${c.name}'),
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 24),
+      ],
+    );
+  }
+
+  Widget _suggestionView() {
+    final filtered = _suggestions
+        .where((s) => s.contains(_keyword))
+        .take(5)
+        .toList();
+    if (filtered.isEmpty) return const SizedBox.shrink();
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: filtered
+            .map((s) => InkWell(
+                  onTap: () => _runSearch(s),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.search,
+                            size: 16, color: AppColors.textFaint),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: RichText(
+                            text: TextSpan(
+                              style: const TextStyle(
+                                  fontSize: 14, color: AppColors.text),
+                              children: _highlight(s, _keyword),
+                            ),
+                          ),
+                        ),
+                        const Icon(Icons.north_west,
+                            size: 14, color: AppColors.textFaint),
+                      ],
+                    ),
+                  ),
+                ))
+            .toList(),
+      ),
+    );
+  }
+
+  List<TextSpan> _highlight(String text, String kw) {
+    if (kw.isEmpty) return [TextSpan(text: text)];
+    final idx = text.indexOf(kw);
+    if (idx < 0) return [TextSpan(text: text)];
+    return [
+      TextSpan(text: text.substring(0, idx)),
+      TextSpan(
+          text: text.substring(idx, idx + kw.length),
+          style: const TextStyle(
+              color: AppColors.brandDark, fontWeight: FontWeight.w800)),
+      TextSpan(text: text.substring(idx + kw.length)),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     final results = _results;
-    final filterCount = _categories.length +
-        _workTypes.length +
-        (_sameDayOnly ? 1 : 0);
+    final showEmpty = _keyword.isEmpty;
+
     return Scaffold(
       appBar: AppBar(
         title: TextField(
@@ -221,6 +651,7 @@ class _SearchScreenState extends State<SearchScreen> {
             fillColor: Colors.transparent,
           ),
           onChanged: (v) => setState(() => _keyword = v),
+          onSubmitted: _runSearch,
         ),
         actions: [
           IconButton(
@@ -238,49 +669,97 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
         ],
       ),
-      body: Column(
-        children: [
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Row(
+      body: showEmpty
+          ? _emptyKeywordView()
+          : Column(
               children: [
-                _FilterButton(
-                  label: filterCount > 0 ? '필터 $filterCount' : '필터',
-                  active: filterCount > 0,
-                  onTap: _openFilter,
-                  leading: Icons.tune,
+                // 자동완성 (검색 중)
+                if (_keyword.isNotEmpty &&
+                    !_recentSearches.contains(_keyword) &&
+                    results.isEmpty)
+                  _suggestionView(),
+
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12, vertical: 8),
+                  child: Row(
+                    children: [
+                      _FilterButton(
+                        label: _filterCount > 0
+                            ? '필터 $_filterCount'
+                            : '필터',
+                        active: _filterCount > 0,
+                        onTap: _openFilter,
+                        leading: Icons.tune,
+                      ),
+                      const SizedBox(width: 6),
+                      _SortDropdown(
+                        value: _sort,
+                        onChanged: (v) => setState(() => _sort = v),
+                      ),
+                      const Spacer(),
+                      Text('${results.length}건',
+                          style: const TextStyle(
+                              fontSize: 12, color: AppColors.textMuted)),
+                    ],
+                  ),
                 ),
-                const SizedBox(width: 6),
-                _SortDropdown(
-                  value: _sort,
-                  onChanged: (v) => setState(() => _sort = v),
+                _activeFiltersBar(),
+                const Divider(height: 1, color: AppColors.divider),
+                Expanded(
+                  child: results.isEmpty
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(32),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(Icons.search_off,
+                                    size: 56, color: AppColors.textFaint),
+                                const SizedBox(height: 12),
+                                const Text('조건에 맞는 공고가 없어요',
+                                    style: TextStyle(
+                                        color: AppColors.textMuted)),
+                                const SizedBox(height: 16),
+                                FilledButton.icon(
+                                  onPressed: () =>
+                                      context.push('/me/saved-searches/new'),
+                                  icon: const Icon(
+                                      Icons.notifications_active_outlined,
+                                      size: 18),
+                                  label: const Text('알림으로 저장'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : ListView.separated(
+                          padding: const EdgeInsets.all(16),
+                          itemCount: results.length,
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(height: 10),
+                          itemBuilder: (_, i) {
+                            final j = results[i];
+                            return JobCard(
+                              job: j,
+                              onTap: () {
+                                if (!_recentViewed.contains(j.id)) {
+                                  setState(() {
+                                    _recentViewed.insert(0, j.id);
+                                    if (_recentViewed.length > 8) {
+                                      _recentViewed.removeLast();
+                                    }
+                                  });
+                                }
+                                context.push('/job/${j.id}');
+                              },
+                            );
+                          },
+                        ),
                 ),
               ],
             ),
-          ),
-          const Divider(height: 1, color: AppColors.divider),
-          Expanded(
-            child: results.isEmpty
-                ? const EmptyState(
-                    icon: Icons.search_off,
-                    message: '조건에 맞는 공고가 없어요',
-                  )
-                : ListView.separated(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: results.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 10),
-                    itemBuilder: (_, i) {
-                      final j = results[i];
-                      return JobCard(
-                        job: j,
-                        onTap: () => context.push('/job/${j.id}'),
-                      );
-                    },
-                  ),
-          ),
-        ],
-      ),
     );
   }
 }

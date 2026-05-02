@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../data/dummy_data.dart';
 import '../../theme/app_theme.dart';
@@ -7,6 +8,126 @@ import '../../widgets/shared.dart';
 class PaymentDetailScreen extends StatelessWidget {
   final int paymentId;
   const PaymentDetailScreen({super.key, required this.paymentId});
+
+  void _snack(BuildContext context, String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
+
+  void _openShareSheet(BuildContext context, dynamic p) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (sheetCtx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(20, 16, 20, 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text('명세서 공유',
+                    style: TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w800)),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.picture_as_pdf_outlined,
+                  color: AppColors.danger),
+              title: const Text('PDF 다운로드'),
+              subtitle: const Text('연말정산 신고용',
+                  style: TextStyle(fontSize: 11)),
+              onTap: () {
+                Navigator.pop(sheetCtx);
+                _snack(context, 'PDF 다운로드 시작 (목업)');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.email_outlined,
+                  color: AppColors.brandDark),
+              title: const Text('이메일로 받기'),
+              onTap: () {
+                Navigator.pop(sheetCtx);
+                _snack(context, 'PDF가 이메일로 발송되었어요 (목업)');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.chat_bubble,
+                  color: Color(0xFFFEE500)),
+              title: const Text('카카오톡으로 보내기'),
+              onTap: () {
+                Navigator.pop(sheetCtx);
+                _snack(context, '카카오톡 공유 (목업)');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.print_outlined),
+              title: const Text('인쇄'),
+              onTap: () {
+                Navigator.pop(sheetCtx);
+                _snack(context, '인쇄 다이얼로그 (목업)');
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _openMore(BuildContext context, dynamic p) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (sheetCtx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.gavel_outlined,
+                  color: AppColors.warning),
+              title: const Text('이의 제기'),
+              subtitle: const Text(
+                  '정산 금액·근무 시간·세금이 잘못되었나요?',
+                  style: TextStyle(fontSize: 11)),
+              onTap: () {
+                Navigator.pop(sheetCtx);
+                context.push('/support/dispute/new');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.history),
+              title: const Text('변경 이력 보기'),
+              onTap: () {
+                Navigator.pop(sheetCtx);
+                _snack(context, '변경 이력 (목업)');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.account_balance_outlined),
+              title: const Text('정산 계좌 변경'),
+              onTap: () {
+                Navigator.pop(sheetCtx);
+                context.push('/me/bank-account');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.headset_mic_outlined),
+              title: const Text('정산 관련 문의'),
+              onTap: () {
+                Navigator.pop(sheetCtx);
+                context.push('/support/inquiry/new');
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +141,11 @@ class PaymentDetailScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.share_outlined),
-            onPressed: () {},
+            onPressed: () => _openShareSheet(context, p),
+          ),
+          IconButton(
+            icon: const Icon(Icons.more_vert),
+            onPressed: () => _openMore(context, p),
           ),
         ],
       ),
@@ -115,6 +240,14 @@ class PaymentDetailScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
+          // 정산 타임라인
+          _SectionCard(
+            title: '정산 진행 상황',
+            children: [
+              _Timeline(p: p),
+            ],
+          ),
+          const SizedBox(height: 12),
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -136,8 +269,106 @@ class PaymentDetailScreen extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(height: 16),
+          // 빠른 액션
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () => _snack(context, 'PDF 다운로드 시작 (목업)'),
+                  icon: const Icon(Icons.picture_as_pdf_outlined, size: 18),
+                  label: const Text('PDF 받기'),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () => context.push('/support/dispute/new'),
+                  icon: const Icon(Icons.gavel_outlined, size: 18),
+                  label: const Text('이의 제기'),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
+    );
+  }
+}
+
+class _Timeline extends StatelessWidget {
+  final dynamic p;
+  const _Timeline({required this.p});
+
+  @override
+  Widget build(BuildContext context) {
+    final stages = [
+      ('근무 완료', p.workedAt as DateTime, true),
+      ('정산 처리', p.workedAt.add(const Duration(hours: 2)) as DateTime,
+          (p.paid ?? false) as bool),
+      ('입금 완료', p.paidAt ?? p.workedAt as DateTime,
+          (p.paid ?? false) as bool),
+    ];
+    return Column(
+      children: List.generate(stages.length, (i) {
+        final s = stages[i];
+        final done = s.$3;
+        return IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                children: [
+                  Container(
+                    width: 18,
+                    height: 18,
+                    decoration: BoxDecoration(
+                      color: done ? AppColors.brandDark : AppColors.chipBg,
+                      shape: BoxShape.circle,
+                    ),
+                    child: done
+                        ? const Icon(Icons.check,
+                            size: 12, color: Colors.white)
+                        : null,
+                  ),
+                  if (i < stages.length - 1)
+                    Expanded(
+                      child: Container(
+                        width: 2,
+                        color: done
+                            ? AppColors.brandDark
+                            : AppColors.divider,
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(s.$1,
+                          style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w800,
+                              color: done
+                                  ? AppColors.text
+                                  : AppColors.textFaint)),
+                      Text(
+                        '${fmtDate(s.$2)} ${fmtTime(s.$2)}',
+                        style: const TextStyle(
+                            fontSize: 11, color: AppColors.textMuted),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }
