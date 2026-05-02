@@ -115,9 +115,19 @@ class MyPageScreen extends StatelessWidget {
             onTap: () => context.push('/me/blocklist'),
           ),
           _Tile(icon: Icons.logout, label: '로그아웃', onTap: () => context.go('/auth/phone')),
+          _Tile(
+            icon: Icons.person_off_outlined,
+            label: '회원 탈퇴',
+            onTap: () => context.push('/me/withdraw'),
+          ),
           const Divider(thickness: 8, color: AppColors.bg),
           const SectionHeader(title: '활동'),
           if (appType == 'worker') ...[
+            _Tile(
+              icon: Icons.mark_email_unread_outlined,
+              label: '스카우트 제안',
+              onTap: () => context.push('/worker/scouts'),
+            ),
             _Tile(
               icon: Icons.description_outlined,
               label: '이력서',
@@ -148,6 +158,11 @@ class MyPageScreen extends StatelessWidget {
               label: '정산 내역',
               onTap: () => context.push('/me/payments'),
             ),
+            _Tile(
+              icon: Icons.account_balance_outlined,
+              label: '정산 계좌 관리',
+              onTap: () => context.push('/me/bank-account'),
+            ),
           ] else ...[
             _Tile(icon: Icons.list_alt, label: '내 공고 관리', onTap: () {}),
             _Tile(
@@ -174,6 +189,11 @@ class MyPageScreen extends StatelessWidget {
               icon: Icons.shield_outlined,
               label: '에스크로 잔액',
               onTap: () => context.push('/giver/escrow'),
+            ),
+            _Tile(
+              icon: Icons.savings_outlined,
+              label: '에스크로 충전',
+              onTap: () => context.push('/giver/escrow/topup'),
             ),
             _Tile(
               icon: Icons.credit_card,
@@ -209,6 +229,11 @@ class MyPageScreen extends StatelessWidget {
             icon: Icons.headset_mic_outlined,
             label: '고객센터 / 1:1 문의',
             onTap: () => context.push('/support'),
+          ),
+          _Tile(
+            icon: Icons.gavel_outlined,
+            label: '분쟁 조정',
+            onTap: () => context.push('/support/dispute'),
           ),
           _Tile(
             icon: Icons.help_outline,

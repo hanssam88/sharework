@@ -1147,6 +1147,82 @@ class Dummy {
     '재고용의향',
   ];
 
+  static final List<BankAccount> bankAccounts = [
+    BankAccount(
+      id: 1,
+      bank: '카카오뱅크',
+      holder: '김알바',
+      maskedNumber: '3333-**-1234567',
+      status: BankAccountStatus.verified,
+      isDefault: true,
+    ),
+    BankAccount(
+      id: 2,
+      bank: '신한은행',
+      holder: '김알바',
+      maskedNumber: '110-***-456789',
+      status: BankAccountStatus.pending,
+    ),
+  ];
+
+  static final List<Dispute> disputes = [
+    Dispute(
+      id: 1,
+      jobId: 1004,
+      jobTitle: '평일 오전 카페 오픈 알바',
+      otherPartyName: '카페 모카',
+      reason: DisputeReason.payAmount,
+      description:
+          '근무 시간은 6시간으로 합의했는데 정산서에는 5.5시간으로 처리되어 차액 6,000원 정산을 요청합니다.',
+      stage: DisputeStage.mediation,
+      createdAt: DateTime.now().subtract(const Duration(days: 3)),
+      timeline: [
+        DisputeEvent(
+          stage: DisputeStage.received,
+          description: '분쟁 조정 신청이 접수되었습니다.',
+          at: DateTime.now().subtract(const Duration(days: 3)),
+        ),
+        DisputeEvent(
+          stage: DisputeStage.reviewing,
+          description: '담당자가 양측 자료를 검토 중입니다.',
+          at: DateTime.now().subtract(const Duration(days: 2)),
+        ),
+        DisputeEvent(
+          stage: DisputeStage.mediation,
+          description: '조정안이 제시되었습니다. 24시간 이내 동의 여부를 선택해 주세요.',
+          at: DateTime.now().subtract(const Duration(hours: 6)),
+        ),
+      ],
+    ),
+    Dispute(
+      id: 2,
+      jobId: 1002,
+      jobTitle: '잠실 행사 스태프 모집',
+      otherPartyName: '한솔이벤트',
+      reason: DisputeReason.workCondition,
+      description: '식사 제공 공고였으나 현장에서 식사가 제공되지 않았습니다.',
+      stage: DisputeStage.resolved,
+      createdAt: DateTime.now().subtract(const Duration(days: 18)),
+      timeline: [
+        DisputeEvent(
+          stage: DisputeStage.received,
+          description: '분쟁 조정 신청이 접수되었습니다.',
+          at: DateTime.now().subtract(const Duration(days: 18)),
+        ),
+        DisputeEvent(
+          stage: DisputeStage.reviewing,
+          description: '담당자 검토 완료.',
+          at: DateTime.now().subtract(const Duration(days: 16)),
+        ),
+        DisputeEvent(
+          stage: DisputeStage.resolved,
+          description: '구인자가 식대 1만원을 추가 정산하여 종결되었습니다.',
+          at: DateTime.now().subtract(const Duration(days: 14)),
+        ),
+      ],
+    ),
+  ];
+
   static Job jobById(int id) =>
       jobs.firstWhere((j) => j.id == id, orElse: () => jobs.first);
 

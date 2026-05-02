@@ -379,9 +379,24 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
-          child: FilledButton(
-            onPressed: () => context.pop(),
-            child: const Text('공고 등록'),
+          child: Row(
+            children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () => context.push('/giver/job/preview'),
+                  icon: const Icon(Icons.visibility_outlined, size: 18),
+                  label: const Text('미리보기'),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                flex: 2,
+                child: FilledButton(
+                  onPressed: () => context.pop(),
+                  child: const Text('공고 등록'),
+                ),
+              ),
+            ],
           ),
         ),
       ),
