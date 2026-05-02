@@ -840,6 +840,86 @@ class BlockedUser {
   });
 }
 
+class SavedSearch {
+  final int id;
+  final String label;
+  final String? keyword;
+  final List<JobCategory> categories;
+  final int? minHourly;
+  final double? radiusKm;
+  final bool sameDayOnly;
+  final bool nightOk;
+  final bool pushEnabled;
+  final DateTime createdAt;
+
+  const SavedSearch({
+    required this.id,
+    required this.label,
+    this.keyword,
+    this.categories = const [],
+    this.minHourly,
+    this.radiusKm,
+    this.sameDayOnly = false,
+    this.nightOk = false,
+    this.pushEnabled = true,
+    required this.createdAt,
+  });
+
+  SavedSearch copyWith({bool? pushEnabled}) => SavedSearch(
+        id: id,
+        label: label,
+        keyword: keyword,
+        categories: categories,
+        minHourly: minHourly,
+        radiusKm: radiusKm,
+        sameDayOnly: sameDayOnly,
+        nightOk: nightOk,
+        pushEnabled: pushEnabled ?? this.pushEnabled,
+        createdAt: createdAt,
+      );
+}
+
+class EmergencyContact {
+  final int id;
+  final String name;
+  final String relation;
+  final String phone;
+
+  const EmergencyContact({
+    required this.id,
+    required this.name,
+    required this.relation,
+    required this.phone,
+  });
+}
+
+class SecurityPrefs {
+  final bool pinEnabled;
+  final bool biometricEnabled;
+  final Duration autoLock;
+  final bool requireAuthOnPay;
+
+  const SecurityPrefs({
+    this.pinEnabled = false,
+    this.biometricEnabled = false,
+    this.autoLock = const Duration(minutes: 5),
+    this.requireAuthOnPay = true,
+  });
+
+  SecurityPrefs copyWith({
+    bool? pinEnabled,
+    bool? biometricEnabled,
+    Duration? autoLock,
+    bool? requireAuthOnPay,
+  }) =>
+      SecurityPrefs(
+        pinEnabled: pinEnabled ?? this.pinEnabled,
+        biometricEnabled: biometricEnabled ?? this.biometricEnabled,
+        autoLock: autoLock ?? this.autoLock,
+        requireAuthOnPay: requireAuthOnPay ?? this.requireAuthOnPay,
+      );
+}
+
 enum BankAccountStatus { unverified, pending, verified }
 
 class BankAccount {
