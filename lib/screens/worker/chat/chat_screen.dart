@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../data/dummy_data.dart';
+import '../../../data/permission_state.dart';
 import '../../../models/models.dart';
+import '../../../screens/permissions/priming_sheets.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/shared.dart';
 
@@ -391,8 +393,12 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
                 leading: const Icon(Icons.my_location,
                     color: AppColors.brandDark),
                 title: const Text('현재 위치 공유'),
-                onTap: () {
+                onTap: () async {
                   Navigator.pop(sheetCtx);
+                  final ok = await ensurePermission(
+                      context, PermissionKind.location,
+                      customWhy: '현재 위치를 채팅 상대에게 공유할게요');
+                  if (!context.mounted || !ok) return;
                   _addMessage(
                       kind: ChatMessageKind.location,
                       body: '서울 강남구 테헤란로 123',

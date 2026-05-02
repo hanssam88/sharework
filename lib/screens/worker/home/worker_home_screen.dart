@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../data/dummy_data.dart';
+import '../../../data/permission_state.dart';
 import '../../../models/models.dart';
+import '../../../screens/permissions/priming_sheets.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/shared.dart';
 
@@ -73,7 +75,22 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
                 const SizedBox(height: 10),
                 _Fab(
                   icon: Icons.my_location,
-                  onTap: () {},
+                  onTap: () async {
+                    final ok = await ensurePermission(
+                        context, PermissionKind.location);
+                    if (!context.mounted) return;
+                    if (ok) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('현재 위치로 이동 (목업)')),
+                      );
+                    } else if (PermissionStore.I.manualAddress != null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            content: Text(
+                                '${PermissionStore.I.manualAddress} 기준 (목업)')),
+                      );
+                    }
+                  },
                 ),
               ],
             ),
@@ -175,7 +192,17 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
                   )),
               const SizedBox(height: 8),
               OutlinedButton.icon(
-                onPressed: () {},
+                onPressed: () async {
+                  final ok = await ensurePermission(
+                      context, PermissionKind.location);
+                  if (!context.mounted) return;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text(ok
+                            ? '현재 위치가 즐겨찾기에 추가됐어요'
+                            : '권한이 필요해요')),
+                  );
+                },
                 icon: const Icon(Icons.add),
                 label: const Text('현재 위치 추가'),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../data/dummy_data.dart';
 import '../../models/models.dart';
@@ -682,10 +683,24 @@ class _NotificationSettingsScreenState
           const SizedBox(height: 24),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: OutlinedButton.icon(
-              onPressed: _showPermSheet,
-              icon: const Icon(Icons.settings_outlined),
-              label: const Text('시스템 알림 권한 관리'),
+            child: Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: _showPermSheet,
+                    icon: const Icon(Icons.settings_outlined),
+                    label: const Text('시스템 권한'),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: () => context.push('/me/permissions'),
+                    icon: const Icon(Icons.admin_panel_settings_outlined),
+                    label: const Text('권한 관리'),
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 24),
