@@ -23,7 +23,7 @@ flutter run
 
 > Flutter 3.19+ / Dart 3.3+ 필요. 안드로이드 에뮬레이터 또는 iOS 시뮬레이터에서 실행하세요.
 
-> 📦 양 스토어(Google Play / App Store) 배포 절차는 [`DEPLOYMENT.md`](./DEPLOYMENT.md) 참고.
+> 📦 배포 절차는 [`INTERNAL_TEST.md`](./INTERNAL_TEST.md) (내부 테스트 트랙·TestFlight) 와 [`DEPLOYMENT.md`](./DEPLOYMENT.md) (정식 출시 개요) 참고.
 
 ## 화면 구성 (목표 사이트맵)
 

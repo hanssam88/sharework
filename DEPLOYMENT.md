@@ -1,5 +1,9 @@
 # Sharework — iOS / Android 배포 가이드
 
+> 🚀 팀 내부 테스터에게 우선 배포(Play 내부 테스트·TestFlight)하려면 → [`INTERNAL_TEST.md`](./INTERNAL_TEST.md) 의 단계별 런북을 따르세요.
+>
+> 본 문서는 **정식 스토어 출시까지 포함하는 큰 그림**을 다룹니다.
+
 Flutter는 **단일 코드베이스로 iOS와 Android 양쪽 스토어에 동시 배포**할 수 있습니다. `lib/` 의 Dart 코드를 그대로 두고, 플랫폼별 빌드 산출물(AAB·IPA)만 따로 생성해 각 스토어에 올리면 끝입니다.
 
 ```

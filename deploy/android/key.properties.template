@@ -1,0 +1,10 @@
+# android/key.properties (이 파일을 android/ 폴더로 복사한 뒤 값을 채우세요)
+#
+# 이 파일은 Git에 커밋되지 않습니다 (.gitignore 에 등록됨).
+# 키스토어와 비밀번호는 분실 시 동일 앱 업데이트가 영구 불가능합니다.
+# 1Password / iCloud Keychain 등 안전한 곳에 백업하세요.
+
+storePassword=YOUR_STORE_PASSWORD
+keyPassword=YOUR_KEY_PASSWORD
+keyAlias=upload
+storeFile=/absolute/path/to/sharework-upload.jks
