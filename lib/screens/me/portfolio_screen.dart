@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../data/dummy_data.dart';
+import '../../data/permission_state.dart';
 import '../../models/models.dart';
+import '../../screens/permissions/priming_sheets.dart';
 import '../../theme/app_theme.dart';
 
 enum _ViewMode { grid, list }
@@ -101,16 +103,24 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  _typeTile(Icons.image_outlined, '이미지', () {
+                  _typeTile(Icons.image_outlined, '이미지', () async {
                     Navigator.pop(sheetCtx);
+                    final ok = await ensurePermission(
+                        context, PermissionKind.gallery,
+                        customWhy: '갤러리에서 이미지를 선택해 등록할게요');
+                    if (!context.mounted || !ok) return;
                     _editItem(kind: PortfolioKind.image);
                   }),
                   _typeTile(Icons.link, '링크', () {
                     Navigator.pop(sheetCtx);
                     _editItem(kind: PortfolioKind.link);
                   }),
-                  _typeTile(Icons.videocam_outlined, '동영상', () {
+                  _typeTile(Icons.videocam_outlined, '동영상', () async {
                     Navigator.pop(sheetCtx);
+                    final ok = await ensurePermission(
+                        context, PermissionKind.camera,
+                        customWhy: '동영상을 촬영하거나 녹화하려면 카메라가 필요해요');
+                    if (!context.mounted || !ok) return;
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('동영상 업로드 (목업)')),
                     );

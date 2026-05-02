@@ -63,6 +63,9 @@ import '../screens/notice/notice_detail_screen.dart';
 import '../screens/notice/notice_list_screen.dart';
 import '../screens/onboarding/onboarding_screen.dart';
 import '../screens/onboarding/permissions_screen.dart';
+import '../screens/permissions/location_priming_screen.dart';
+import '../screens/permissions/notification_priming_screen.dart';
+import '../screens/permissions/permission_center_screen.dart';
 import '../screens/splash/splash_screen.dart';
 import '../screens/support/dispute_detail_screen.dart';
 import '../screens/support/dispute_list_screen.dart';
@@ -88,6 +91,18 @@ class AppRouter {
       GoRoute(
         path: '/onboarding/permissions',
         builder: (_, __) => const PermissionsScreen(),
+      ),
+      GoRoute(
+        path: '/onboarding/permissions/location',
+        builder: (_, __) => const LocationPrimingScreen(),
+      ),
+      GoRoute(
+        path: '/onboarding/permissions/notification',
+        builder: (_, __) => const NotificationPrimingScreen(),
+      ),
+      GoRoute(
+        path: '/me/permissions',
+        builder: (_, __) => const PermissionCenterScreen(),
       ),
       GoRoute(
         path: '/auth/phone',

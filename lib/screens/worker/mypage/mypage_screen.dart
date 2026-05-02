@@ -110,6 +110,11 @@ class MyPageScreen extends StatelessWidget {
             onTap: () => context.push('/me/notification-settings'),
           ),
           _Tile(
+            icon: Icons.admin_panel_settings_outlined,
+            label: '앱 권한 관리',
+            onTap: () => context.push('/me/permissions'),
+          ),
+          _Tile(
             icon: Icons.lock_outline,
             label: '계정 보안',
             onTap: () => context.push('/me/security'),

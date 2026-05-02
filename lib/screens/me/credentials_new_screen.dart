@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../data/permission_state.dart';
 import '../../models/models.dart';
+import '../../screens/permissions/priming_sheets.dart';
 import '../../theme/app_theme.dart';
 
 enum _SubmitPhase { editing, submitting, queued, autoCheck, manualCheck, done }
@@ -738,9 +740,15 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap: () {
-                      setState(() => _photoAttached = !_photoAttached);
-                      _markDirty();
+                    onTap: () async {
+                      final ok = await ensurePermission(
+                          context, PermissionKind.gallery,
+                          customWhy: '서류 사진을 첨부하려면 사진 접근이 필요해요');
+                      if (!context.mounted) return;
+                      if (ok) {
+                        setState(() => _photoAttached = !_photoAttached);
+                        _markDirty();
+                      }
                     },
                     child: Container(
                       height: 160,
@@ -788,7 +796,13 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: GestureDetector(
-                    onTap: _showOcrSheet,
+                    onTap: () async {
+                      final ok = await ensurePermission(
+                          context, PermissionKind.camera,
+                          customWhy: '서류를 카메라로 촬영해 자동 인식할게요');
+                      if (!context.mounted || !ok) return;
+                      _showOcrSheet();
+                    },
                     child: Container(
                       height: 160,
                       decoration: BoxDecoration(
