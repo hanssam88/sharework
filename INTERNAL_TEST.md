@@ -110,6 +110,8 @@ flutter build appbundle --release
 
 ## Step 2 — iOS TestFlight 배포 (macOS 필수)
 
+> 💡 Apple Developer 계정($99/년) 없이 우선 본인 iPhone 에서만 실행해보고 싶다면 [`IOS_QUICKSTART.md`](./IOS_QUICKSTART.md) 의 무료 Apple ID 사이드로드 가이드를 참고하세요.
+
 ### 2-A. CocoaPods 설치 (1회)
 
 ```bash

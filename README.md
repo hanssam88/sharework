@@ -23,7 +23,10 @@ flutter run
 
 > Flutter 3.19+ / Dart 3.3+ 필요. 안드로이드 에뮬레이터 또는 iOS 시뮬레이터에서 실행하세요.
 
-> 📦 배포 절차는 [`INTERNAL_TEST.md`](./INTERNAL_TEST.md) (내부 테스트 트랙·TestFlight) 와 [`DEPLOYMENT.md`](./DEPLOYMENT.md) (정식 출시 개요) 참고.
+> 📦 배포·실행 가이드:
+> - [`IOS_QUICKSTART.md`](./IOS_QUICKSTART.md) — 무료 Apple ID + 실 iPhone 사이드로드 (계정 없이 바로 실행)
+> - [`INTERNAL_TEST.md`](./INTERNAL_TEST.md) — Play 내부 테스트 / TestFlight
+> - [`DEPLOYMENT.md`](./DEPLOYMENT.md) — 정식 출시 개요
 
 ## 화면 구성 (목표 사이트맵)
 
