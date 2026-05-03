@@ -210,6 +210,18 @@ lib/
 - **지도**: 실제 SDK 연동 전이므로 그라디언트 + 마커 자리표시자로 대체
 - **상태**: 모든 화면이 `StatefulWidget` 로컬 상태만 사용 (목업 단계라 글로벌 상태 매니저 미도입)
 
+## 정식 배포 (iOS + Android 동시)
+
+GitHub Actions + Fastlane 으로 태그 1번에 양 스토어 동시 업로드.
+
+```bash
+git tag v0.1.0 && git push origin v0.1.0
+# → Android: Play Console internal 트랙 (draft)
+# → iOS: TestFlight
+```
+
+수동 트리거 시 트랙 선택 가능 (`internal`/`beta`/`production`, `beta`/`release`). 시크릿 14개와 초기 셋업(앱 등록·인증서·서비스 계정)은 [`deploy/README.md`](deploy/README.md) 참고.
+
 ## 다음 단계 제안
 
 | 단계 | 내용 |

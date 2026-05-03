@@ -1,0 +1,43 @@
+default_platform(:android)
+
+platform :android do
+  desc "Upload AAB to Play Console — internal track (default)"
+  lane :deploy_internal do
+    upload_to_play_store(
+      track: "internal",
+      aab: ENV["AAB_PATH"] || "../build/app/outputs/bundle/release/app-release.aab",
+      release_status: "draft",
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+    )
+  end
+
+  desc "Upload AAB to Play Console — production track (manual rollout)"
+  lane :deploy_production do
+    upload_to_play_store(
+      track: "production",
+      aab: ENV["AAB_PATH"] || "../build/app/outputs/bundle/release/app-release.aab",
+      rollout: "0.1",
+      release_status: "draft",
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+    )
+  end
+
+  desc "Upload AAB to Play Console — beta (open testing) track"
+  lane :deploy_beta do
+    upload_to_play_store(
+      track: "beta",
+      aab: ENV["AAB_PATH"] || "../build/app/outputs/bundle/release/app-release.aab",
+      release_status: "draft",
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+    )
+  end
+end
