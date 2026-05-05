@@ -39,9 +39,6 @@ class _LegalScreenState extends State<LegalScreen> {
   late DateTime _agreedAt;
   bool _watchUpdates = false;
 
-  // Section anchor offsets (rebuild on body change)
-  final Map<String, double> _anchors = {};
-
   @override
   void initState() {
     super.initState();
@@ -62,11 +59,9 @@ class _LegalScreenState extends State<LegalScreen> {
         _ => '문서',
       };
 
-  String get _body =>
-      Dummy.legalContents[widget.docType] ?? '문서를 불러올 수 없어요.';
+  String get _body => Dummy.legalContents[widget.docType] ?? '문서를 불러올 수 없어요.';
 
-  bool get _isLegal =>
-      widget.docType == 'terms' || widget.docType == 'privacy';
+  bool get _isLegal => widget.docType == 'terms' || widget.docType == 'privacy';
 
   /// 본문에서 큰 제목 행을 추출 — '제N조 (xxx)' 또는 숫자.공백 패턴 또는 이모지로 시작하는 줄.
   List<String> get _toc {
@@ -78,7 +73,10 @@ class _LegalScreenState extends State<LegalScreen> {
       final isClause = RegExp(r'^제\d+조').hasMatch(l);
       final isNumbered = RegExp(r'^\d+[\.)]\s').hasMatch(l);
       final isHeading = RegExp(r'^[\p{So}\p{Sk}🎯🏪🔒]').hasMatch(l) ||
-          (l.length < 28 && !l.endsWith('.') && !l.endsWith('요.') && l.contains(' '));
+          (l.length < 28 &&
+              !l.endsWith('.') &&
+              !l.endsWith('요.') &&
+              l.contains(' '));
       if (isClause || isNumbered || isHeading && _isLegal == false) {
         out.add(l);
       }
@@ -113,7 +111,8 @@ class _LegalScreenState extends State<LegalScreen> {
             children: [
               Center(
                 child: Container(
-                  width: 36, height: 4,
+                  width: 36,
+                  height: 4,
                   decoration: BoxDecoration(
                     color: AppColors.divider,
                     borderRadius: BorderRadius.circular(2),
@@ -126,8 +125,8 @@ class _LegalScreenState extends State<LegalScreen> {
                   const Icon(Icons.list_alt, color: AppColors.brandDark),
                   const SizedBox(width: 8),
                   const Text('목차',
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w800)),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                   const Spacer(),
                   Text('${toc.length}개',
                       style: const TextStyle(
@@ -147,8 +146,7 @@ class _LegalScreenState extends State<LegalScreen> {
                       dense: true,
                       title: Text(t,
                           style: const TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w700)),
+                              fontSize: 13, fontWeight: FontWeight.w700)),
                       trailing: const Icon(Icons.arrow_forward_ios, size: 12),
                       onTap: () {
                         Navigator.pop(sheetCtx);
@@ -193,8 +191,8 @@ class _LegalScreenState extends State<LegalScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('글자 크기',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 12),
                 Row(
                   children: _FontScale.values
@@ -209,8 +207,8 @@ class _LegalScreenState extends State<LegalScreen> {
                                 },
                                 borderRadius: BorderRadius.circular(10),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 12),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
                                   decoration: BoxDecoration(
                                     color: _scale == s
                                         ? AppColors.brandSoft
@@ -295,15 +293,15 @@ class _LegalScreenState extends State<LegalScreen> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  _shareTile(Icons.chat_bubble, '카카오톡',
-                      const Color(0xFFFEE500), AppColors.text, () {
+                  _shareTile(Icons.chat_bubble, '카카오톡', const Color(0xFFFEE500),
+                      AppColors.text, () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('카카오톡 공유 (목업)')),
                     );
                   }),
-                  _shareTile(Icons.link, '링크 복사',
-                      AppColors.brandSoft, AppColors.brandDark, () {
+                  _shareTile(Icons.link, '링크 복사', AppColors.brandSoft,
+                      AppColors.brandDark, () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -311,15 +309,16 @@ class _LegalScreenState extends State<LegalScreen> {
                               'https://share.work/legal/${widget.docType} 복사됨 (목업)')),
                     );
                   }),
-                  _shareTile(Icons.picture_as_pdf, 'PDF 저장',
-                      AppColors.chipBg, AppColors.text, () {
+                  _shareTile(Icons.picture_as_pdf, 'PDF 저장', AppColors.chipBg,
+                      AppColors.text, () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('${_title}_v3.2.pdf (목업)')),
                     );
                   }),
-                  _shareTile(Icons.ios_share, '다른 앱',
-                      AppColors.chipBg, AppColors.text, () {
+                  _shareTile(
+                      Icons.ios_share, '다른 앱', AppColors.chipBg, AppColors.text,
+                      () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('OS 공유 시트 (목업)')),
@@ -343,7 +342,8 @@ class _LegalScreenState extends State<LegalScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 52, height: 52,
+            width: 52,
+            height: 52,
             decoration: BoxDecoration(
               color: bg,
               borderRadius: BorderRadius.circular(14),
@@ -352,8 +352,8 @@ class _LegalScreenState extends State<LegalScreen> {
           ),
           const SizedBox(height: 6),
           Text(label,
-              style: const TextStyle(
-                  fontSize: 11, fontWeight: FontWeight.w600)),
+              style:
+                  const TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
         ],
       ),
     );
@@ -382,8 +382,7 @@ class _LegalScreenState extends State<LegalScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('변경 이력',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 12),
               for (final v in versions)
                 Padding(
@@ -415,12 +414,11 @@ class _LegalScreenState extends State<LegalScreen> {
                           children: [
                             Text(v[1],
                                 style: const TextStyle(
-                                    fontSize: 12,
-                                    color: AppColors.textMuted)),
+                                    fontSize: 12, color: AppColors.textMuted)),
                             const SizedBox(height: 2),
                             Text(v[2],
-                                style: const TextStyle(
-                                    fontSize: 13, height: 1.4)),
+                                style:
+                                    const TextStyle(fontSize: 13, height: 1.4)),
                           ],
                         ),
                       ),
@@ -454,8 +452,7 @@ class _LegalScreenState extends State<LegalScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('다른 문서로 이동',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 8),
               for (final d in docs)
                 ListTile(
@@ -473,8 +470,7 @@ class _LegalScreenState extends State<LegalScreen> {
                   trailing: widget.docType == d[0]
                       ? const Text('현재 문서',
                           style: TextStyle(
-                              fontSize: 11,
-                              color: AppColors.textFaint))
+                              fontSize: 11, color: AppColors.textFaint))
                       : const Icon(Icons.arrow_forward_ios, size: 12),
                   onTap: widget.docType == d[0]
                       ? null
@@ -503,7 +499,8 @@ class _LegalScreenState extends State<LegalScreen> {
           children: [
             const SizedBox(height: 8),
             Container(
-              width: 36, height: 4,
+              width: 36,
+              height: 4,
               decoration: BoxDecoration(
                 color: AppColors.divider,
                 borderRadius: BorderRadius.circular(2),
@@ -511,8 +508,7 @@ class _LegalScreenState extends State<LegalScreen> {
             ),
             const SizedBox(height: 12),
             ListTile(
-              leading: const Icon(Icons.list_alt,
-                  color: AppColors.brandDark),
+              leading: const Icon(Icons.list_alt, color: AppColors.brandDark),
               title: const Text('목차'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -520,17 +516,16 @@ class _LegalScreenState extends State<LegalScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.text_fields,
-                  color: AppColors.brandDark),
-              title: const Text('글자 크기 (${_scale.label})'),
+              leading:
+                  const Icon(Icons.text_fields, color: AppColors.brandDark),
+              title: Text('글자 크기 (${_scale.label})'),
               onTap: () {
                 Navigator.pop(sheetCtx);
                 _showFontSheet();
               },
             ),
             ListTile(
-              leading: const Icon(Icons.history,
-                  color: AppColors.brandDark),
+              leading: const Icon(Icons.history, color: AppColors.brandDark),
               title: const Text('변경 이력'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -550,15 +545,13 @@ class _LegalScreenState extends State<LegalScreen> {
                 setState(() => _watchUpdates = !_watchUpdates);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                      content: Text(_watchUpdates
-                          ? '변경 시 알림으로 안내드릴게요'
-                          : '알림이 해제되었어요')),
+                      content: Text(
+                          _watchUpdates ? '변경 시 알림으로 안내드릴게요' : '알림이 해제되었어요')),
                 );
               },
             ),
             ListTile(
-              leading: const Icon(Icons.swap_horiz,
-                  color: AppColors.brandDark),
+              leading: const Icon(Icons.swap_horiz, color: AppColors.brandDark),
               title: const Text('다른 문서로 이동'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -566,8 +559,8 @@ class _LegalScreenState extends State<LegalScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.print_outlined,
-                  color: AppColors.brandDark),
+              leading:
+                  const Icon(Icons.print_outlined, color: AppColors.brandDark),
               title: const Text('인쇄'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -721,8 +714,7 @@ class _LegalScreenState extends State<LegalScreen> {
                         const SizedBox(height: 2),
                         Text('마지막 검토일 ${_fmtAgreedAt()}',
                             style: const TextStyle(
-                                fontSize: 11,
-                                color: AppColors.textMuted)),
+                                fontSize: 11, color: AppColors.textMuted)),
                       ],
                     ),
                   ),
@@ -758,26 +750,19 @@ class _LegalScreenState extends State<LegalScreen> {
                     Row(
                       children: [
                         Icon(
-                          _agreed
-                              ? Icons.check_circle
-                              : Icons.cancel_outlined,
-                          color: _agreed
-                              ? AppColors.success
-                              : AppColors.textMuted,
+                          _agreed ? Icons.check_circle : Icons.cancel_outlined,
+                          color:
+                              _agreed ? AppColors.success : AppColors.textMuted,
                           size: 20,
                         ),
                         const SizedBox(width: 8),
                         Text(_agreed ? '동의 상태' : '동의 철회됨',
                             style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w800)),
+                                fontSize: 14, fontWeight: FontWeight.w800)),
                         const Spacer(),
-                        Text(_agreed
-                            ? '${_fmtAgreedAt()} 동의'
-                            : '동의 필요',
+                        Text(_agreed ? '${_fmtAgreedAt()} 동의' : '동의 필요',
                             style: const TextStyle(
-                                fontSize: 11,
-                                color: AppColors.textMuted)),
+                                fontSize: 11, color: AppColors.textMuted)),
                       ],
                     ),
                     const SizedBox(height: 10),
@@ -808,8 +793,7 @@ class _LegalScreenState extends State<LegalScreen> {
                             ),
                           );
                         },
-                        icon: const Icon(Icons.do_disturb_outlined,
-                            size: 16),
+                        icon: const Icon(Icons.do_disturb_outlined, size: 16),
                         label: const Text('동의 철회'),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: AppColors.danger,
@@ -837,9 +821,7 @@ class _LegalScreenState extends State<LegalScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: _searching || !_isLegal
-          ? null
-          : null,
+      bottomNavigationBar: _searching || !_isLegal ? null : null,
     );
   }
 }

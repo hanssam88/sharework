@@ -1,222 +1,69 @@
-# Sharework — Flutter Mockup
+# Sharework iOS UI Demo MVP
 
-Sharework 앱(긱워크 매칭 플랫폼)의 **UI-only 목업** 입니다. 비즈니스 로직·API·DB 없이 모든 화면을 더미 데이터로 구성한 정적 시안이며, 본 코딩에 들어가기 전 화면 구조 검토용입니다.
+Sharework는 주변 단기 일자리 매칭을 보여주는 Flutter 기반 iOS UI Demo MVP입니다. 현재 목표는 백엔드 없이 로컬 iOS 시뮬레이터에서 Worker와 Giver 양쪽 핵심 흐름을 안정적으로 시연하는 것입니다.
 
-## 빠른 시작
+## MVP Scope
 
-이 디렉터리에는 `lib/`, `pubspec.yaml`, `analysis_options.yaml` 만 들어 있습니다. Flutter 플랫폼 폴더(`android/`, `ios/`)는 다음 명령으로 생성하세요.
+- Worker: 온보딩, 권한 안내, 휴대폰 인증 목업, 일자리 탐색, 공고 상세, 지원내역, 채팅, 알림, 마이페이지
+- Giver: 공고 등록, 공고 미리보기, 지원자 관리, 공고 수정, 통계, 끌어올리기, 결제수단, 에스크로, 사업자 인증 목업
+- 공통: 검색, 카테고리, 프로필, 리뷰 작성, 신고, 고객센터, 공지, 약관, 권한 센터
+- 데이터: `lib/data/dummy_data.dart`의 더미 데이터를 사용하며 실제 API, DB, 결제, 지도 SDK, SMS 인증은 포함하지 않습니다.
+
+## Run
 
 ```bash
-# 1) 이 폴더로 이동
-cd mockup_flutter
-
-# 2) 플랫폼 폴더 스캐폴딩 (lib/ 는 보존됨)
-flutter create . \
-  --project-name sharework_mockup \
-  --org kr.sharework \
-  --platforms=android,ios
-
-# 3) 의존성 설치 & 실행
 flutter pub get
-flutter run
+flutter devices
+flutter run -d <ios-simulator-id>
 ```
 
-> Flutter 3.19+ / Dart 3.3+ 필요. 안드로이드 에뮬레이터 또는 iOS 시뮬레이터에서 실행하세요.
+`flutter devices`에 iOS Simulator가 보이지 않으면 Xcode에서 iOS Simulator를 설치하고 부팅한 뒤 다시 확인하세요.
 
-## 화면 구성 (목표 사이트맵)
+iOS 시뮬레이터 빌드만 확인하려면:
 
-`[Sx]` 표시는 어느 세션에서 추가되는 화면인지를 의미합니다 (S1 = 현재 세션, 완료). 자세한 우선순위 기반 일정은 아래 [세션 로드맵](#세션-로드맵-p0--p1) 참고.
-
-```
-/splash                                   앱 진입 (브랜드 스플래시)
-/auth/phone                               휴대폰 SMS 인증
-/auth/signup                              회원가입 (이름·주민번호·이메일·약관·역할)
-/auth/identity                            [S4] 신분증/본인인증
-
-/worker                                   구직자 메인 (Bottom Nav 5탭)
-  ├─ 홈        지도 + 일자리 BottomSheet + 즐겨찾기 / 검색바 → /search
-  ├─ 지원내역  지원중·채용·완료·취소 4탭 [S1: 취소 탭 + 취소 액션]
-  ├─ 채팅      대화방 목록 → 1:1 채팅
-  ├─ 알림
-  └─ 마이페이지
-
-/giver                                    구인자 메인 (Bottom Nav 5탭)
-  ├─ 홈        진행중·완료 2탭 (카드 더보기 → 지원자/수정/상세)
-  ├─ 채팅
-  ├─ 일감등록  중앙 탭 → /giver/job/create
-  ├─ 알림
-  └─ 마이페이지
-
-# 공고
-/giver/job/create                         공고 등록
-/giver/job/:id/edit                       [S1] 공고 수정·마감·삭제
-/giver/job/:id/applicants                 [S1] 지원자 관리 (대기·채용·거절 3탭)
-/giver/job/:id/stats                      [S7] 통계 대시보드
-/giver/job/:id/boost                      [S7] 끌어올리기/광고
-/giver/job/templates                      [S7] 공고 템플릿/복제
-/job/:id                                  공고 상세 (완료 시 리뷰 작성 CTA)
-/job/:id/review/write                     [S1] 리뷰 작성 (별점 + 태그 + 사진)
-/job/:id/checkin                          [S3] 출퇴근 (GPS·QR)
-/job/:id/contract / /job/:id/contract/sign [S3] 전자근로계약서 + 서명
-
-# 검색·매칭
-/search                                   [S1] 공고 검색·필터·정렬
-/recommended                              [S6] AI 추천 피드 (Worker)
-/giver/workers / /giver/workers/:id       [S6] 워커 검색·스카웃
-/giver/regulars                           [S6] 단골 워커 풀
-
-# 프로필 / 마이페이지
-/profile/:id                              사용자 프로필 (소개·리뷰)
-/me/edit                                  내 프로필 수정
-/me/identity                              [S4] 본인인증 상태
-/me/credentials, /me/credentials/new      [S4] 자격증·서류
-/me/resume, /me/portfolio                 [S5] 이력서·포트폴리오
-/me/availability, /me/preferences         [S5] 가용 시간/희망 조건
-/me/payments                              정산 내역
-/me/payments/:id                          [S3] 정산 명세서 상세
-/me/favorite-companies                    [S6] 즐겨찾는 업체
-/me/blocklist                             [S2] 차단 목록
-/me/notification-settings                 [S2] 푸시 설정
-/me/invite, /me/coupons, /me/level        [S8] 초대·쿠폰·등급
-
-# Giver 운영
-/giver/business-verification              [S4] 사업자 인증
-/giver/payment-methods                    [S3] 결제수단
-/giver/escrow                             [S3] 에스크로 잔액·예치
-
-# 신뢰·안전·지원
-/report/:targetType/:targetId             [S2] 신고
-/support, /support/faq                    [S2] 고객센터 / FAQ
-/support/inquiry, /support/inquiry/new    [S2] 1:1 문의
-/notice, /notice/:id                      [S2] 공지사항
-/terms, /privacy, /guide                  [S2] 약관/개인정보/이용가이드
-/events                                   [S8] 이벤트/미션
+```bash
+flutter build ios --simulator
 ```
 
-## 세션 로드맵 (P0 + P1)
+## Verification
 
-경쟁사(당근알바·알바몬·급구·쑨·뉴워커·Instawork·Qwick) 비교 결과 도출한 누락 기능을 우선순위 기반 8개 세션으로 분할. 각 세션 = 라우트 등록 + UI-only 기본 화면 + 진입점 연결.
-
-| 세션 | 우선순위 | 영역 | 주요 신규 화면 |
-|---|---|---|---|
-| **S1** ✅ | P0 | 운영 핵심 | `/search`, `/giver/job/:id/applicants`, `/giver/job/:id/edit`, `/job/:id/review/write`, 지원 취소 플로우 |
-| **S2** ✅ | P0 | 신뢰·안전·지원 | `/report/...`, `/me/blocklist`, `/support/*`, `/notice/*`, `/terms·/privacy·/guide`, `/me/notification-settings`, 채팅·프로필 신고/차단 메뉴 |
-| **S3** ✅ | P0 | 출퇴근·계약·정산 | `/job/:id/checkin` (GPS·QR), `/job/:id/contract(/sign)` (전자서명 캔버스), `/me/payments/:id` (수수료·세금 분해), `/giver/payment-methods`, `/giver/escrow` |
-| **S4** ✅ | P0 | 인증·신원 | `/auth/identity` (4 step 플로우), `/me/identity`, `/me/credentials(/new)` (5종 서류·만료일·상태), `/giver/business-verification` (국세청 조회 placeholder), 프로필 인증 배지 |
-| **S5** ✅ | P1 | 워커 프로필 강화 | `/me/resume`, `/me/portfolio`, `/me/availability` (요일×시간 그리드), `/me/preferences` (시급·반경 슬라이더), 프로필 4탭 (소개/이력서/포트폴리오/리뷰) |
-| **S6** ✅ | P1 | 매칭·스카웃 | `/recommended` (AI 피드 + 받은 스카웃), `/giver/workers(/:id)` (필터·스카웃), `/giver/regulars` (단골 워커), `/me/favorite-companies` |
-| **S7** ✅ | P1 | Giver 매출 도구 | `/giver/job/:id/stats` (KPI + 7일 막대차트 + 시급 비교), `/giver/job/:id/boost` (4종 상품), `/giver/job/templates` (사용 횟수 정렬), 공고 등록에 반복 요일·템플릿 불러오기 추가, 카드 메뉴에 통계/끌어올리기/복제 |
-| **S8** ✅ | P1 | 리워드·채팅 향상 | `/me/invite` (추천코드 복사·공유), `/me/coupons` (사용가능/만료 2탭), `/me/level` (등급 그라디언트 + 미션 진행), `/events`, 채팅 7종 메시지 카드(텍스트·이미지·위치·일감·계약서·결제·시스템) + 첨부 시트 + 안심번호 통화 |
-
-> **백로그 (P2)**: 다국어(외국인 노동자), 다크모드, 응급콜, 단체채용, 커뮤니티 피드, 자동번역 — 본 코딩 진입 후 검토.
-
-🎉 **P0 + P1 8개 세션 완료** — 약 50개 신규 화면, 20개+ 모델 확장, 더미 데이터 기반 풀 시연 가능. 본 코딩 진입 시 `data/` 레이어를 `repository` 로 교체하면 바로 API 연동 가능합니다.
-
-## 파일 구조
-
-```
-lib/
-├─ main.dart
-├─ theme/app_theme.dart       Material 3 + 브랜드 컬러(#64D8D1) + Noto Sans KR
-├─ router/app_router.dart     go_router 설정
-├─ models/models.dart         User / Job / Application / Review / Notification ...
-├─ data/dummy_data.dart       모든 더미 데이터 (한국어)
-├─ widgets/
-│  ├─ shared.dart             JobCard, ReviewCard, NotificationCard, TagChip ...
-│  ├─ resume_view.dart        [S5] 이력서 뷰 (프로필 탭/이력서 화면 공유)
-│  └─ portfolio_grid.dart     [S5] 포트폴리오 2열 그리드
-└─ screens/
-   ├─ splash/
-   ├─ auth/
-   │  ├─ phone_auth_screen.dart
-   │  ├─ signup_screen.dart
-   │  └─ identity_screen.dart                   [S4]
-   ├─ worker/
-   │  ├─ worker_main_screen.dart
-   │  ├─ home/worker_home_screen.dart
-   │  ├─ history/history_screen.dart
-   │  ├─ chat/chat_screen.dart
-   │  ├─ notification/notification_screen.dart
-   │  ├─ mypage/mypage_screen.dart
-   │  └─ recommended_screen.dart                [S6]
-   ├─ giver/
-   │  ├─ giver_main_screen.dart
-   │  ├─ home/giver_home_screen.dart
-   │  └─ job_create/job_create_screen.dart
-   ├─ giver/
-   │  ├─ applicants/applicants_screen.dart      [S1]
-   │  ├─ job_edit/job_edit_screen.dart          [S1]
-   │  ├─ payment_methods_screen.dart            [S3]
-   │  ├─ escrow_screen.dart                     [S3]
-   │  ├─ business_verification_screen.dart      [S4]
-   │  ├─ regulars_screen.dart                   [S6]
-   │  ├─ workers/                               [S6]
-   │  │  ├─ workers_search_screen.dart
-   │  │  └─ worker_detail_screen.dart
-   │  ├─ job_stats/job_stats_screen.dart        [S7]
-   │  ├─ job_boost/job_boost_screen.dart        [S7]
-   │  └─ job_templates/job_templates_screen.dart [S7]
-   ├─ job/                                      [S3]
-   │  ├─ checkin_screen.dart
-   │  ├─ contract_screen.dart
-   │  └─ contract_sign_screen.dart
-   └─ common/
-      ├─ job_info_screen.dart
-      ├─ profile_screen.dart
-      ├─ user_info_update_screen.dart
-      ├─ payment_history_screen.dart
-      ├─ search_screen.dart                     [S1]
-      ├─ review_write_screen.dart               [S1]
-      └─ report_screen.dart                     [S2]
-   ├─ me/
-   │  ├─ blocklist_screen.dart                  [S2]
-   │  ├─ notification_settings_screen.dart      [S2]
-   │  ├─ payment_detail_screen.dart             [S3]
-   │  ├─ identity_status_screen.dart            [S4]
-   │  ├─ credentials_list_screen.dart           [S4]
-   │  ├─ credentials_new_screen.dart            [S4]
-   │  ├─ resume_screen.dart                     [S5]
-   │  ├─ portfolio_screen.dart                  [S5]
-   │  ├─ availability_screen.dart               [S5]
-   │  ├─ preferences_screen.dart                [S5]
-   │  ├─ favorite_companies_screen.dart         [S6]
-   │  ├─ invite_screen.dart                     [S8]
-   │  ├─ coupons_screen.dart                    [S8]
-   │  └─ level_screen.dart                      [S8]
-   ├─ events/events_screen.dart                 [S8]
-   ├─ support/                                  [S2]
-   │  ├─ support_hub_screen.dart
-   │  ├─ faq_screen.dart
-   │  ├─ inquiry_list_screen.dart
-   │  └─ inquiry_new_screen.dart
-   ├─ notice/                                   [S2]
-   │  ├─ notice_list_screen.dart
-   │  └─ notice_detail_screen.dart
-   └─ legal/legal_screen.dart                   [S2]
+```bash
+flutter test
+flutter analyze --no-fatal-infos
+flutter build ios --simulator
+flutter build ios --release --no-codesign
 ```
 
-## 시연 흐름
+`flutter analyze`의 info 항목에는 `const` 권고와 Flutter 최신 API deprecation 안내가 남아 있을 수 있습니다. MVP 품질 게이트는 warning/error 없이 동작하는 것을 기준으로 합니다.
 
-1. 앱 실행 → 스플래시 → 휴대폰 인증 화면
-2. 인증요청 클릭 → 인증번호 입력 → 확인
-3. 회원가입 폼에서 역할(Worker/Giver) 선택 → 동의 후 시작
-4. 또는 인증화면 하단의 **"테스트: 가입 건너뛰기"** 로 역할 직선택 가능
-5. 마이페이지의 **"구인자/구직자 모드 전환"** 으로 두 플로우 자유롭게 비교
+## iOS TestFlight
 
-## 디자인 노트
+- 배포 대상: TestFlight 내부 테스트
+- Bundle ID: `kr.sharework.app`
+- 앱 버전: `0.1.0+1`
+- 서명 방식: Xcode 자동 서명
 
-- **브랜드 컬러**: 기존 Android 앱의 `mint(#64D8D1)` 를 계승
-- **폰트**: `google_fonts` 의 Noto Sans KR (네트워크 접근이 어려운 환경에서는 `pubspec.yaml` 에 로컬 ttf 추가 권장)
-- **지도**: 실제 SDK 연동 전이므로 그라디언트 + 마커 자리표시자로 대체
-- **상태**: 모든 화면이 `StatefulWidget` 로컬 상태만 사용 (목업 단계라 글로벌 상태 매니저 미도입)
+TestFlight 업로드 전 Xcode에서 `ios/Runner.xcworkspace`를 열고 Runner 타깃의 Team을 Apple Developer 계정의 배포 팀으로 선택하세요. 이 앱은 더미 데이터 기반 UI Demo MVP이므로 App Store Connect의 베타 앱 설명에는 실제 API, SMS 인증, 결제, 지도 SDK가 포함되지 않았다는 점을 명시합니다.
 
-## 다음 단계 제안
+권장 업로드 흐름:
 
-| 단계 | 내용 |
-|---|---|
-| 1 | 이 목업으로 PM·디자인·이해관계자 화면 리뷰 |
-| 2 | 디자인 시스템 정리 (Figma → 디자인 토큰 → Flutter Theme) |
-| 3 | 라우팅·상태관리 본격화 (`riverpod` / `bloc`) |
-| 4 | 백엔드 API 스펙 확정 후 `data/` 레이어를 `repository` 로 교체 |
-| 5 | Google Maps Flutter 플러그인 + 실제 지오쿼리 연동 |
-| 6 | Firebase Auth(SMS) + FCM + 채팅 백엔드(Stream/Firestore 등) |
+1. `flutter test`, `flutter analyze --no-fatal-infos`, `flutter build ios --release --no-codesign` 확인
+2. Xcode에서 `Runner` scheme과 `Any iOS Device` destination 선택
+3. `Product > Archive`
+4. Organizer에서 `Validate App` 후 `Distribute App > App Store Connect > Upload`
+5. App Store Connect TestFlight에서 내부 테스트 그룹에 빌드 추가
+
+## Demo Flow
+
+1. 앱 실행 후 스플래시에서 온보딩으로 이동
+2. 권한 안내를 지나 휴대폰 인증 화면 진입
+3. `테스트: 가입 건너뛰기`로 Worker 또는 Giver 선택
+4. Worker 흐름: 홈 지도형 리스트, 검색, 공고 상세, 지원내역, 채팅, 마이페이지 확인
+5. Giver 흐름: 홈, 공고 등록/미리보기, 지원자 관리, 결제/에스크로, 마이페이지 확인
+
+## Project Notes
+
+- 앱 이름은 iOS에서 `Sharework`로 표시됩니다.
+- iPhone/iPad 시연은 세로 방향을 기준으로 합니다.
+- 권한 상태는 `PermissionStore` 메모리 상태로만 관리합니다.
+- 실제 서비스 전환 시 `data/` 레이어를 repository/API 레이어로 교체하고 인증, 저장소, 푸시, 결제, 지도 SDK를 단계적으로 연결합니다.

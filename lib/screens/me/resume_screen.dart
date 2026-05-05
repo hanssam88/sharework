@@ -22,9 +22,21 @@ class _ResumeScreenState extends State<ResumeScreen> {
   bool _dirty = false;
 
   static const _suggestedSkills = [
-    '엑셀 중급', '워드 가능', 'PPT 가능', '한식조리사', '양식조리사',
-    '운전면허 2종', '지게차 면허', '응급처치 자격', '사진 편집', '영상 편집',
-    '중국어 회화', '일본어 회화', '바리스타 2급', '제과제빵 자격', '컴활 1급',
+    '엑셀 중급',
+    '워드 가능',
+    'PPT 가능',
+    '한식조리사',
+    '양식조리사',
+    '운전면허 2종',
+    '지게차 면허',
+    '응급처치 자격',
+    '사진 편집',
+    '영상 편집',
+    '중국어 회화',
+    '일본어 회화',
+    '바리스타 2급',
+    '제과제빵 자격',
+    '컴활 1급',
   ];
 
   @override
@@ -36,8 +48,6 @@ class _ResumeScreenState extends State<ResumeScreen> {
     _educations = List.of(Dummy.resume.educations);
     _skills = List.of(Dummy.resume.skills);
   }
-
-  void _markDirty() => setState(() => _dirty = true);
 
   Future<bool> _confirmExit() async {
     if (!_dirty) return true;
@@ -78,7 +88,9 @@ class _ResumeScreenState extends State<ResumeScreen> {
       ),
       builder: (sheetCtx) => Padding(
         padding: EdgeInsets.only(
-          left: 20, right: 20, top: 20,
+          left: 20,
+          right: 20,
+          top: 20,
           bottom: MediaQuery.of(sheetCtx).viewInsets.bottom + 20,
         ),
         child: SingleChildScrollView(
@@ -144,7 +156,9 @@ class _ResumeScreenState extends State<ResumeScreen> {
       ),
       builder: (sheetCtx) => Padding(
         padding: EdgeInsets.only(
-          left: 20, right: 20, top: 20,
+          left: 20,
+          right: 20,
+          top: 20,
           bottom: MediaQuery.of(sheetCtx).viewInsets.bottom + 20,
         ),
         child: SingleChildScrollView(
@@ -156,14 +170,16 @@ class _ResumeScreenState extends State<ResumeScreen> {
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 16),
-              _LabeledField(label: '회사·매장', controller: companyCtrl,
+              _LabeledField(
+                  label: '회사·매장',
+                  controller: companyCtrl,
                   hint: '예) 카페 모카 강남점'),
               const SizedBox(height: 12),
-              _LabeledField(label: '직무·포지션', controller: roleCtrl,
-                  hint: '예) 바리스타 / 홀'),
+              _LabeledField(
+                  label: '직무·포지션', controller: roleCtrl, hint: '예) 바리스타 / 홀'),
               const SizedBox(height: 12),
-              _LabeledField(label: '기간', controller: periodCtrl,
-                  hint: '예) 2024.03 ~ 현재'),
+              _LabeledField(
+                  label: '기간', controller: periodCtrl, hint: '예) 2024.03 ~ 현재'),
               const SizedBox(height: 12),
               const Text('주요 경험',
                   style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
@@ -248,7 +264,9 @@ class _ResumeScreenState extends State<ResumeScreen> {
       ),
       builder: (sheetCtx) => Padding(
         padding: EdgeInsets.only(
-          left: 20, right: 20, top: 20,
+          left: 20,
+          right: 20,
+          top: 20,
           bottom: MediaQuery.of(sheetCtx).viewInsets.bottom + 20,
         ),
         child: SingleChildScrollView(
@@ -260,14 +278,16 @@ class _ResumeScreenState extends State<ResumeScreen> {
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 16),
-              _LabeledField(label: '학교명', controller: schoolCtrl,
-                  hint: '예) 한국대학교 경영학과'),
+              _LabeledField(
+                  label: '학교명', controller: schoolCtrl, hint: '예) 한국대학교 경영학과'),
               const SizedBox(height: 12),
-              _LabeledField(label: '학위·상태', controller: degreeCtrl,
+              _LabeledField(
+                  label: '학위·상태',
+                  controller: degreeCtrl,
                   hint: '예) 학사 / 재학 / 졸업'),
               const SizedBox(height: 12),
-              _LabeledField(label: '기간', controller: periodCtrl,
-                  hint: '예) 2021.03 ~ 현재'),
+              _LabeledField(
+                  label: '기간', controller: periodCtrl, hint: '예) 2021.03 ~ 현재'),
               const SizedBox(height: 12),
               Row(
                 children: [
@@ -337,22 +357,23 @@ class _ResumeScreenState extends State<ResumeScreen> {
       ),
       builder: (sheetCtx) => Padding(
         padding: EdgeInsets.only(
-          left: 20, right: 20, top: 20,
+          left: 20,
+          right: 20,
+          top: 20,
           bottom: MediaQuery.of(sheetCtx).viewInsets.bottom + 20,
         ),
         child: StatefulBuilder(
           builder: (innerCtx, innerSet) {
-            final available = _suggestedSkills
-                .where((s) => !_skills.contains(s))
-                .toList();
+            final available =
+                _suggestedSkills.where((s) => !_skills.contains(s)).toList();
             return SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('스킬 추가',
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w800)),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                   const SizedBox(height: 16),
                   Row(
                     children: [
@@ -469,8 +490,8 @@ class _ResumeScreenState extends State<ResumeScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.share_outlined,
-                  color: AppColors.brandDark),
+              leading:
+                  const Icon(Icons.share_outlined, color: AppColors.brandDark),
               title: const Text('공유 링크 만들기'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -478,8 +499,8 @@ class _ResumeScreenState extends State<ResumeScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.print_outlined,
-                  color: AppColors.brandDark),
+              leading:
+                  const Icon(Icons.print_outlined, color: AppColors.brandDark),
               title: const Text('인쇄'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -570,7 +591,8 @@ class _ResumeScreenState extends State<ResumeScreen> {
             children: [
               Center(
                 child: Container(
-                  width: 36, height: 4,
+                  width: 36,
+                  height: 4,
                   decoration: BoxDecoration(
                     color: AppColors.divider,
                     borderRadius: BorderRadius.circular(2),
@@ -579,12 +601,10 @@ class _ResumeScreenState extends State<ResumeScreen> {
               ),
               const SizedBox(height: 12),
               const Text('지원자 미리보기',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 4),
               const Text('구인자가 보게 될 화면이에요',
-                  style: TextStyle(
-                      fontSize: 12, color: AppColors.textMuted)),
+                  style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
               const SizedBox(height: 12),
               Expanded(
                 child: ListView(
@@ -614,27 +634,25 @@ class _ResumeScreenState extends State<ResumeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('이력서 공유',
-                  style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 4),
               const Text('링크 보유자만 열람할 수 있어요 (24시간 유효)',
-                  style: TextStyle(
-                      fontSize: 12, color: AppColors.textMuted)),
+                  style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
               const SizedBox(height: 16),
               GridView.count(
                 crossAxisCount: 4,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  _shareTile(Icons.chat_bubble, '카카오톡',
-                      const Color(0xFFFEE500), AppColors.text, () {
+                  _shareTile(Icons.chat_bubble, '카카오톡', const Color(0xFFFEE500),
+                      AppColors.text, () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('카카오톡 공유 (목업)')),
                     );
                   }),
-                  _shareTile(Icons.link, '링크 복사',
-                      AppColors.brandSoft, AppColors.brandDark, () {
+                  _shareTile(Icons.link, '링크 복사', AppColors.brandSoft,
+                      AppColors.brandDark, () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -642,15 +660,17 @@ class _ResumeScreenState extends State<ResumeScreen> {
                               Text('https://share.work/r/abc123 복사됨 (목업)')),
                     );
                   }),
-                  _shareTile(Icons.qr_code, 'QR 코드',
-                      AppColors.chipBg, AppColors.text, () {
+                  _shareTile(
+                      Icons.qr_code, 'QR 코드', AppColors.chipBg, AppColors.text,
+                      () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('QR 보기 (목업)')),
                     );
                   }),
-                  _shareTile(Icons.ios_share, '다른 앱',
-                      AppColors.chipBg, AppColors.text, () {
+                  _shareTile(
+                      Icons.ios_share, '다른 앱', AppColors.chipBg, AppColors.text,
+                      () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('OS 공유 시트 (목업)')),
@@ -667,14 +687,13 @@ class _ResumeScreenState extends State<ResumeScreen> {
                 ),
                 child: const Row(
                   children: [
-                    Icon(Icons.security,
-                        size: 16, color: AppColors.brandDark),
+                    Icon(Icons.security, size: 16, color: AppColors.brandDark),
                     SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         '연락처·주소·주민번호는 마스킹되어 공유돼요.',
-                        style: TextStyle(
-                            fontSize: 12, color: AppColors.brandDark),
+                        style:
+                            TextStyle(fontSize: 12, color: AppColors.brandDark),
                       ),
                     ),
                   ],
@@ -702,41 +721,37 @@ class _ResumeScreenState extends State<ResumeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('내보내기',
-                  style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 16),
               GridView.count(
                 crossAxisCount: 4,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  _shareTile(Icons.picture_as_pdf, 'PDF',
-                      AppColors.brandSoft, AppColors.brandDark, () {
+                  _shareTile(Icons.picture_as_pdf, 'PDF', AppColors.brandSoft,
+                      AppColors.brandDark, () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content:
-                              Text('이력서_김알바.pdf 다운로드 (목업)')),
+                      const SnackBar(content: Text('이력서_김알바.pdf 다운로드 (목업)')),
                     );
                   }),
-                  _shareTile(Icons.image, '이미지',
-                      AppColors.chipBg, AppColors.text, () {
+                  _shareTile(
+                      Icons.image, '이미지', AppColors.chipBg, AppColors.text, () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('이미지로 저장 (목업)')),
                     );
                   }),
-                  _shareTile(Icons.link, '링크',
-                      AppColors.chipBg, AppColors.text, () {
+                  _shareTile(Icons.link, '링크', AppColors.chipBg, AppColors.text,
+                      () {
                     Navigator.pop(sheetCtx);
                     _showShareSheet();
                   }),
-                  _shareTile(Icons.print_outlined, '인쇄',
-                      AppColors.chipBg, AppColors.text, () {
+                  _shareTile(Icons.print_outlined, '인쇄', AppColors.chipBg,
+                      AppColors.text, () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text('인쇄 다이얼로그 (목업)')),
+                      const SnackBar(content: Text('인쇄 다이얼로그 (목업)')),
                     );
                   }),
                 ],
@@ -757,7 +772,8 @@ class _ResumeScreenState extends State<ResumeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 52, height: 52,
+            width: 52,
+            height: 52,
             decoration: BoxDecoration(
               color: bg,
               borderRadius: BorderRadius.circular(14),
@@ -766,8 +782,8 @@ class _ResumeScreenState extends State<ResumeScreen> {
           ),
           const SizedBox(height: 6),
           Text(label,
-              style: const TextStyle(
-                  fontSize: 11, fontWeight: FontWeight.w600)),
+              style:
+                  const TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
         ],
       ),
     );
@@ -843,9 +859,7 @@ class _ResumeScreenState extends State<ResumeScreen> {
           style: TextStyle(
               fontSize: 14,
               height: 1.6,
-              color: _summary.isEmpty
-                  ? AppColors.textMuted
-                  : AppColors.text)),
+              color: _summary.isEmpty ? AppColors.textMuted : AppColors.text)),
       const SizedBox(height: 24),
       // 경력
       _SectionHeader(
@@ -869,9 +883,7 @@ class _ResumeScreenState extends State<ResumeScreen> {
         return Padding(
           padding: const EdgeInsets.only(bottom: 10),
           child: InkWell(
-            onTap: _editMode
-                ? () => _editCareer(existing: c, index: i)
-                : null,
+            onTap: _editMode ? () => _editCareer(existing: c, index: i) : null,
             borderRadius: BorderRadius.circular(12),
             child: Container(
               padding: const EdgeInsets.all(14),
@@ -888,13 +900,11 @@ class _ResumeScreenState extends State<ResumeScreen> {
                       Expanded(
                         child: Text(c.company,
                             style: const TextStyle(
-                                fontWeight: FontWeight.w800,
-                                fontSize: 15)),
+                                fontWeight: FontWeight.w800, fontSize: 15)),
                       ),
                       Text(c.period,
                           style: const TextStyle(
-                              fontSize: 12,
-                              color: AppColors.textFaint)),
+                              fontSize: 12, color: AppColors.textFaint)),
                       if (_editMode) ...[
                         const SizedBox(width: 6),
                         const Icon(Icons.edit,
@@ -911,8 +921,7 @@ class _ResumeScreenState extends State<ResumeScreen> {
                   if (c.description.isNotEmpty) ...[
                     const SizedBox(height: 8),
                     Text(c.description,
-                        style:
-                            const TextStyle(fontSize: 13, height: 1.5)),
+                        style: const TextStyle(fontSize: 13, height: 1.5)),
                   ],
                 ],
               ),
@@ -941,9 +950,7 @@ class _ResumeScreenState extends State<ResumeScreen> {
       ...List.generate(_educations.length, (i) {
         final e = _educations[i];
         return InkWell(
-          onTap: _editMode
-              ? () => _editEducation(existing: e, index: i)
-              : null,
+          onTap: _editMode ? () => _editEducation(existing: e, index: i) : null,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 6),
             child: Row(
@@ -956,18 +963,15 @@ class _ResumeScreenState extends State<ResumeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('${e.school} · ${e.degree}',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w700)),
+                          style: const TextStyle(fontWeight: FontWeight.w700)),
                       Text(e.period,
                           style: const TextStyle(
-                              fontSize: 12,
-                              color: AppColors.textMuted)),
+                              fontSize: 12, color: AppColors.textMuted)),
                     ],
                   ),
                 ),
                 if (_editMode)
-                  const Icon(Icons.edit,
-                      size: 14, color: AppColors.brandDark),
+                  const Icon(Icons.edit, size: 14, color: AppColors.brandDark),
               ],
             ),
           ),
@@ -995,9 +999,8 @@ class _ResumeScreenState extends State<ResumeScreen> {
                     style: const TextStyle(
                         fontSize: 12, fontWeight: FontWeight.w600)),
                 backgroundColor: AppColors.chipBg,
-                deleteIcon: _editMode
-                    ? const Icon(Icons.close, size: 14)
-                    : null,
+                deleteIcon:
+                    _editMode ? const Icon(Icons.close, size: 14) : null,
                 onDeleted: _editMode
                     ? () => setState(() {
                           _skills.remove(s);
@@ -1020,7 +1023,7 @@ class _ResumeScreenState extends State<ResumeScreen> {
       onPopInvokedWithResult: (didPop, _) async {
         if (didPop) return;
         final ok = await _confirmExit();
-        if (ok && mounted) Navigator.of(context).pop();
+        if (ok && context.mounted) Navigator.of(context).pop();
       },
       child: Scaffold(
         appBar: AppBar(
@@ -1132,8 +1135,7 @@ class _LabeledField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label,
-            style:
-                const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
         const SizedBox(height: 6),
         TextField(
           controller: controller,
@@ -1162,18 +1164,15 @@ class _EmptyCard extends StatelessWidget {
           color: AppColors.bg,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-              color: AppColors.divider,
-              style: BorderStyle.solid,
-              width: 1),
+              color: AppColors.divider, style: BorderStyle.solid, width: 1),
         ),
         child: Column(
           children: [
-            const Icon(Icons.add_circle_outline,
-                color: AppColors.brandDark),
+            const Icon(Icons.add_circle_outline, color: AppColors.brandDark),
             const SizedBox(height: 6),
             Text(message,
-                style: const TextStyle(
-                    fontSize: 13, color: AppColors.textMuted)),
+                style:
+                    const TextStyle(fontSize: 13, color: AppColors.textMuted)),
           ],
         ),
       ),

@@ -35,7 +35,6 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
   TimeOfDay _end = const TimeOfDay(hour: 17, minute: 0);
 
   bool _draftSaved = false;
-  bool _previewMode = '공개'.isEmpty; // unused; placeholder
   String _publishMode = '즉시 게시'; // 즉시 / 예약 / 비공개
 
   static const _weekdayLabels = ['월', '화', '수', '목', '금', '토', '일'];
@@ -80,23 +79,22 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
     final r = await showDialog<String>(
       context: context,
       builder: (_) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('작성 중인 공고가 있어요'),
         content: const Text('임시저장하면 나중에 이어 쓸 수 있어요.'),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(context, 'discard'),
-              child: const Text('나가기',
-                  style: TextStyle(color: AppColors.danger))),
+              child:
+                  const Text('나가기', style: TextStyle(color: AppColors.danger))),
           TextButton(
               onPressed: () => Navigator.pop(context),
               child: const Text('계속 쓰기')),
           FilledButton(
               style: FilledButton.styleFrom(
                   minimumSize: const Size(80, 40),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 8)),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8)),
               onPressed: () => Navigator.pop(context, 'save'),
               child: const Text('임시저장')),
         ],
@@ -125,8 +123,7 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('템플릿에서 불러오기',
-                  style: TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
               const SizedBox(height: 12),
               ...Dummy.jobTemplates.map((t) => ListTile(
                     contentPadding: EdgeInsets.zero,
@@ -141,8 +138,7 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
                           color: AppColors.brandDark, size: 18),
                     ),
                     title: Text(t.name,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w700)),
+                        style: const TextStyle(fontWeight: FontWeight.w700)),
                     subtitle: Text(
                         '${t.title} · ${t.payHourly}원/시간 · ${t.defaultPersonnel}명',
                         style: const TextStyle(fontSize: 12)),
@@ -215,8 +211,8 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
               child: Column(
                 children: [
                   const Text('주소 검색',
-                      style: TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w800)),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
                   const SizedBox(height: 12),
                   TextField(
                     controller: ctrl,
@@ -264,8 +260,7 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
                               color: AppColors.brandDark),
                           title: Text(a.full,
                               style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700)),
+                                  fontSize: 14, fontWeight: FontWeight.w700)),
                           subtitle: Text('${a.landmark} · 우편번호 ${a.zip}',
                               style: const TextStyle(fontSize: 11)),
                           onTap: () {
@@ -315,9 +310,21 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
   void _openTagAdd() {
     final ctrl = TextEditingController();
     final suggestions = const [
-      '카페', '주말', '단기', '오픈', '마감',
-      '마트', '진열', '계산', '행사', '스태프',
-      '바리스타', '서빙', '청소', '물류', '배달',
+      '카페',
+      '주말',
+      '단기',
+      '오픈',
+      '마감',
+      '마트',
+      '진열',
+      '계산',
+      '행사',
+      '스태프',
+      '바리스타',
+      '서빙',
+      '청소',
+      '물류',
+      '배달',
     ];
     showModalBottomSheet(
       context: context,
@@ -337,8 +344,8 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('태그 추가',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 12),
                 TextField(
                   controller: ctrl,
@@ -355,8 +362,7 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
                 ),
                 const SizedBox(height: 12),
                 const Text('추천 태그',
-                    style: TextStyle(
-                        fontSize: 12, color: AppColors.textMuted)),
+                    style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
                 const SizedBox(height: 8),
                 Wrap(
                   spacing: 6,
@@ -408,8 +414,8 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('체크리스트 추가',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 12),
                 TextField(
                   controller: ctrl,
@@ -425,8 +431,7 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
                 ),
                 const SizedBox(height: 12),
                 const Text('추천',
-                    style: TextStyle(
-                        fontSize: 12, color: AppColors.textMuted)),
+                    style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
                 const SizedBox(height: 8),
                 ...presets.map((p) => ListTile(
                       contentPadding: EdgeInsets.zero,
@@ -462,8 +467,8 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text('게시 방식',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               ),
             ),
             ...['즉시 게시', '예약 게시', '비공개 (링크 공유만)'].map((m) {
@@ -494,8 +499,15 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
     return '$period $h12:$m';
   }
 
-  String _fmtDate(DateTime d) =>
-      '${d.year}년 ${d.month}월 ${d.day}일 (${['월', '화', '수', '목', '금', '토', '일'][d.weekday - 1]})';
+  String _fmtDate(DateTime d) => '${d.year}년 ${d.month}월 ${d.day}일 (${[
+        '월',
+        '화',
+        '수',
+        '목',
+        '금',
+        '토',
+        '일'
+      ][d.weekday - 1]})';
 
   @override
   Widget build(BuildContext context) {
@@ -504,7 +516,7 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
       onPopInvokedWithResult: (didPop, _) async {
         if (didPop) return;
         if (await _confirmExit()) {
-          if (mounted) Navigator.pop(context);
+          if (context.mounted) Navigator.pop(context);
         }
       },
       child: Scaffold(
@@ -513,7 +525,8 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
           actions: [
             TextButton.icon(
               onPressed: _saveDraft,
-              icon: Icon(_draftSaved ? Icons.cloud_done : Icons.cloud_upload_outlined,
+              icon: Icon(
+                  _draftSaved ? Icons.cloud_done : Icons.cloud_upload_outlined,
                   size: 16),
               label: Text(_draftSaved ? '저장됨' : '임시저장'),
             ),
@@ -530,8 +543,8 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
             if (_appliedTemplate != null)
               Container(
                 margin: const EdgeInsets.only(bottom: 12),
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 12, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 decoration: BoxDecoration(
                   color: AppColors.brandSoft,
                   borderRadius: BorderRadius.circular(10),
@@ -551,10 +564,8 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
                     IconButton(
                       iconSize: 16,
                       visualDensity: VisualDensity.compact,
-                      icon: const Icon(Icons.close,
-                          color: AppColors.brandDark),
-                      onPressed: () =>
-                          setState(() => _appliedTemplate = null),
+                      icon: const Icon(Icons.close, color: AppColors.brandDark),
+                      onPressed: () => setState(() => _appliedTemplate = null),
                     ),
                   ],
                 ),
@@ -563,8 +574,7 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
             const _Label('공고 제목'),
             TextField(
               controller: _titleCtrl,
-              decoration: const InputDecoration(
-                  hintText: '예: 주말 카페 알바 구합니다'),
+              decoration: const InputDecoration(hintText: '예: 주말 카페 알바 구합니다'),
               onChanged: (_) => setState(() {}),
             ),
             const SizedBox(height: 16),
@@ -573,8 +583,8 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
               onTap: _openAddressSearch,
               borderRadius: BorderRadius.circular(10),
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 14, vertical: 14),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
                 decoration: BoxDecoration(
                   color: AppColors.bg,
                   borderRadius: BorderRadius.circular(10),
@@ -630,9 +640,8 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
                         color: _date == null
                             ? AppColors.textFaint
                             : AppColors.text,
-                        fontWeight: _date == null
-                            ? FontWeight.w500
-                            : FontWeight.w700,
+                        fontWeight:
+                            _date == null ? FontWeight.w500 : FontWeight.w700,
                       ),
                     ),
                   ],
@@ -663,7 +672,8 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
             const _Label('필요한 인원'),
             TextField(
               controller: _personnelCtrl,
-              decoration: const InputDecoration(hintText: '예: 2', suffixText: '명'),
+              decoration:
+                  const InputDecoration(hintText: '예: 2', suffixText: '명'),
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 16),
@@ -707,8 +717,8 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
                 Expanded(
                   child: TextField(
                     controller: _payCtrl,
-                    decoration: const InputDecoration(
-                        hintText: '0', suffixText: '원'),
+                    decoration:
+                        const InputDecoration(hintText: '0', suffixText: '원'),
                     keyboardType: TextInputType.number,
                     onChanged: (_) => setState(() {}),
                   ),
@@ -728,8 +738,7 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
               value: _sameDayPay,
               onChanged: (v) => setState(() => _sameDayPay = v),
               title: const Text('당일지급', style: TextStyle(fontSize: 14)),
-              subtitle: const Text(
-                  '근무 종료 즉시 자동 송금 (워커가 매우 선호해요)',
+              subtitle: const Text('근무 종료 즉시 자동 송금 (워커가 매우 선호해요)',
                   style: TextStyle(fontSize: 11, color: AppColors.textMuted)),
               activeColor: AppColors.brandDark,
             ),
@@ -779,8 +788,7 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
                   if (!v) _recurrenceWeekdays.clear();
                 });
               },
-              title: const Text('반복 공고로 등록',
-                  style: TextStyle(fontSize: 14)),
+              title: const Text('반복 공고로 등록', style: TextStyle(fontSize: 14)),
               activeColor: AppColors.brandDark,
             ),
             if (_recurring) ...[
@@ -805,9 +813,7 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
                           duration: const Duration(milliseconds: 120),
                           height: 44,
                           decoration: BoxDecoration(
-                            color: on
-                                ? AppColors.brandDark
-                                : AppColors.chipBg,
+                            color: on ? AppColors.brandDark : AppColors.chipBg,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           alignment: Alignment.center,
@@ -873,8 +879,8 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
               onTap: _pickPublishMode,
               borderRadius: BorderRadius.circular(10),
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 14, vertical: 14),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
                 decoration: BoxDecoration(
                   color: AppColors.bg,
                   borderRadius: BorderRadius.circular(10),
@@ -958,11 +964,13 @@ class _MarketPriceCard extends StatelessWidget {
       color = AppColors.textMuted;
       icon = Icons.info_outline;
     } else if (entered < market * 0.95) {
-      label = '평균보다 낮음 (평균 ${(market / 1000).toStringAsFixed(0)}천원). 지원율이 떨어질 수 있어요';
+      label =
+          '평균보다 낮음 (평균 ${(market / 1000).toStringAsFixed(0)}천원). 지원율이 떨어질 수 있어요';
       color = AppColors.danger;
       icon = Icons.trending_down;
     } else if (entered > market * 1.1) {
-      label = '평균보다 높음 (평균 ${(market / 1000).toStringAsFixed(0)}천원). 지원율이 평균 +35%';
+      label =
+          '평균보다 높음 (평균 ${(market / 1000).toStringAsFixed(0)}천원). 지원율이 평균 +35%';
       color = AppColors.brandDark;
       icon = Icons.trending_up;
     } else {
@@ -984,9 +992,7 @@ class _MarketPriceCard extends StatelessWidget {
           Expanded(
             child: Text(label,
                 style: TextStyle(
-                    fontSize: 11,
-                    color: color,
-                    fontWeight: FontWeight.w700)),
+                    fontSize: 11, color: color, fontWeight: FontWeight.w700)),
           ),
         ],
       ),
@@ -1012,8 +1018,7 @@ class _Label extends StatelessWidget {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.only(bottom: 6, top: 8),
         child: Text(text,
-            style:
-                const TextStyle(fontSize: 13, color: AppColors.textMuted)),
+            style: const TextStyle(fontSize: 13, color: AppColors.textMuted)),
       );
 }
 
@@ -1033,8 +1038,7 @@ class _TimeBox extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label,
-              style:
-                  const TextStyle(fontSize: 12, color: AppColors.textMuted)),
+              style: const TextStyle(fontSize: 12, color: AppColors.textMuted)),
           const SizedBox(height: 6),
           Container(
             height: 50,
@@ -1049,8 +1053,7 @@ class _TimeBox extends StatelessWidget {
                 const Icon(Icons.access_time,
                     size: 18, color: AppColors.textMuted),
                 const SizedBox(width: 8),
-                Text(time,
-                    style: const TextStyle(fontWeight: FontWeight.w700)),
+                Text(time, style: const TextStyle(fontWeight: FontWeight.w700)),
               ],
             ),
           ),

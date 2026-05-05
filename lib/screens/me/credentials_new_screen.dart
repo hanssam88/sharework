@@ -32,8 +32,12 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
 
   static const Map<String, List<CredentialKind>> _categories = {
     '신분·운전': [CredentialKind.idCard, CredentialKind.driverLicense],
-    '식음·위생': [CredentialKind.barista, CredentialKind.cookCert,
-                   CredentialKind.hygieneEdu, CredentialKind.health],
+    '식음·위생': [
+      CredentialKind.barista,
+      CredentialKind.cookCert,
+      CredentialKind.hygieneEdu,
+      CredentialKind.health
+    ],
     '산업': [CredentialKind.forkLift],
     '기타': [CredentialKind.etc],
   };
@@ -118,8 +122,8 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('서류 종류 선택',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 12),
                 for (final entry in _categories.entries) ...[
                   Padding(
@@ -159,19 +163,16 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
                                   ),
                                 ),
                                 child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(k.icon,
-                                        color: AppColors.brandDark,
-                                        size: 28),
+                                        color: AppColors.brandDark, size: 28),
                                     const SizedBox(height: 6),
                                     Text(k.label,
                                         textAlign: TextAlign.center,
                                         style: const TextStyle(
                                             fontSize: 11,
-                                            fontWeight:
-                                                FontWeight.w700)),
+                                            fontWeight: FontWeight.w700)),
                                   ],
                                 ),
                               ),
@@ -232,7 +233,10 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
                           Icon(Icons.camera_alt_outlined,
                               color: Colors.white54, size: 48),
                           Positioned(
-                            top: 24, left: 24, right: 24, bottom: 24,
+                            top: 24,
+                            left: 24,
+                            right: 24,
+                            bottom: 24,
                             child: DecoratedBox(
                               decoration: BoxDecoration(
                                 border: Border.fromBorderSide(BorderSide(
@@ -248,8 +252,7 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
                         icon: Icons.wb_sunny_outlined,
                         text: '밝은 곳에서 그림자 없이 촬영해주세요'),
                     const _GuideTip(
-                        icon: Icons.crop_free,
-                        text: '문서 모서리가 화면 안에 모두 들어오게'),
+                        icon: Icons.crop_free, text: '문서 모서리가 화면 안에 모두 들어오게'),
                     const _GuideTip(
                         icon: Icons.image_not_supported_outlined,
                         text: '글자가 가려지지 않도록 손가락 위치 주의'),
@@ -281,8 +284,7 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
                           SizedBox(height: 4),
                           Text('자동으로 항목을 채워드릴게요',
                               style: TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.textMuted)),
+                                  fontSize: 12, color: AppColors.textMuted)),
                         ],
                       ),
                     ),
@@ -339,8 +341,7 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('빠른 작업',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 12),
               GridView.count(
                 crossAxisCount: 4,
@@ -353,8 +354,7 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
                       const SnackBar(content: Text('서류를 추가로 등록할게요 (목업)')),
                     );
                   }),
-                  _quickTile(Icons.notifications_active_outlined, '알림 받기',
-                      () {
+                  _quickTile(Icons.notifications_active_outlined, '알림 받기', () {
                     setState(() => _notifyOnReview = !_notifyOnReview);
                     Navigator.pop(sheetCtx);
                   }),
@@ -383,7 +383,8 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 52, height: 52,
+            width: 52,
+            height: 52,
             decoration: BoxDecoration(
               color: AppColors.brandSoft,
               borderRadius: BorderRadius.circular(14),
@@ -392,8 +393,8 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
           ),
           const SizedBox(height: 6),
           Text(label,
-              style: const TextStyle(
-                  fontSize: 11, fontWeight: FontWeight.w600)),
+              style:
+                  const TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
         ],
       ),
     );
@@ -414,8 +415,7 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('자격증 등록 안내',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 12),
               for (final t in const [
                 ['검증 절차', '제출 → 자동검증 → 수동검토 → 완료까지 평균 1~2 영업일'],
@@ -532,7 +532,8 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
             Row(
               children: [
                 Container(
-                  width: 40, height: 40,
+                  width: 40,
+                  height: 40,
                   decoration: const BoxDecoration(
                     color: AppColors.brandSoft,
                     shape: BoxShape.circle,
@@ -546,12 +547,10 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
                     children: [
                       Text('${_kind.label} 등록 진행 중',
                           style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w800)),
+                              fontSize: 16, fontWeight: FontWeight.w800)),
                       const Text('예상 소요: 1~2 영업일',
                           style: TextStyle(
-                              fontSize: 12,
-                              color: AppColors.textMuted)),
+                              fontSize: 12, color: AppColors.textMuted)),
                     ],
                   ),
                 ),
@@ -565,7 +564,8 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      width: 28, height: 28,
+                      width: 28,
+                      height: 28,
                       decoration: BoxDecoration(
                         color: i < active
                             ? AppColors.success
@@ -602,8 +602,7 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
                           const SizedBox(height: 2),
                           Text(steps[i][1],
                               style: const TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.textMuted)),
+                                  fontSize: 12, color: AppColors.textMuted)),
                         ],
                       ),
                     ),
@@ -680,7 +679,7 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
       onPopInvokedWithResult: (didPop, _) async {
         if (didPop) return;
         final ok = await _confirmExit();
-        if (ok && mounted) Navigator.of(context).pop();
+        if (ok && context.mounted) Navigator.of(context).pop();
       },
       child: Scaffold(
         appBar: AppBar(
@@ -711,21 +710,19 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
               onTap: _showKindSheet,
               borderRadius: BorderRadius.circular(10),
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 14, vertical: 14),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
                 decoration: BoxDecoration(
                   color: AppColors.bg,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(
                   children: [
-                    Icon(_kind.icon,
-                        color: AppColors.brandDark, size: 20),
+                    Icon(_kind.icon, color: AppColors.brandDark, size: 20),
                     const SizedBox(width: 10),
                     Text(_kind.label,
                         style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700)),
+                            fontSize: 14, fontWeight: FontWeight.w700)),
                     const Spacer(),
                     const Icon(Icons.arrow_drop_down,
                         color: AppColors.textMuted),
@@ -777,9 +774,7 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
                           ),
                           const SizedBox(height: 6),
                           Text(
-                            _photoAttached
-                                ? '서류 첨부됨 (목업)'
-                                : '갤러리·카메라',
+                            _photoAttached ? '서류 첨부됨 (목업)' : '갤러리·카메라',
                             style: TextStyle(
                               fontSize: 12,
                               color: _photoAttached
@@ -830,9 +825,7 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
                           ),
                           const SizedBox(height: 6),
                           Text(
-                            _ocrApplied
-                                ? 'OCR 자동 인식 완료'
-                                : 'OCR 자동 인식',
+                            _ocrApplied ? 'OCR 자동 인식 완료' : 'OCR 자동 인식',
                             style: const TextStyle(
                               fontSize: 12,
                               color: AppColors.brandDark,
@@ -842,8 +835,7 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
                           if (!_ocrApplied)
                             const Text('빠른 입력',
                                 style: TextStyle(
-                                    fontSize: 10,
-                                    color: AppColors.textMuted)),
+                                    fontSize: 10, color: AppColors.textMuted)),
                         ],
                       ),
                     ),
@@ -926,8 +918,8 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('약관 동의',
-                      style: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w800)),
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
                   const SizedBox(height: 8),
                   CheckboxListTile(
                     contentPadding: EdgeInsets.zero,
@@ -984,8 +976,8 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
                   Expanded(
                     child: Text(
                       '제출된 서류는 검토 후 인증 배지가 부여됩니다. 만료 30일 전 알림으로 안내해드려요.',
-                      style: TextStyle(
-                          fontSize: 11, color: AppColors.textMuted),
+                      style:
+                          TextStyle(fontSize: 11, color: AppColors.textMuted),
                     ),
                   ),
                 ],
@@ -1014,9 +1006,8 @@ class _CredentialsNewScreenState extends State<CredentialsNewScreen> {
                   flex: 2,
                   child: FilledButton(
                     onPressed: _phase == _SubmitPhase.editing ? _submit : null,
-                    child: Text(_phase == _SubmitPhase.editing
-                        ? '등록 신청'
-                        : '검토 진행 중'),
+                    child: Text(
+                        _phase == _SubmitPhase.editing ? '등록 신청' : '검토 진행 중'),
                   ),
                 ),
               ],
@@ -1088,8 +1079,7 @@ class _GuideTip extends StatelessWidget {
           const SizedBox(width: 8),
           Expanded(
             child: Text(text,
-                style: const TextStyle(
-                    fontSize: 13, color: AppColors.text)),
+                style: const TextStyle(fontSize: 13, color: AppColors.text)),
           ),
         ],
       ),
@@ -1111,16 +1101,15 @@ class _OcrField extends StatelessWidget {
           SizedBox(
             width: 80,
             child: Text(label,
-                style: const TextStyle(
-                    fontSize: 12, color: AppColors.textMuted)),
+                style:
+                    const TextStyle(fontSize: 12, color: AppColors.textMuted)),
           ),
           Expanded(
             child: Text(value,
-                style: const TextStyle(
-                    fontSize: 14, fontWeight: FontWeight.w700)),
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
           ),
-          const Icon(Icons.edit_outlined,
-              size: 16, color: AppColors.textFaint),
+          const Icon(Icons.edit_outlined, size: 16, color: AppColors.textFaint),
         ],
       ),
     );

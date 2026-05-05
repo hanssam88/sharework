@@ -56,8 +56,7 @@ class _BusinessVerificationScreenState
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: const [
             Icon(Icons.account_balance, color: AppColors.brandDark, size: 20),
@@ -93,8 +92,8 @@ class _BusinessVerificationScreenState
           FilledButton(
             style: FilledButton.styleFrom(
                 minimumSize: const Size(80, 40),
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 8)),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8)),
             onPressed: () {
               Navigator.pop(context);
               setState(() => _bizLookedUp = true);
@@ -119,11 +118,11 @@ class _BusinessVerificationScreenState
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading:
-                  const Icon(Icons.photo_camera_outlined, color: AppColors.brandDark),
+              leading: const Icon(Icons.photo_camera_outlined,
+                  color: AppColors.brandDark),
               title: const Text('카메라로 촬영'),
-              subtitle: const Text('OCR로 자동 인식 시도',
-                  style: TextStyle(fontSize: 11)),
+              subtitle:
+                  const Text('OCR로 자동 인식 시도', style: TextStyle(fontSize: 11)),
               onTap: () {
                 Navigator.pop(sheetCtx);
                 onPicked();
@@ -131,8 +130,8 @@ class _BusinessVerificationScreenState
               },
             ),
             ListTile(
-              leading: const Icon(Icons.image_outlined,
-                  color: AppColors.brandDark),
+              leading:
+                  const Icon(Icons.image_outlined, color: AppColors.brandDark),
               title: const Text('갤러리에서 선택'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -170,8 +169,7 @@ class _BusinessVerificationScreenState
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('사업자 인증 신청'),
         content: const Text('제출된 자료는 영업일 기준 1일 내에 검토됩니다. 검토 완료 후 알림으로 알려드릴게요.'),
         actions: [
@@ -182,8 +180,8 @@ class _BusinessVerificationScreenState
           FilledButton(
             style: FilledButton.styleFrom(
                 minimumSize: const Size(80, 40),
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 8)),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8)),
             onPressed: () {
               Navigator.pop(context);
               _snack('인증 신청 완료 (목업)');
@@ -212,9 +210,7 @@ class _BusinessVerificationScreenState
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: verified
-                  ? AppColors.brandSoft
-                  : const Color(0xFFFFF6E5),
+              color: verified ? AppColors.brandSoft : const Color(0xFFFFF6E5),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
@@ -222,9 +218,8 @@ class _BusinessVerificationScreenState
                 Icon(
                   verified ? Icons.verified : Icons.gpp_maybe_outlined,
                   size: 28,
-                  color: verified
-                      ? AppColors.brandDark
-                      : const Color(0xFFB45309),
+                  color:
+                      verified ? AppColors.brandDark : const Color(0xFFB45309),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
@@ -285,9 +280,14 @@ class _BusinessVerificationScreenState
               ),
               const SizedBox(width: 8),
               SizedBox(
+                width: 120,
                 height: 50,
                 child: FilledButton.tonalIcon(
                   onPressed: _verify,
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size(0, 50),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                  ),
                   icon: Icon(_bizLookedUp ? Icons.refresh : Icons.search,
                       size: 16),
                   label: Text(_bizLookedUp ? '재조회' : '국세청 조회'),
@@ -298,8 +298,7 @@ class _BusinessVerificationScreenState
           if (_bizLookedUp) ...[
             const SizedBox(height: 8),
             Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 10, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
                 color: AppColors.brandSoft,
                 borderRadius: BorderRadius.circular(6),
@@ -380,16 +379,13 @@ class _BusinessVerificationScreenState
             child: const Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.lock_outline,
-                    size: 16, color: AppColors.textMuted),
+                Icon(Icons.lock_outline, size: 16, color: AppColors.textMuted),
                 SizedBox(width: 6),
                 Expanded(
                   child: Text(
                     '제출된 사업자등록증·통장 사본은 인증 검토에만 사용되며, 검토 완료 후 즉시 폐기됩니다. 영업일 기준 1일 내 검토 완료.',
                     style: TextStyle(
-                        fontSize: 11,
-                        color: AppColors.textMuted,
-                        height: 1.6),
+                        fontSize: 11, color: AppColors.textMuted, height: 1.6),
                   ),
                 ),
               ],
@@ -510,16 +506,16 @@ class _UploadCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    attached
-                        ? Icons.check_circle
-                        : Icons.upload_file,
+                    attached ? Icons.check_circle : Icons.upload_file,
                     size: small ? 24 : 40,
                     color: attached ? AppColors.brandDark : AppColors.textMuted,
                   ),
                   if (!small) const SizedBox(height: 8),
                   Text(label,
                       style: TextStyle(
-                        color: attached ? AppColors.brandDark : AppColors.textMuted,
+                        color: attached
+                            ? AppColors.brandDark
+                            : AppColors.textMuted,
                         fontWeight: FontWeight.w700,
                         fontSize: small ? 12 : 14,
                       )),
@@ -573,8 +569,8 @@ class _Kv extends StatelessWidget {
                       fontSize: 12, color: AppColors.textMuted))),
           Expanded(
             child: Text(value,
-                style: const TextStyle(
-                    fontSize: 13, fontWeight: FontWeight.w700)),
+                style:
+                    const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
           ),
         ],
       ),

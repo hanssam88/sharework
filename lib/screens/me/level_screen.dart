@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import '../../data/dummy_data.dart';
 import '../../models/models.dart';
 import '../../theme/app_theme.dart';
-import '../../widgets/shared.dart';
 
 class LevelScreen extends StatelessWidget {
   const LevelScreen({super.key});
@@ -77,8 +76,7 @@ class LevelScreen extends StatelessWidget {
                 const SizedBox(height: 6),
                 Text(
                   '다음 등급까지 ${lvl.nextLevelPoint - lvl.currentPoint}P 남음',
-                  style: const TextStyle(
-                      color: Colors.white70, fontSize: 12),
+                  style: const TextStyle(color: Colors.white70, fontSize: 12),
                 ),
               ],
             ),
@@ -90,17 +88,15 @@ class LevelScreen extends StatelessWidget {
             child: Column(
               children: lvl.benefits
                   .map((b) => Padding(
-                        padding:
-                            const EdgeInsets.symmetric(vertical: 6),
+                        padding: const EdgeInsets.symmetric(vertical: 6),
                         child: Row(
                           children: [
                             const Icon(Icons.check_circle,
                                 color: AppColors.brandDark, size: 16),
                             const SizedBox(width: 8),
                             Expanded(
-                              child: Text(b,
-                                  style:
-                                      const TextStyle(fontSize: 14)),
+                              child:
+                                  Text(b, style: const TextStyle(fontSize: 14)),
                             ),
                           ],
                         ),
@@ -117,9 +113,7 @@ class LevelScreen extends StatelessWidget {
               child: const Text('전체 보기'),
             ),
             child: Column(
-              children: missions
-                  .map((m) => _MissionRow(m: m))
-                  .toList(),
+              children: missions.map((m) => _MissionRow(m: m)).toList(),
             ),
           ),
           const SizedBox(height: 12),
@@ -137,8 +131,7 @@ class LevelScreen extends StatelessWidget {
                 const Expanded(
                   child: Text(
                     '포인트로 쿠폰을 교환할 수 있어요',
-                    style: TextStyle(
-                        fontSize: 13, fontWeight: FontWeight.w700),
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
                   ),
                 ),
                 TextButton(
@@ -209,9 +202,7 @@ class _MissionRow extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(m.icon,
-                color: completed
-                    ? AppColors.brandDark
-                    : AppColors.textMuted),
+                color: completed ? AppColors.brandDark : AppColors.textMuted),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -223,8 +214,7 @@ class _MissionRow extends StatelessWidget {
                     Expanded(
                       child: Text(m.title,
                           style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14)),
+                              fontWeight: FontWeight.w700, fontSize: 14)),
                     ),
                     Text(
                       '+${m.rewardPoint}P',
@@ -245,9 +235,7 @@ class _MissionRow extends StatelessWidget {
                     value: m.rate,
                     backgroundColor: AppColors.divider,
                     valueColor: AlwaysStoppedAnimation(
-                      completed
-                          ? AppColors.success
-                          : AppColors.brandDark,
+                      completed ? AppColors.success : AppColors.brandDark,
                     ),
                     minHeight: 6,
                   ),
@@ -261,9 +249,7 @@ class _MissionRow extends StatelessWidget {
                       : '${m.progress}/${m.goal}',
                   style: TextStyle(
                     fontSize: 11,
-                    color: completed
-                        ? AppColors.success
-                        : AppColors.textFaint,
+                    color: completed ? AppColors.success : AppColors.textFaint,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

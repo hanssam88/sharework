@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../data/dummy_data.dart';
-import '../../models/models.dart';
 import '../../theme/app_theme.dart';
 
 class AvailabilityScreen extends StatefulWidget {
@@ -59,8 +58,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
     context.pop();
   }
 
-  int get _totalBlocks =>
-      _grid.values.fold<int>(0, (acc, s) => acc + s.length);
+  int get _totalBlocks => _grid.values.fold<int>(0, (acc, s) => acc + s.length);
 
   @override
   Widget build(BuildContext context) {
@@ -85,8 +83,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('일하실 수 있는 시간대를 선택해주세요',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w800)),
+                          style: const TextStyle(fontWeight: FontWeight.w800)),
                       const SizedBox(height: 2),
                       Text(
                         '선택된 블록: $_totalBlocks개 (각 6시간)',
@@ -112,9 +109,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                       _weekdayLabels[i],
                       style: TextStyle(
                         fontWeight: FontWeight.w800,
-                        color: isWeekend
-                            ? AppColors.danger
-                            : AppColors.text,
+                        color: isWeekend ? AppColors.danger : AppColors.text,
                       ),
                     ),
                   ),
@@ -148,9 +143,8 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                             duration: const Duration(milliseconds: 120),
                             height: 44,
                             decoration: BoxDecoration(
-                              color: on
-                                  ? AppColors.brandDark
-                                  : AppColors.chipBg,
+                              color:
+                                  on ? AppColors.brandDark : AppColors.chipBg,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             alignment: Alignment.center,

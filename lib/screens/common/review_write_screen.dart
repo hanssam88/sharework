@@ -106,15 +106,13 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
     final result = await showDialog<String>(
       context: context,
       builder: (_) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('작성 중인 리뷰가 있어요'),
         content: const Text('임시저장하면 마이페이지에서 다시 이어 쓸 수 있어요.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, 'discard'),
-            child: const Text('나가기',
-                style: TextStyle(color: AppColors.danger)),
+            child: const Text('나가기', style: TextStyle(color: AppColors.danger)),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -148,7 +146,7 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
       onPopInvokedWithResult: (didPop, _) async {
         if (didPop) return;
         if (await _onWillPop()) {
-          if (mounted) Navigator.pop(context);
+          if (context.mounted) Navigator.pop(context);
         }
       },
       child: Scaffold(
@@ -242,8 +240,7 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
                     Text('"${prev.content}"',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            fontSize: 12, height: 1.5)),
+                        style: const TextStyle(fontSize: 12, height: 1.5)),
                     const SizedBox(height: 4),
                     const Text('이번엔 어떻게 달랐나요?',
                         style: TextStyle(
@@ -272,9 +269,8 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
                   icon: Icon(
                     filled ? Icons.star : Icons.star_border,
                     size: 40,
-                    color: filled
-                        ? const Color(0xFFFFC400)
-                        : AppColors.textFaint,
+                    color:
+                        filled ? const Color(0xFFFFC400) : AppColors.textFaint,
                   ),
                 );
               }),
@@ -298,14 +294,13 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
               style: TextStyle(fontWeight: FontWeight.w800, fontSize: 15),
             ),
             const SizedBox(height: 8),
-            _slider('친절도', _kindness,
-                (v) => setState(() => _kindness = v)),
+            _slider('친절도', _kindness, (v) => setState(() => _kindness = v)),
             _slider('소통', _communication,
                 (v) => setState(() => _communication = v)),
-            _slider('시간엄수', _punctuality,
-                (v) => setState(() => _punctuality = v)),
-            _slider('근무환경', _environment,
-                (v) => setState(() => _environment = v)),
+            _slider(
+                '시간엄수', _punctuality, (v) => setState(() => _punctuality = v)),
+            _slider(
+                '근무환경', _environment, (v) => setState(() => _environment = v)),
 
             const SizedBox(height: 16),
             const Text(
@@ -475,8 +470,7 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
                     activeColor: AppColors.brandDark,
                     title: const Text('익명으로 등록',
                         style: TextStyle(fontWeight: FontWeight.w700)),
-                    subtitle: const Text(
-                        '닉네임 대신 "익명"으로 표시돼요',
+                    subtitle: const Text('닉네임 대신 "익명"으로 표시돼요',
                         style: TextStyle(
                             fontSize: 11, color: AppColors.textMuted)),
                     onChanged: (v) => setState(() => _anonymous = v),
@@ -488,8 +482,7 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
                     activeColor: AppColors.brandDark,
                     title: const Text('이 매장에서 또 일하고 싶어요',
                         style: TextStyle(fontWeight: FontWeight.w700)),
-                    subtitle: const Text(
-                        '재고용 의향은 매장 추천 점수에만 사용돼요',
+                    subtitle: const Text('재고용 의향은 매장 추천 점수에만 사용돼요',
                         style: TextStyle(
                             fontSize: 11, color: AppColors.textMuted)),
                     onChanged: (v) => setState(() => _willRehire = v),
@@ -534,15 +527,14 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
           SizedBox(
             width: 64,
             child: Text(label,
-                style: const TextStyle(
-                    fontSize: 13, fontWeight: FontWeight.w700)),
+                style:
+                    const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
           ),
           Expanded(
             child: SliderTheme(
               data: SliderTheme.of(context).copyWith(
                 trackHeight: 4,
-                thumbShape:
-                    const RoundSliderThumbShape(enabledThumbRadius: 8),
+                thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
               ),
               child: Slider(
                 value: value,

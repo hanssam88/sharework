@@ -202,7 +202,9 @@ class _ReportScreenState extends State<ReportScreen> {
       ),
       builder: (sheetCtx) => Padding(
         padding: EdgeInsets.only(
-          left: 20, right: 20, top: 20,
+          left: 20,
+          right: 20,
+          top: 20,
           bottom: MediaQuery.of(sheetCtx).viewInsets.bottom + 20,
         ),
         child: Column(
@@ -210,14 +212,12 @@ class _ReportScreenState extends State<ReportScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('$_reason — 추가 질문',
-                style: const TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w800)),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
             const SizedBox(height: 12),
-            if (_reason == '시급·근무조건 사기' ||
-                _reason == '사기·갈취 시도') ...[
+            if (_reason == '시급·근무조건 사기' || _reason == '사기·갈취 시도') ...[
               const Text('관련 금액 (선택)',
-                  style: TextStyle(
-                      fontSize: 13, fontWeight: FontWeight.w700)),
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
               const SizedBox(height: 6),
               TextField(
                 controller: _amountCtrl,
@@ -230,8 +230,7 @@ class _ReportScreenState extends State<ReportScreen> {
               const SizedBox(height: 12),
             ],
             const Text('어떤 상황이었나요? (선택)',
-                style: TextStyle(
-                    fontSize: 13, fontWeight: FontWeight.w700)),
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
             const SizedBox(height: 6),
             for (final opt in _subOptions)
               RadioListTile<String>(
@@ -299,8 +298,7 @@ class _ReportScreenState extends State<ReportScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('증거 종류',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 12),
               GridView.count(
                 crossAxisCount: 4,
@@ -342,14 +340,13 @@ class _ReportScreenState extends State<ReportScreen> {
                 ),
                 child: const Row(
                   children: [
-                    Icon(Icons.security,
-                        size: 16, color: AppColors.brandDark),
+                    Icon(Icons.security, size: 16, color: AppColors.brandDark),
                     SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         '제출된 증거는 검토 담당자만 열람할 수 있고, 검토 후 30일 안에 파기됩니다.',
-                        style: TextStyle(
-                            fontSize: 12, color: AppColors.brandDark),
+                        style:
+                            TextStyle(fontSize: 12, color: AppColors.brandDark),
                       ),
                     ),
                   ],
@@ -370,7 +367,8 @@ class _ReportScreenState extends State<ReportScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 52, height: 52,
+            width: 52,
+            height: 52,
             decoration: BoxDecoration(
               color: AppColors.brandSoft,
               borderRadius: BorderRadius.circular(14),
@@ -379,8 +377,8 @@ class _ReportScreenState extends State<ReportScreen> {
           ),
           const SizedBox(height: 6),
           Text(label,
-              style: const TextStyle(
-                  fontSize: 11, fontWeight: FontWeight.w600)),
+              style:
+                  const TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
         ],
       ),
     );
@@ -440,8 +438,7 @@ class _ReportScreenState extends State<ReportScreen> {
           FilledButton(
             onPressed: () {
               if (ctrl.text.trim().isEmpty) return;
-              setState(
-                  () => _evidence.add('인용: "${ctrl.text.trim()}"'));
+              setState(() => _evidence.add('인용: "${ctrl.text.trim()}"'));
               _markDirty();
               Navigator.pop(context);
             },
@@ -465,7 +462,8 @@ class _ReportScreenState extends State<ReportScreen> {
           children: [
             const SizedBox(height: 8),
             Container(
-              width: 36, height: 4,
+              width: 36,
+              height: 4,
               decoration: BoxDecoration(
                 color: AppColors.divider,
                 borderRadius: BorderRadius.circular(2),
@@ -473,8 +471,8 @@ class _ReportScreenState extends State<ReportScreen> {
             ),
             const SizedBox(height: 12),
             ListTile(
-              leading: const Icon(Icons.save_outlined,
-                  color: AppColors.brandDark),
+              leading:
+                  const Icon(Icons.save_outlined, color: AppColors.brandDark),
               title: const Text('임시저장'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -494,8 +492,7 @@ class _ReportScreenState extends State<ReportScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.history,
-                  color: AppColors.brandDark),
+              leading: const Icon(Icons.history, color: AppColors.brandDark),
               title: const Text('이전 신고 내역'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -506,7 +503,8 @@ class _ReportScreenState extends State<ReportScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.close, color: AppColors.danger),
-              title: const Text('취소', style: TextStyle(color: AppColors.danger)),
+              title:
+                  const Text('취소', style: TextStyle(color: AppColors.danger)),
               onTap: () async {
                 Navigator.pop(sheetCtx);
                 final ok = await _confirmExit();
@@ -535,8 +533,7 @@ class _ReportScreenState extends State<ReportScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('신고 가이드',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 12),
               for (final t in const [
                 ['검토 시간', '평균 4시간, 최대 24시간 내 답변'],
@@ -599,7 +596,7 @@ class _ReportScreenState extends State<ReportScreen> {
       onPopInvokedWithResult: (didPop, _) async {
         if (didPop) return;
         final ok = await _confirmExit();
-        if (ok && mounted) Navigator.of(context).pop();
+        if (ok && context.mounted) Navigator.of(context).pop();
       },
       child: Scaffold(
         appBar: AppBar(
@@ -724,13 +721,14 @@ class _ReportScreenState extends State<ReportScreen> {
               Row(
                 children: [
                   Container(
-                    width: 48, height: 48,
+                    width: 48,
+                    height: 48,
                     decoration: const BoxDecoration(
                       color: AppColors.brandSoft,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(_targetIcon,
-                        color: AppColors.brandDark, size: 24),
+                    child:
+                        Icon(_targetIcon, color: AppColors.brandDark, size: 24),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -739,12 +737,10 @@ class _ReportScreenState extends State<ReportScreen> {
                       children: [
                         Text(_targetName,
                             style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w800)),
+                                fontSize: 15, fontWeight: FontWeight.w800)),
                         Text('신고 대상: $_targetLabel',
                             style: const TextStyle(
-                                fontSize: 12,
-                                color: AppColors.textMuted)),
+                                fontSize: 12, color: AppColors.textMuted)),
                       ],
                     ),
                   ),
@@ -761,7 +757,8 @@ class _ReportScreenState extends State<ReportScreen> {
                   Expanded(
                     child: Text(
                       switch (widget.targetType) {
-                        'user' => '사용자가 정확한지 확인 후 다음으로 진행해주세요. 잘못된 사용자 신고는 허위 신고로 간주될 수 있어요.',
+                        'user' =>
+                          '사용자가 정확한지 확인 후 다음으로 진행해주세요. 잘못된 사용자 신고는 허위 신고로 간주될 수 있어요.',
                         'job' => '공고 내용을 다시 확인하고 사실과 다른 부분이 있는지 검토해주세요.',
                         'review' => '리뷰 내용을 한 번 더 확인하고, 단순 의견 차이는 신고 대상이 아니에요.',
                         _ => '신고 대상 정보를 확인해주세요.',
@@ -784,8 +781,7 @@ class _ReportScreenState extends State<ReportScreen> {
           ),
           child: const Row(
             children: [
-              Icon(Icons.shield_outlined,
-                  color: AppColors.brandDark, size: 18),
+              Icon(Icons.shield_outlined, color: AppColors.brandDark, size: 18),
               SizedBox(width: 8),
               Expanded(
                 child: Text(
@@ -866,8 +862,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     size: 36, color: AppColors.textFaint),
                 const SizedBox(height: 8),
                 const Text('첨부된 증거가 없어요',
-                    style: TextStyle(
-                        fontSize: 13, color: AppColors.textMuted)),
+                    style: TextStyle(fontSize: 13, color: AppColors.textMuted)),
                 const SizedBox(height: 12),
                 FilledButton.icon(
                   onPressed: _showEvidenceTypeSheet,
@@ -880,8 +875,7 @@ class _ReportScreenState extends State<ReportScreen> {
         else ...[
           if (_photos.isNotEmpty) ...[
             const Text('첨부 이미지',
-                style: TextStyle(
-                    fontSize: 13, fontWeight: FontWeight.w800)),
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800)),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
@@ -890,7 +884,8 @@ class _ReportScreenState extends State<ReportScreen> {
                 ..._photos.map((i) => Stack(
                       children: [
                         Container(
-                          width: 80, height: 80,
+                          width: 80,
+                          height: 80,
                           decoration: BoxDecoration(
                             color: AppColors.brandSoft,
                             borderRadius: BorderRadius.circular(10),
@@ -902,17 +897,19 @@ class _ReportScreenState extends State<ReportScreen> {
                                   fontWeight: FontWeight.w700)),
                         ),
                         Positioned(
-                          top: 2, right: 2,
+                          top: 2,
+                          right: 2,
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
                                 _photos.remove(i);
-                                _evidence.removeWhere((e) =>
-                                    e == '사진' || e == '캡처');
+                                _evidence
+                                    .removeWhere((e) => e == '사진' || e == '캡처');
                               });
                             },
                             child: Container(
-                              width: 22, height: 22,
+                              width: 22,
+                              height: 22,
                               decoration: const BoxDecoration(
                                 color: Colors.black54,
                                 shape: BoxShape.circle,
@@ -928,13 +925,11 @@ class _ReportScreenState extends State<ReportScreen> {
             ),
             const SizedBox(height: 12),
           ],
-          for (final e in _evidence
-              .where((x) => !_evidenceTypes.contains(x))
-              .toList())
+          for (final e
+              in _evidence.where((x) => !_evidenceTypes.contains(x)).toList())
             Container(
               margin: const EdgeInsets.only(bottom: 6),
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 12, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               decoration: BoxDecoration(
                 color: AppColors.bg,
                 borderRadius: BorderRadius.circular(10),
@@ -942,9 +937,7 @@ class _ReportScreenState extends State<ReportScreen> {
               child: Row(
                 children: [
                   Icon(
-                    e.startsWith('링크')
-                        ? Icons.link
-                        : Icons.format_quote,
+                    e.startsWith('링크') ? Icons.link : Icons.format_quote,
                     size: 16,
                     color: AppColors.brandDark,
                   ),
@@ -976,11 +969,9 @@ class _ReportScreenState extends State<ReportScreen> {
           value: _anonymous,
           activeColor: AppColors.brandDark,
           title: const Text('익명 제보로 처리',
-              style:
-                  TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
           subtitle: const Text('내부 검토용 신원만 보관, 결과 알림은 받지 않아요',
-              style: TextStyle(
-                  fontSize: 12, color: AppColors.textMuted)),
+              style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
           onChanged: (v) => setState(() => _anonymous = v),
         ),
       ],
@@ -1038,8 +1029,7 @@ class _ReportScreenState extends State<ReportScreen> {
             children: [
               const Row(
                 children: [
-                  Icon(Icons.access_time,
-                      size: 18, color: AppColors.brandDark),
+                  Icon(Icons.access_time, size: 18, color: AppColors.brandDark),
                   SizedBox(width: 8),
                   Text('처리 안내',
                       style: TextStyle(
@@ -1052,9 +1042,10 @@ class _ReportScreenState extends State<ReportScreen> {
               const Text('• 평균 4시간, 최대 24시간 내 검토',
                   style: TextStyle(fontSize: 12)),
               const SizedBox(height: 4),
-              Text(_anonymous
-                  ? '• 익명 제보이므로 결과 알림은 보내드리지 않아요'
-                  : '• 검토 결과는 푸시·이메일로 안내드려요',
+              Text(
+                  _anonymous
+                      ? '• 익명 제보이므로 결과 알림은 보내드리지 않아요'
+                      : '• 검토 결과는 푸시·이메일로 안내드려요',
                   style: const TextStyle(fontSize: 12)),
               const SizedBox(height: 4),
               const Text('• 추가 확인이 필요하면 채팅 또는 이메일로 연락드려요',
@@ -1087,7 +1078,8 @@ class _ReportScreenState extends State<ReportScreen> {
         padding: const EdgeInsets.fromLTRB(20, 24, 20, 20),
         children: [
           Container(
-            width: 80, height: 80,
+            width: 80,
+            height: 80,
             decoration: const BoxDecoration(
               color: AppColors.brandSoft,
               shape: BoxShape.circle,
@@ -1099,8 +1091,7 @@ class _ReportScreenState extends State<ReportScreen> {
           const SizedBox(height: 16),
           const Center(
             child: Text('신고가 접수되었어요',
-                style: TextStyle(
-                    fontSize: 18, fontWeight: FontWeight.w800)),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
           ),
           const SizedBox(height: 8),
           Center(
@@ -1108,8 +1099,7 @@ class _ReportScreenState extends State<ReportScreen> {
               _anonymous
                   ? '익명으로 처리됩니다. 검토에는 평균 4시간이 걸려요.'
                   : '검토 결과는 알림으로 안내드릴게요.',
-              style: const TextStyle(
-                  fontSize: 13, color: AppColors.textMuted),
+              style: const TextStyle(fontSize: 13, color: AppColors.textMuted),
             ),
           ),
           const SizedBox(height: 20),
@@ -1138,9 +1128,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     InkWell(
                       onTap: () {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text(
-                                  '${_ticketNumber} 복사됨 (목업)')),
+                          SnackBar(content: Text('${_ticketNumber} 복사됨 (목업)')),
                         );
                       },
                       child: const Icon(Icons.copy,
@@ -1197,9 +1185,8 @@ class _StepBar extends StatelessWidget {
             return Expanded(
               child: Container(
                 height: 2,
-                color: i ~/ 2 < active
-                    ? AppColors.brandDark
-                    : AppColors.divider,
+                color:
+                    i ~/ 2 < active ? AppColors.brandDark : AppColors.divider,
               ),
             );
           }
@@ -1208,7 +1195,8 @@ class _StepBar extends StatelessWidget {
           return Column(
             children: [
               Container(
-                width: 26, height: 26,
+                width: 26,
+                height: 26,
                 decoration: BoxDecoration(
                   color: idx < active
                       ? AppColors.success
@@ -1217,13 +1205,10 @@ class _StepBar extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: idx < active
-                    ? const Icon(Icons.check,
-                        color: Colors.white, size: 14)
+                    ? const Icon(Icons.check, color: Colors.white, size: 14)
                     : Text('${idx + 1}',
                         style: TextStyle(
-                            color: on
-                                ? Colors.white
-                                : AppColors.textFaint,
+                            color: on ? Colors.white : AppColors.textFaint,
                             fontSize: 12,
                             fontWeight: FontWeight.w800)),
               ),
@@ -1232,9 +1217,7 @@ class _StepBar extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
-                      color: on
-                          ? AppColors.text
-                          : AppColors.textFaint)),
+                      color: on ? AppColors.text : AppColors.textFaint)),
             ],
           );
         }),
@@ -1258,13 +1241,13 @@ class _SummaryRow extends StatelessWidget {
           SizedBox(
             width: 72,
             child: Text(label,
-                style: const TextStyle(
-                    fontSize: 12, color: AppColors.textMuted)),
+                style:
+                    const TextStyle(fontSize: 12, color: AppColors.textMuted)),
           ),
           Expanded(
             child: Text(value,
-                style: const TextStyle(
-                    fontSize: 13, fontWeight: FontWeight.w700)),
+                style:
+                    const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
           ),
         ],
       ),
@@ -1290,7 +1273,8 @@ class _StatusTimeline extends StatelessWidget {
               Column(
                 children: [
                   Container(
-                    width: 16, height: 16,
+                    width: 16,
+                    height: 16,
                     decoration: BoxDecoration(
                       color: (steps[i][2] as bool)
                           ? AppColors.success
@@ -1303,13 +1287,13 @@ class _StatusTimeline extends StatelessWidget {
                       ),
                     ),
                     child: (steps[i][2] as bool)
-                        ? const Icon(Icons.check,
-                            size: 10, color: Colors.white)
+                        ? const Icon(Icons.check, size: 10, color: Colors.white)
                         : null,
                   ),
                   if (i < steps.length - 1)
                     Container(
-                      width: 2, height: 24,
+                      width: 2,
+                      height: 24,
                       color: AppColors.divider,
                     ),
                 ],
@@ -1330,8 +1314,7 @@ class _StatusTimeline extends StatelessWidget {
                                   : AppColors.textMuted)),
                       Text(steps[i][1] as String,
                           style: const TextStyle(
-                              fontSize: 11,
-                              color: AppColors.textFaint)),
+                              fontSize: 11, color: AppColors.textFaint)),
                     ],
                   ),
                 ),

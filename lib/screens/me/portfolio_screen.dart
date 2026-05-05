@@ -7,6 +7,7 @@ import '../../screens/permissions/priming_sheets.dart';
 import '../../theme/app_theme.dart';
 
 enum _ViewMode { grid, list }
+
 enum _SortMode { recent, name, kind }
 
 class PortfolioScreen extends StatefulWidget {
@@ -27,11 +28,20 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
   final Set<int> _selected = {};
 
   static const _categories = [
-    '카페', '서빙', '행사', '디자인', '기타',
+    '카페',
+    '서빙',
+    '행사',
+    '디자인',
+    '기타',
   ];
 
   static const _placeholders = [
-    '#E6F8F6', '#FFF6E5', '#EEF4FF', '#FFE9EC', '#F1F3F5', '#E0F2FE',
+    '#E6F8F6',
+    '#FFF6E5',
+    '#EEF4FF',
+    '#FFE9EC',
+    '#F1F3F5',
+    '#E0F2FE',
   ];
 
   @override
@@ -56,8 +66,9 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
     return list;
   }
 
-  int get _nextId =>
-      _items.isEmpty ? 1 : _items.map((i) => i.id).reduce((a, b) => a > b ? a : b) + 1;
+  int get _nextId => _items.isEmpty
+      ? 1
+      : _items.map((i) => i.id).reduce((a, b) => a > b ? a : b) + 1;
 
   void _toggleSelect(int id) {
     setState(() {
@@ -91,12 +102,10 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('포트폴리오 추가',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 4),
               const Text('어떤 형식으로 등록할까요?',
-                  style: TextStyle(
-                      fontSize: 12, color: AppColors.textMuted)),
+                  style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
               const SizedBox(height: 16),
               GridView.count(
                 crossAxisCount: 4,
@@ -120,8 +129,8 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                     final ok = await ensurePermission(
                         context, PermissionKind.camera,
                         customWhy: '동영상을 촬영하거나 녹화하려면 카메라가 필요해요');
-                    if (!context.mounted || !ok) return;
-                    ScaffoldMessenger.of(context).showSnackBar(
+                    if (!mounted || !ok) return;
+                    ScaffoldMessenger.of(this.context).showSnackBar(
                       const SnackBar(content: Text('동영상 업로드 (목업)')),
                     );
                   }),
@@ -148,8 +157,8 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                     Expanded(
                       child: Text(
                         '한 줄 설명을 잘 적어두면 매칭율이 1.4배까지 올라가요.',
-                        style: TextStyle(
-                            fontSize: 12, color: AppColors.brandDark),
+                        style:
+                            TextStyle(fontSize: 12, color: AppColors.brandDark),
                       ),
                     ),
                   ],
@@ -170,7 +179,8 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 52, height: 52,
+            width: 52,
+            height: 52,
             decoration: BoxDecoration(
               color: AppColors.brandSoft,
               borderRadius: BorderRadius.circular(14),
@@ -179,8 +189,8 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
           ),
           const SizedBox(height: 6),
           Text(label,
-              style: const TextStyle(
-                  fontSize: 11, fontWeight: FontWeight.w600)),
+              style:
+                  const TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
         ],
       ),
     );
@@ -204,7 +214,9 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
       ),
       builder: (sheetCtx) => Padding(
         padding: EdgeInsets.only(
-          left: 20, right: 20, top: 20,
+          left: 20,
+          right: 20,
+          top: 20,
           bottom: MediaQuery.of(sheetCtx).viewInsets.bottom + 20,
         ),
         child: StatefulBuilder(
@@ -224,9 +236,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                     const SizedBox(width: 8),
                     Text(
                       existing == null
-                          ? (k == PortfolioKind.image
-                              ? '이미지 작품 추가'
-                              : '링크 추가')
+                          ? (k == PortfolioKind.image ? '이미지 작품 추가' : '링크 추가')
                           : '편집',
                       style: const TextStyle(
                           fontSize: 16, fontWeight: FontWeight.w800),
@@ -268,8 +278,8 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                   ),
                   const SizedBox(height: 8),
                   const Text('썸네일 색상',
-                      style: TextStyle(
-                          fontSize: 12, color: AppColors.textMuted)),
+                      style:
+                          TextStyle(fontSize: 12, color: AppColors.textMuted)),
                   const SizedBox(height: 6),
                   Wrap(
                     spacing: 6,
@@ -277,7 +287,8 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                         .map((c) => GestureDetector(
                               onTap: () => innerSet(() => selectedColor = c),
                               child: Container(
-                                width: 28, height: 28,
+                                width: 28,
+                                height: 28,
                                 decoration: BoxDecoration(
                                   color: Color(int.parse(
                                       'FF${c.replaceAll('#', '')}',
@@ -313,7 +324,8 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                       if (raw.isEmpty) return;
                       innerSet(() {
                         if (titleCtrl.text.isEmpty) {
-                          titleCtrl.text = '링크: ${raw.replaceAll(RegExp(r'^https?://'), '').split('/').first}';
+                          titleCtrl.text =
+                              '링크: ${raw.replaceAll(RegExp(r'^https?://'), '').split('/').first}';
                         }
                         if (subCtrl.text.isEmpty) {
                           subCtrl.text = '미리보기 자동 추출 (목업)';
@@ -344,8 +356,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                 ),
                 const SizedBox(height: 12),
                 const Text('카테고리',
-                    style: TextStyle(
-                        fontSize: 12, color: AppColors.textMuted)),
+                    style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
                 const SizedBox(height: 6),
                 Wrap(
                   spacing: 6,
@@ -364,11 +375,11 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                   value: isPrivate,
                   onChanged: (v) => innerSet(() => isPrivate = v),
                   title: const Text('비공개로 저장',
-                      style: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w700)),
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
                   subtitle: const Text('나만 볼 수 있어요',
-                      style: TextStyle(
-                          fontSize: 12, color: AppColors.textMuted)),
+                      style:
+                          TextStyle(fontSize: 12, color: AppColors.textMuted)),
                   activeColor: AppColors.brandDark,
                 ),
                 const SizedBox(height: 8),
@@ -417,14 +428,13 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                             url: k == PortfolioKind.link
                                 ? urlCtrl.text.trim()
                                 : null,
-                            colorTag: k == PortfolioKind.image
-                                ? selectedColor
-                                : null,
+                            colorTag:
+                                k == PortfolioKind.image ? selectedColor : null,
                           );
                           setState(() {
                             if (existing != null) {
-                              final idx = _items
-                                  .indexWhere((i) => i.id == existing.id);
+                              final idx =
+                                  _items.indexWhere((i) => i.id == existing.id);
                               if (idx >= 0) _items[idx] = item;
                             } else {
                               _items.add(item);
@@ -475,7 +485,8 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
               Row(
                 children: [
                   Container(
-                    width: 48, height: 48,
+                    width: 48,
+                    height: 48,
                     decoration: BoxDecoration(
                       color: item.colorTag != null
                           ? Color(int.parse(
@@ -498,13 +509,11 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                       children: [
                         Text(item.title,
                             style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w800)),
+                                fontSize: 15, fontWeight: FontWeight.w800)),
                         if (item.subtitle != null)
                           Text(item.subtitle!,
                               style: const TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.textMuted)),
+                                  fontSize: 12, color: AppColors.textMuted)),
                       ],
                     ),
                   ),
@@ -513,8 +522,8 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
               const Divider(height: 24),
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.open_in_new,
-                    color: AppColors.brandDark),
+                leading:
+                    const Icon(Icons.open_in_new, color: AppColors.brandDark),
                 title: const Text('미리보기'),
                 onTap: () {
                   Navigator.pop(sheetCtx);
@@ -525,8 +534,8 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
               ),
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.edit_outlined,
-                    color: AppColors.brandDark),
+                leading:
+                    const Icon(Icons.edit_outlined, color: AppColors.brandDark),
                 title: const Text('편집'),
                 onTap: () {
                   Navigator.pop(sheetCtx);
@@ -586,10 +595,10 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
               ),
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.delete_outline,
-                    color: AppColors.danger),
-                title: const Text('삭제',
-                    style: TextStyle(color: AppColors.danger)),
+                leading:
+                    const Icon(Icons.delete_outline, color: AppColors.danger),
+                title:
+                    const Text('삭제', style: TextStyle(color: AppColors.danger)),
                 onTap: () {
                   Navigator.pop(sheetCtx);
                   _confirmDelete([item.id]);
@@ -614,8 +623,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
             child: const Text('취소'),
           ),
           FilledButton(
-            style:
-                FilledButton.styleFrom(backgroundColor: AppColors.danger),
+            style: FilledButton.styleFrom(backgroundColor: AppColors.danger),
             onPressed: () {
               Navigator.pop(context);
               setState(() {
@@ -646,8 +654,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
           children: [
             const SizedBox(height: 16),
             const Text('정렬',
-                style:
-                    TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
             const SizedBox(height: 8),
             for (final s in _SortMode.values)
               RadioListTile<_SortMode>(
@@ -684,7 +691,8 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
           children: [
             const SizedBox(height: 8),
             Container(
-              width: 36, height: 4,
+              width: 36,
+              height: 4,
               decoration: BoxDecoration(
                 color: AppColors.divider,
                 borderRadius: BorderRadius.circular(2),
@@ -701,24 +709,18 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
             ),
             ListTile(
               leading: Icon(
-                _view == _ViewMode.grid
-                    ? Icons.view_list
-                    : Icons.grid_view,
+                _view == _ViewMode.grid ? Icons.view_list : Icons.grid_view,
                 color: AppColors.brandDark,
               ),
-              title: Text(_view == _ViewMode.grid
-                  ? '리스트로 보기'
-                  : '그리드로 보기'),
+              title: Text(_view == _ViewMode.grid ? '리스트로 보기' : '그리드로 보기'),
               onTap: () {
                 Navigator.pop(sheetCtx);
-                setState(() => _view = _view == _ViewMode.grid
-                    ? _ViewMode.list
-                    : _ViewMode.grid);
+                setState(() => _view =
+                    _view == _ViewMode.grid ? _ViewMode.list : _ViewMode.grid);
               },
             ),
             ListTile(
-              leading: const Icon(Icons.checklist,
-                  color: AppColors.brandDark),
+              leading: const Icon(Icons.checklist, color: AppColors.brandDark),
               title: const Text('일괄 선택'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -726,8 +728,8 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.share_outlined,
-                  color: AppColors.brandDark),
+              leading:
+                  const Icon(Icons.share_outlined, color: AppColors.brandDark),
               title: const Text('포트폴리오 전체 공유'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -735,8 +737,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.bar_chart,
-                  color: AppColors.brandDark),
+              leading: const Icon(Icons.bar_chart, color: AppColors.brandDark),
               title: const Text('조회수 통계'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -764,8 +765,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('이번 달 조회수 (목업)',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 12),
               Row(
                 children: [
@@ -796,16 +796,14 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                     children: [
                       Text('${i + 1}.',
                           style: const TextStyle(
-                              fontSize: 13,
-                              color: AppColors.textMuted)),
+                              fontSize: 13, color: AppColors.textMuted)),
                       const SizedBox(width: 6),
                       Expanded(
                         child: Text(_items[i].title,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700)),
+                                fontSize: 14, fontWeight: FontWeight.w700)),
                       ),
                       Text('${(384 - i * 92)}회',
                           style: const TextStyle(
@@ -846,15 +844,15 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  _shareTile(Icons.chat_bubble, '카카오톡',
-                      const Color(0xFFFEE500), AppColors.text, () {
+                  _shareTile(Icons.chat_bubble, '카카오톡', const Color(0xFFFEE500),
+                      AppColors.text, () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('카카오톡 공유 (목업)')),
                     );
                   }),
-                  _shareTile(Icons.link, '링크 복사',
-                      AppColors.brandSoft, AppColors.brandDark, () {
+                  _shareTile(Icons.link, '링크 복사', AppColors.brandSoft,
+                      AppColors.brandDark, () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -862,15 +860,17 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                               Text('https://share.work/p/abc123 복사됨 (목업)')),
                     );
                   }),
-                  _shareTile(Icons.qr_code, 'QR',
-                      AppColors.chipBg, AppColors.text, () {
+                  _shareTile(
+                      Icons.qr_code, 'QR', AppColors.chipBg, AppColors.text,
+                      () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('QR 보기 (목업)')),
                     );
                   }),
-                  _shareTile(Icons.ios_share, '다른 앱',
-                      AppColors.chipBg, AppColors.text, () {
+                  _shareTile(
+                      Icons.ios_share, '다른 앱', AppColors.chipBg, AppColors.text,
+                      () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('OS 공유 시트 (목업)')),
@@ -894,7 +894,8 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 52, height: 52,
+            width: 52,
+            height: 52,
             decoration: BoxDecoration(
               color: bg,
               borderRadius: BorderRadius.circular(14),
@@ -903,8 +904,8 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
           ),
           const SizedBox(height: 6),
           Text(label,
-              style: const TextStyle(
-                  fontSize: 11, fontWeight: FontWeight.w600)),
+              style:
+                  const TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
         ],
       ),
     );
@@ -923,8 +924,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                 style: TextStyle(color: AppColors.textMuted)),
             const SizedBox(height: 4),
             const Text('첫 작품을 추가해보세요',
-                style:
-                    TextStyle(fontSize: 12, color: AppColors.textFaint)),
+                style: TextStyle(fontSize: 12, color: AppColors.textFaint)),
             const SizedBox(height: 16),
             FilledButton.icon(
               onPressed: _showAddTypeSheet,
@@ -1014,13 +1014,13 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                       selected
                           ? Icons.check_circle
                           : Icons.radio_button_unchecked,
-                      color: selected
-                          ? AppColors.brandDark
-                          : AppColors.textFaint,
+                      color:
+                          selected ? AppColors.brandDark : AppColors.textFaint,
                     ),
                   ),
                 Container(
-                  width: 56, height: 56,
+                  width: 56,
+                  height: 56,
                   decoration: BoxDecoration(
                     color: item.colorTag != null
                         ? Color(int.parse(
@@ -1048,8 +1048,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.w800,
-                                    fontSize: 14)),
+                                    fontWeight: FontWeight.w800, fontSize: 14)),
                           ),
                           if (featured)
                             const Icon(Icons.star,
@@ -1068,8 +1067,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
-                                fontSize: 12,
-                                color: AppColors.textMuted)),
+                                fontSize: 12, color: AppColors.textMuted)),
                       ],
                     ],
                   ),
@@ -1086,9 +1084,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_selectMode
-            ? '${_selected.length}개 선택됨'
-            : '포트폴리오'),
+        title: Text(_selectMode ? '${_selected.length}개 선택됨' : '포트폴리오'),
         leading: _selectMode
             ? IconButton(
                 icon: const Icon(Icons.close),
@@ -1215,8 +1211,7 @@ class _PortfolioCard extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 13),
+                                  fontWeight: FontWeight.w800, fontSize: 13),
                             ),
                           ),
                           if (isPrivate)
@@ -1241,10 +1236,11 @@ class _PortfolioCard extends StatelessWidget {
             ),
             if (featured)
               Positioned(
-                top: 6, left: 6,
+                top: 6,
+                left: 6,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 6, vertical: 2),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
                     color: const Color(0xFFFFC400),
                     borderRadius: BorderRadius.circular(6),
@@ -1265,26 +1261,24 @@ class _PortfolioCard extends StatelessWidget {
               ),
             if (selectMode)
               Positioned(
-                top: 6, right: 6,
+                top: 6,
+                right: 6,
                 child: Container(
-                  width: 22, height: 22,
+                  width: 22,
+                  height: 22,
                   decoration: BoxDecoration(
                     color: selected
                         ? AppColors.brandDark
                         : Colors.white.withOpacity(0.85),
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: selected
-                          ? AppColors.brandDark
-                          : AppColors.divider,
+                      color: selected ? AppColors.brandDark : AppColors.divider,
                     ),
                   ),
                   child: Icon(
                     Icons.check,
                     size: 14,
-                    color: selected
-                        ? Colors.white
-                        : AppColors.textFaint,
+                    color: selected ? Colors.white : AppColors.textFaint,
                   ),
                 ),
               ),
@@ -1312,8 +1306,7 @@ class _StatCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label,
-              style: const TextStyle(
-                  fontSize: 11, color: AppColors.textMuted)),
+              style: const TextStyle(fontSize: 11, color: AppColors.textMuted)),
           const SizedBox(height: 4),
           Text(value,
               style: const TextStyle(

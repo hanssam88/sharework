@@ -75,8 +75,7 @@ class JobCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (job.sameDayPayment)
-                    const TagChip('당일지급', primary: true),
+                  if (job.sameDayPayment) const TagChip('당일지급', primary: true),
                 ],
               ),
               const SizedBox(height: 6),
@@ -108,22 +107,30 @@ class JobCard extends StatelessWidget {
                   const Icon(Icons.access_time,
                       size: 14, color: AppColors.textMuted),
                   const SizedBox(width: 2),
-                  Text(
-                    '${fmtDate(job.startAt)} · ${fmtTime(job.startAt)}~${fmtTime(job.endAt)}',
-                    style: const TextStyle(
-                        fontSize: 12, color: AppColors.textMuted),
+                  Expanded(
+                    child: Text(
+                      '${fmtDate(job.startAt)} · ${fmtTime(job.startAt)}~${fmtTime(job.endAt)}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontSize: 12, color: AppColors.textMuted),
+                    ),
                   ),
                 ],
               ),
               const SizedBox(height: 10),
               Row(
                 children: [
-                  Text(
-                    '${job.payType} ${fmtMoney(job.pay)}',
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.brandDark,
+                  Flexible(
+                    child: Text(
+                      '${job.payType} ${fmtMoney(job.pay)}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.brandDark,
+                      ),
                     ),
                   ),
                   const Spacer(),
@@ -167,7 +174,8 @@ class ReviewCard extends StatelessWidget {
                 const CircleAvatar(
                   radius: 14,
                   backgroundColor: AppColors.chipBg,
-                  child: Icon(Icons.person, size: 16, color: AppColors.textMuted),
+                  child:
+                      Icon(Icons.person, size: 16, color: AppColors.textMuted),
                 ),
                 const SizedBox(width: 8),
                 Text(
@@ -177,8 +185,8 @@ class ReviewCard extends StatelessWidget {
                 const Spacer(),
                 Text(
                   fmtRelative(review.createdAt),
-                  style: const TextStyle(
-                      fontSize: 12, color: AppColors.textFaint),
+                  style:
+                      const TextStyle(fontSize: 12, color: AppColors.textFaint),
                 ),
               ],
             ),
@@ -187,8 +195,7 @@ class ReviewCard extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               review.jobTitle,
-              style: const TextStyle(
-                  fontSize: 12, color: AppColors.textMuted),
+              style: const TextStyle(fontSize: 12, color: AppColors.textMuted),
             ),
             const SizedBox(height: 8),
             Text(review.content,

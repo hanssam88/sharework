@@ -15,12 +15,6 @@ extension _PeriodX on _Period {
         _Period.d90 => '최근 90일',
         _Period.custom => '직접 지정',
       };
-  int get days => switch (this) {
-        _Period.d7 => 7,
-        _Period.d30 => 30,
-        _Period.d90 => 90,
-        _Period.custom => 0,
-      };
 }
 
 class JobStatsScreen extends StatefulWidget {
@@ -74,8 +68,7 @@ class _JobStatsScreenState extends State<JobStatsScreen> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 15)),
+                              fontWeight: FontWeight.w800, fontSize: 15)),
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
@@ -99,8 +92,8 @@ class _JobStatsScreenState extends State<JobStatsScreen> {
                 const SizedBox(height: 4),
                 Text(
                   '${fmtDate(job.startAt)} · ${fmtTime(job.startAt)} ~ ${fmtTime(job.endAt)}',
-                  style: const TextStyle(
-                      fontSize: 12, color: AppColors.textMuted),
+                  style:
+                      const TextStyle(fontSize: 12, color: AppColors.textMuted),
                 ),
               ],
             ),
@@ -128,13 +121,11 @@ class _JobStatsScreenState extends State<JobStatsScreen> {
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            _period == _Period.custom &&
-                                    _customRange != null
+                            _period == _Period.custom && _customRange != null
                                 ? _fmtRange(_customRange!)
                                 : _period.label,
                             style: const TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w700),
+                                fontSize: 13, fontWeight: FontWeight.w700),
                           ),
                         ),
                         const Icon(Icons.arrow_drop_down,
@@ -149,17 +140,13 @@ class _JobStatsScreenState extends State<JobStatsScreen> {
                 onTap: () => setState(() => _compare = !_compare),
                 borderRadius: BorderRadius.circular(10),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 12, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                   decoration: BoxDecoration(
-                    color: _compare
-                        ? AppColors.brandSoft
-                        : Colors.white,
+                    color: _compare ? AppColors.brandSoft : Colors.white,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: _compare
-                          ? AppColors.brandDark
-                          : AppColors.divider,
+                      color: _compare ? AppColors.brandDark : AppColors.divider,
                     ),
                   ),
                   child: Row(
@@ -176,8 +163,7 @@ class _JobStatsScreenState extends State<JobStatsScreen> {
                       const SizedBox(width: 4),
                       const Text('전기간 비교',
                           style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700)),
+                              fontSize: 12, fontWeight: FontWeight.w700)),
                     ],
                   ),
                 ),
@@ -205,36 +191,33 @@ class _JobStatsScreenState extends State<JobStatsScreen> {
               _KpiCard(
                 label: '상세 진입',
                 value: '${s.clicks}',
-                trailing:
-                    '회 · ${(s.clickRate * 100).toStringAsFixed(1)}%',
+                trailing: '회 · ${(s.clickRate * 100).toStringAsFixed(1)}%',
                 icon: Icons.touch_app_outlined,
                 delta: _compare ? '+8%' : null,
                 onTap: () => _showMetricDetail(
                     '상세 진입',
-                    List.generate(7,
-                        (i) => 30 + ((i + widget.jobId) * 5) % 40)),
+                    List.generate(
+                        7, (i) => 30 + ((i + widget.jobId) * 5) % 40)),
               ),
               _KpiCard(
                 label: '지원',
                 value: '${s.applications}',
-                trailing:
-                    '명 · ${(s.applyRate * 100).toStringAsFixed(1)}%',
+                trailing: '명 · ${(s.applyRate * 100).toStringAsFixed(1)}%',
                 icon: Icons.send_outlined,
                 highlight: true,
                 delta: _compare ? '-3%' : null,
-                onTap: () => _showMetricDetail('지원',
-                    List.generate(7, (i) => 2 + (i + widget.jobId) % 5)),
+                onTap: () => _showMetricDetail(
+                    '지원', List.generate(7, (i) => 2 + (i + widget.jobId) % 5)),
               ),
               _KpiCard(
                 label: '채용 확정',
                 value: '${s.hires}',
-                trailing:
-                    '명 · ${(s.hireRate * 100).toStringAsFixed(0)}%',
+                trailing: '명 · ${(s.hireRate * 100).toStringAsFixed(0)}%',
                 icon: Icons.celebration_outlined,
                 highlight: true,
                 delta: _compare ? '+1' : null,
-                onTap: () => _showMetricDetail('채용',
-                    List.generate(7, (i) => i % 3 == 0 ? 1 : 0)),
+                onTap: () => _showMetricDetail(
+                    '채용', List.generate(7, (i) => i % 3 == 0 ? 1 : 0)),
               ),
             ],
           ),
@@ -244,9 +227,7 @@ class _JobStatsScreenState extends State<JobStatsScreen> {
             child: Column(
               children: [
                 _FunnelStep(
-                    label: '노출',
-                    value: s.impressions,
-                    max: s.impressions),
+                    label: '노출', value: s.impressions, max: s.impressions),
                 _FunnelStep(
                     label: '상세 진입',
                     value: s.clicks,
@@ -324,8 +305,7 @@ class _JobStatsScreenState extends State<JobStatsScreen> {
                           job.pay >= s.avgPay
                               ? '평균보다 ${fmtMoney(job.pay - s.avgPay)} 높아요. 매칭이 빨라질 가능성이 큽니다.'
                               : '평균보다 ${fmtMoney(s.avgPay - job.pay)} 낮아요. 시급 인상 또는 끌어올리기 추천.',
-                          style: const TextStyle(
-                              fontSize: 12, height: 1.5),
+                          style: const TextStyle(fontSize: 12, height: 1.5),
                         ),
                       ),
                     ],
@@ -352,8 +332,7 @@ class _JobStatsScreenState extends State<JobStatsScreen> {
   }
 
   String _fmtRange(DateTimeRange r) {
-    String d(DateTime x) =>
-        '${x.month}.${x.day.toString().padLeft(2, '0')}';
+    String d(DateTime x) => '${x.month}.${x.day.toString().padLeft(2, '0')}';
     return '${d(r.start)} ~ ${d(r.end)}';
   }
 
@@ -370,8 +349,7 @@ class _JobStatsScreenState extends State<JobStatsScreen> {
           children: [
             const SizedBox(height: 16),
             const Text('기간 선택',
-                style:
-                    TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
             const SizedBox(height: 8),
             for (final p in _Period.values)
               RadioListTile<_Period>(
@@ -429,8 +407,7 @@ class _JobStatsScreenState extends State<JobStatsScreen> {
                   Expanded(
                     child: Text('$label · 일자별 추이',
                         style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w800)),
+                            fontSize: 16, fontWeight: FontWeight.w800)),
                   ),
                   IconButton(
                     icon: const Icon(Icons.close),
@@ -451,20 +428,17 @@ class _JobStatsScreenState extends State<JobStatsScreen> {
                   children: [
                     _StatRow(
                         label: '합계',
-                        value:
-                            '${values.fold<int>(0, (a, b) => a + b)}'),
+                        value: '${values.fold<int>(0, (a, b) => a + b)}'),
                     _StatRow(
                         label: '일 평균',
                         value:
                             '${(values.fold<int>(0, (a, b) => a + b) / values.length).toStringAsFixed(1)}'),
                     _StatRow(
                         label: '최고',
-                        value:
-                            '${values.reduce((a, b) => a > b ? a : b)}'),
+                        value: '${values.reduce((a, b) => a > b ? a : b)}'),
                     _StatRow(
                         label: '최저',
-                        value:
-                            '${values.reduce((a, b) => a < b ? a : b)}'),
+                        value: '${values.reduce((a, b) => a < b ? a : b)}'),
                   ],
                 ),
               ),
@@ -490,37 +464,39 @@ class _JobStatsScreenState extends State<JobStatsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('통계 내보내기',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 16),
               GridView.count(
                 crossAxisCount: 4,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  _shareTile(Icons.table_chart, 'CSV',
-                      AppColors.brandSoft, AppColors.brandDark, () {
+                  _shareTile(Icons.table_chart, 'CSV', AppColors.brandSoft,
+                      AppColors.brandDark, () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('통계_${'job'}.csv 다운로드 (목업)')),
+                      const SnackBar(
+                          content: Text('통계_${'job'}.csv 다운로드 (목업)')),
                     );
                   }),
-                  _shareTile(Icons.image, '이미지',
-                      AppColors.chipBg, AppColors.text, () {
+                  _shareTile(
+                      Icons.image, '이미지', AppColors.chipBg, AppColors.text, () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('이미지로 저장 (목업)')),
                     );
                   }),
-                  _shareTile(Icons.link, '리포트 링크',
-                      AppColors.chipBg, AppColors.text, () {
+                  _shareTile(
+                      Icons.link, '리포트 링크', AppColors.chipBg, AppColors.text,
+                      () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('https://share.work/r/abc 복사됨 (목업)')),
+                      const SnackBar(
+                          content: Text('https://share.work/r/abc 복사됨 (목업)')),
                     );
                   }),
-                  _shareTile(Icons.chat_bubble, '카카오톡',
-                      const Color(0xFFFEE500), AppColors.text, () {
+                  _shareTile(Icons.chat_bubble, '카카오톡', const Color(0xFFFEE500),
+                      AppColors.text, () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('카카오톡 공유 (목업)')),
@@ -544,7 +520,8 @@ class _JobStatsScreenState extends State<JobStatsScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 52, height: 52,
+            width: 52,
+            height: 52,
             decoration: BoxDecoration(
               color: bg,
               borderRadius: BorderRadius.circular(14),
@@ -553,8 +530,8 @@ class _JobStatsScreenState extends State<JobStatsScreen> {
           ),
           const SizedBox(height: 6),
           Text(label,
-              style: const TextStyle(
-                  fontSize: 11, fontWeight: FontWeight.w600)),
+              style:
+                  const TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
         ],
       ),
     );
@@ -576,8 +553,7 @@ class _JobStatsScreenState extends State<JobStatsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('지표 설명',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 12),
               for (final h in const [
                 ['노출', '검색 결과·홈 피드에 카드가 보여진 횟수', '업계 평균 1,200회/공고'],
@@ -601,8 +577,7 @@ class _JobStatsScreenState extends State<JobStatsScreen> {
                               fontWeight: FontWeight.w800,
                               color: AppColors.brandDark)),
                       const SizedBox(height: 4),
-                      Text(h[1],
-                          style: const TextStyle(fontSize: 13)),
+                      Text(h[1], style: const TextStyle(fontSize: 13)),
                       const SizedBox(height: 4),
                       Text(h[2],
                           style: const TextStyle(
@@ -661,9 +636,8 @@ class _KpiCard extends StatelessWidget {
               children: [
                 Icon(icon,
                     size: 16,
-                    color: highlight
-                        ? AppColors.brandDark
-                        : AppColors.textMuted),
+                    color:
+                        highlight ? AppColors.brandDark : AppColors.textMuted),
                 const SizedBox(width: 4),
                 Expanded(
                   child: Text(label,
@@ -672,8 +646,8 @@ class _KpiCard extends StatelessWidget {
                 ),
                 if (delta != null)
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 5, vertical: 2),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                     decoration: BoxDecoration(
                       color: isPositive
                           ? const Color(0xFFE8F8EE)
@@ -699,8 +673,8 @@ class _KpiCard extends StatelessWidget {
                 )),
             const SizedBox(height: 2),
             Text(trailing,
-                style: const TextStyle(
-                    fontSize: 11, color: AppColors.textFaint)),
+                style:
+                    const TextStyle(fontSize: 11, color: AppColors.textFaint)),
           ],
         ),
       ),
@@ -779,8 +753,8 @@ class _BarChart extends StatelessWidget {
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                       ),
-                      borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(4)),
+                      borderRadius:
+                          const BorderRadius.vertical(top: Radius.circular(4)),
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -818,8 +792,7 @@ class _CompareRow extends StatelessWidget {
               style: TextStyle(
                 fontSize: 13,
                 color: highlight ? AppColors.text : AppColors.textMuted,
-                fontWeight:
-                    highlight ? FontWeight.w800 : FontWeight.w500,
+                fontWeight: highlight ? FontWeight.w800 : FontWeight.w500,
               )),
         ),
         Text(value,
@@ -871,8 +844,8 @@ class _FunnelStep extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(
                   '${fromLabel ?? "노출"} → ${(rate! * 100).toStringAsFixed(1)}%',
-                  style: const TextStyle(
-                      fontSize: 11, color: AppColors.textMuted),
+                  style:
+                      const TextStyle(fontSize: 11, color: AppColors.textMuted),
                 ),
               ],
             ],
@@ -884,8 +857,7 @@ class _FunnelStep extends StatelessWidget {
               value: pct,
               minHeight: 8,
               backgroundColor: AppColors.chipBg,
-              valueColor:
-                  const AlwaysStoppedAnimation(AppColors.brandDark),
+              valueColor: const AlwaysStoppedAnimation(AppColors.brandDark),
             ),
           ),
         ],
@@ -950,12 +922,12 @@ class _Heatmap extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             const Text('낮음',
-                style: TextStyle(
-                    fontSize: 10, color: AppColors.textMuted)),
+                style: TextStyle(fontSize: 10, color: AppColors.textMuted)),
             const SizedBox(width: 4),
             for (final v in const [0.1, 0.3, 0.6, 0.9])
               Container(
-                width: 12, height: 8,
+                width: 12,
+                height: 8,
                 margin: const EdgeInsets.symmetric(horizontal: 1),
                 decoration: BoxDecoration(
                   color: AppColors.brandDark.withOpacity(v),
@@ -964,8 +936,7 @@ class _Heatmap extends StatelessWidget {
               ),
             const SizedBox(width: 4),
             const Text('높음',
-                style: TextStyle(
-                    fontSize: 10, color: AppColors.textMuted)),
+                style: TextStyle(fontSize: 10, color: AppColors.textMuted)),
           ],
         ),
       ],
@@ -997,12 +968,12 @@ class _StatRow extends StatelessWidget {
         children: [
           Expanded(
             child: Text(label,
-                style: const TextStyle(
-                    fontSize: 12, color: AppColors.textMuted)),
+                style:
+                    const TextStyle(fontSize: 12, color: AppColors.textMuted)),
           ),
           Text(value,
-              style: const TextStyle(
-                  fontSize: 13, fontWeight: FontWeight.w800)),
+              style:
+                  const TextStyle(fontSize: 13, fontWeight: FontWeight.w800)),
         ],
       ),
     );

@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import '../../data/dummy_data.dart';
 import '../../models/models.dart';
 import '../../theme/app_theme.dart';
-import '../../widgets/shared.dart';
 
 class EventsScreen extends StatelessWidget {
   const EventsScreen({super.key});
@@ -27,8 +26,7 @@ class EventsScreen extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.fromLTRB(4, 4, 4, 12),
               child: Text('진행 중인 이벤트',
-                  style: TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
             ),
             ...banners.map((b) => Padding(
                   padding: const EdgeInsets.only(bottom: 10),
@@ -39,8 +37,7 @@ class EventsScreen extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.fromLTRB(4, 4, 4, 12),
             child: Text('도전 미션',
-                style: TextStyle(
-                    fontSize: 14, fontWeight: FontWeight.w800)),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
           ),
           ...missions.map((m) => Padding(
                 padding: const EdgeInsets.only(bottom: 10),
@@ -63,14 +60,12 @@ class EventsScreen extends StatelessWidget {
                               color: AppColors.brandSoft,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Icon(m.icon,
-                                color: AppColors.brandDark),
+                            child: Icon(m.icon, color: AppColors.brandDark),
                           ),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Column(
-                              crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(m.title,
                                     style: const TextStyle(
@@ -105,8 +100,8 @@ class EventsScreen extends StatelessWidget {
                         child: LinearProgressIndicator(
                           value: m.rate,
                           backgroundColor: AppColors.divider,
-                          valueColor: const AlwaysStoppedAnimation(
-                              AppColors.brandDark),
+                          valueColor:
+                              const AlwaysStoppedAnimation(AppColors.brandDark),
                           minHeight: 6,
                         ),
                       ),
@@ -115,8 +110,7 @@ class EventsScreen extends StatelessWidget {
                         children: [
                           Text('${m.progress}/${m.goal}',
                               style: const TextStyle(
-                                  fontSize: 11,
-                                  color: AppColors.textMuted)),
+                                  fontSize: 11, color: AppColors.textMuted)),
                           const Spacer(),
                           if (m.status == MissionStatus.completed)
                             const Text('🎉 수령 가능',
@@ -127,13 +121,11 @@ class EventsScreen extends StatelessWidget {
                           else if (m.status == MissionStatus.claimed)
                             const Text('수령 완료',
                                 style: TextStyle(
-                                    fontSize: 11,
-                                    color: AppColors.textFaint))
+                                    fontSize: 11, color: AppColors.textFaint))
                           else
                             const Text('진행 중',
                                 style: TextStyle(
-                                    fontSize: 11,
-                                    color: AppColors.textFaint)),
+                                    fontSize: 11, color: AppColors.textFaint)),
                         ],
                       ),
                     ],
@@ -178,12 +170,11 @@ class _EventCard extends StatelessWidget {
                           fontSize: 15, fontWeight: FontWeight.w800)),
                   const SizedBox(height: 4),
                   Text(banner.subtitle,
-                      style: const TextStyle(
-                          fontSize: 12, height: 1.5)),
+                      style: const TextStyle(fontSize: 12, height: 1.5)),
                   const SizedBox(height: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 3),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.7),
                       borderRadius: BorderRadius.circular(20),
@@ -196,8 +187,7 @@ class _EventCard extends StatelessWidget {
                         const SizedBox(width: 4),
                         Text('${daysLeft}일 남음',
                             style: const TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700)),
+                                fontSize: 11, fontWeight: FontWeight.w700)),
                       ],
                     ),
                   ),
