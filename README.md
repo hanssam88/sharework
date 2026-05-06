@@ -41,17 +41,10 @@ flutter build ios --release --no-codesign
 - 배포 대상: TestFlight 내부 테스트
 - Bundle ID: `kr.sharework.app`
 - 앱 버전: `0.1.0+1`
-- 서명 방식: Xcode 자동 서명
+- iOS 최소 버전: 14.0
+- 서명 방식: Xcode 자동 서명 (Apple Developer Program 가입 후 Xcode > Settings > Accounts에서 Team 선택)
 
-TestFlight 업로드 전 Xcode에서 `ios/Runner.xcworkspace`를 열고 Runner 타깃의 Team을 Apple Developer 계정의 배포 팀으로 선택하세요. 이 앱은 더미 데이터 기반 UI Demo MVP이므로 App Store Connect의 베타 앱 설명에는 실제 API, SMS 인증, 결제, 지도 SDK가 포함되지 않았다는 점을 명시합니다.
-
-권장 업로드 흐름:
-
-1. `flutter test`, `flutter analyze --no-fatal-infos`, `flutter build ios --release --no-codesign` 확인
-2. Xcode에서 `Runner` scheme과 `Any iOS Device` destination 선택
-3. `Product > Archive`
-4. Organizer에서 `Validate App` 후 `Distribute App > App Store Connect > Upload`
-5. App Store Connect TestFlight에서 내부 테스트 그룹에 빌드 추가
+전체 업로드 절차(Apple Developer Program 가입 → App Store Connect 앱 등록 → archive → upload → 내부 테스터 초대)는 [`docs/testflight-guide.md`](docs/testflight-guide.md)를 참고하세요. 이 앱은 더미 데이터 기반 UI Demo MVP이므로 App Store Connect의 베타 앱 설명에 실제 API/SMS 인증/결제/지도 SDK가 포함되지 않았다는 점을 명시해야 합니다.
 
 ## Demo Flow
 
@@ -66,4 +59,5 @@ TestFlight 업로드 전 Xcode에서 `ios/Runner.xcworkspace`를 열고 Runner �
 - 앱 이름은 iOS에서 `Sharework`로 표시됩니다.
 - iPhone/iPad 시연은 세로 방향을 기준으로 합니다.
 - 권한 상태는 `PermissionStore` 메모리 상태로만 관리합니다.
+- S14에서 추가된 권한 동의 화면(위치/알림/카메라/갤러리 priming)은 향후 도입 예정인 흐름의 UI 시연이며, 현재 빌드에서 권한 라이브러리/Info.plist 권한 설명을 사용하지 않습니다.
 - 실제 서비스 전환 시 `data/` 레이어를 repository/API 레이어로 교체하고 인증, 저장소, 푸시, 결제, 지도 SDK를 단계적으로 연결합니다.
