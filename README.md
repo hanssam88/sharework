@@ -36,15 +36,23 @@ flutter build ios --release --no-codesign
 
 `flutter analyze`의 info 항목에는 `const` 권고와 Flutter 최신 API deprecation 안내가 남아 있을 수 있습니다. MVP 품질 게이트는 warning/error 없이 동작하는 것을 기준으로 합니다.
 
-## iOS TestFlight
+## iOS 배포 — 두 가지 트랙
 
-- 배포 대상: TestFlight 내부 테스트
+| 트랙 | 비용 | 설치 대상 | 빌드 유효기간 | 가이드 |
+|------|------|-----------|--------------|--------|
+| 무료 Personal Team 사이드로드 | 0원 | 본인 iPhone 1대 | 약 7일 (커뮤니티 정설) | [`docs/sideload-guide.md`](docs/sideload-guide.md) |
+| TestFlight 정식 베타 | $99/yr (Apple Developer Program) | 최대 100명 | 90일 | [`docs/testflight-guide.md`](docs/testflight-guide.md) |
+
+본인 1명 데모 확인용은 **사이드로드** 트랙을 권장합니다. 다른 사람과 공유가 필요해지면 TestFlight 트랙으로 전환하세요.
+
+### 공통 환경 설정
+
 - Bundle ID: `kr.sharework.app`
 - 앱 버전: `0.1.0+1`
 - iOS 최소 버전: 14.0
-- 서명 방식: Xcode 자동 서명 (Apple Developer Program 가입 후 Xcode > Settings > Accounts에서 Team 선택)
+- 서명 방식: Xcode 자동 서명 (Personal Team 또는 Developer Program Team 선택)
 
-전체 업로드 절차(Apple Developer Program 가입 → App Store Connect 앱 등록 → archive → upload → 내부 테스터 초대)는 [`docs/testflight-guide.md`](docs/testflight-guide.md)를 참고하세요. 이 앱은 더미 데이터 기반 UI Demo MVP이므로 App Store Connect의 베타 앱 설명에 실제 API/SMS 인증/결제/지도 SDK가 포함되지 않았다는 점을 명시해야 합니다.
+이 앱은 더미 데이터 기반 UI Demo MVP이므로 실제 API/SMS 인증/결제/지도 SDK가 포함되지 않았습니다. App Store Connect 베타 앱 설명에도 그 점을 명시해야 합니다.
 
 ## Demo Flow
 
