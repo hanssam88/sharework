@@ -27,7 +27,7 @@ M1으로 공고 조회·읽기 흐름이 외부 베타 land 상태 (`https://sha
 | D6 | Rate limiting (Sec M-4 carry-over) | Upstash Redis + sliding window 30/min/user (write 통합) | easy-travel-korea-api 검증 패턴, key=`user:{profile_id}` |
 | D7 | 사진 라이프사이클 | Incremental (개별 추가·삭제·순서 변경) + 별도 `job_photos` 테이블 | UX 자연스러움, 1장만 수정해도 1장만 재업로드 |
 | D8 | Flutter wire-up 범위 | Giver 4화면 (home, job_create, job_preview, job_edit) + image_picker + flutter_image_compress | M2 = end-to-end, M1 패턴 그대로 |
-| D9 | M1 carry-over 6건 처리 | M2 spec 직접 포함 (2건): Sec M-2.1·Sec M-4. M2 e2e 자연 포함 (1건): CR S-5 phone normalize. M2 SDD 마지막 task (3건): Sec I-5·L-2·nits | 분산 land로 retrofit 비용 최소 |
+| D9 | M1 carry-over 6건 처리 | M2 spec 직접 포함 (2건): Sec M-2.1·Sec M-4. M2 e2e 자연 포함 (1건): CR S-5 phone normalize. **M2 SDD 첫 task — T_FIRST (3건): Sec I-5·L-2·nits** (N1 정정: R12 사전 정리 룰과 시간 방향 일치) | 분산 land로 retrofit 비용 최소 |
 | D10 | advisor 호출 시점 | spec 확정 후 plan 진입 직전 1회 | M1 PM4 패턴, 사전 환경 검증 + spec 가정 catch |
 
 **Anti-goals (본 M2에서 하지 않는 것)**:
@@ -88,18 +88,15 @@ M1으로 공고 조회·읽기 흐름이 외부 베타 land 상태 (`https://sha
 
 ```sql
 -- profiles.public_id : 외부 노출용 (Sec M-2.1 해소)
+-- B3 정정: 트리거 갱신을 NOT NULL 적용 *전*으로 이동.
+--   순서: (1) add column nullable → (2) trigger REPLACE → (3) backfill → (4) NOT NULL → (5) unique+index
+--   원인: 옛 트리거가 NOT NULL 적용 후/신규 트리거 적용 전에 fire하면 public_id 없이 insert → NOT NULL 위반 → signup 장애.
+--   완화: 단일 트랜잭션 내 statement 순서 = (2) 먼저 → 이후 모든 신규 signup이 새 트리거 사용 → (4) 안전.
+
+-- (1) add column nullable
 alter table public.profiles add column public_id text;
 
--- backfill: 22자 URL-safe random
-update public.profiles
-set public_id = translate(substr(encode(gen_random_bytes(16), 'base64'), 1, 22), '+/=', 'XYZ')
-where public_id is null;
-
-alter table public.profiles alter column public_id set not null;
-alter table public.profiles add constraint profiles_public_id_unique unique (public_id);
-create index profiles_public_id_idx on public.profiles(public_id);
-
--- handle_new_user 트리거 업데이트: 새 row 자동 생성
+-- (2) handle_new_user 트리거 신규 정의로 교체 (이 시점부터 신규 row는 public_id 포함)
 create or replace function public.handle_new_user()
 returns trigger as $$
 begin
@@ -113,6 +110,18 @@ begin
   return new;
 end;
 $$ language plpgsql security definer;
+
+-- (3) backfill: 기존 row의 22자 URL-safe random
+update public.profiles
+set public_id = translate(substr(encode(gen_random_bytes(16), 'base64'), 1, 22), '+/=', 'XYZ')
+where public_id is null;
+
+-- (4) NOT NULL 적용 (이 시점에 모든 row가 public_id 보유)
+alter table public.profiles alter column public_id set not null;
+
+-- (5) unique + index
+alter table public.profiles add constraint profiles_public_id_unique unique (public_id);
+create index profiles_public_id_idx on public.profiles(public_id);
 ```
 
 ### 5.2 `20260511000002_job_photos.sql`
@@ -128,7 +137,9 @@ create table public.job_photos (
   width int,
   height int,
   created_at timestamptz not null default now(),
-  unique (job_id, position)
+  -- V1 정정: NOT DEFERRABLE UNIQUE는 row-by-row 검사 → reorder UPDATE swap이 반드시 violation
+  -- DEFERRABLE INITIALLY DEFERRED로 statement/transaction 끝에서 검사
+  constraint job_photos_position_unique unique (job_id, position) deferrable initially deferred
 );
 create index job_photos_job_position_idx on public.job_photos(job_id, position);
 
@@ -148,14 +159,14 @@ create policy "job_photos_giver_owner"
   using (exists (select 1 from public.jobs j where j.id = job_id and j.giver_id = auth.uid()))
   with check (exists (select 1 from public.jobs j where j.id = job_id and j.giver_id = auth.uid()));
 
--- Race-safe insert RPC
+-- Race-safe insert RPC (gap fill: positions [1,2,4,5] → 신규=3)
 create or replace function public.add_job_photo(
   p_job_id uuid, p_storage_path text, p_mime text,
   p_size int, p_w int, p_h int
 ) returns public.job_photos as $$
 declare
-  v_max_pos int;
   v_count int;
+  v_next_pos int;
   v_photo public.job_photos;
 begin
   perform 1 from public.jobs
@@ -163,15 +174,26 @@ begin
   for update;
   if not found then raise exception 'forbidden' using errcode = '42501'; end if;
 
-  select count(*), coalesce(max(position), 0)
-    into v_count, v_max_pos
+  select count(*) into v_count
   from public.job_photos where job_id = p_job_id;
 
   if v_count >= 5 then raise exception 'photo_limit' using errcode = 'P0001'; end if;
 
+  -- gap fill: 1~5 중 가장 작은 미사용 position 선택
+  -- (B1 정정: max+1은 DELETE pos 3 후 [1,2,4,5] 상태에서 6 발생 → CHECK 위반)
+  select min(g) into v_next_pos
+  from generate_series(1, 5) g
+  where g not in (
+    select position from public.job_photos where job_id = p_job_id
+  );
+
+  if v_next_pos is null then
+    raise exception 'photo_limit' using errcode = 'P0001';
+  end if;
+
   insert into public.job_photos
     (job_id, storage_path, position, mime_type, file_size_bytes, width, height)
-  values (p_job_id, p_storage_path, v_max_pos + 1, p_mime, p_size, p_w, p_h)
+  values (p_job_id, p_storage_path, v_next_pos, p_mime, p_size, p_w, p_h)
   returning * into v_photo;
   return v_photo;
 end;
@@ -313,19 +335,30 @@ create policy "job_photos_storage_giver_delete"
 #### POST /api/jobs/:id/photos/confirm
 
 ```typescript
-// Request
-{ photo_id: uuid, mime_type, file_size_bytes, width?: number, height?: number }
+// Request (B2 정정: storage_path 직접 전달, 재구성 폐기)
+{
+  storage_path: z.string().regex(/^[0-9a-f-]{36}\/[0-9a-f-]{36}\.(jpg|png|webp)$/),
+  mime_type: z.enum(['image/jpeg', 'image/png', 'image/webp']),
+  file_size_bytes: z.number().int().min(1).max(10485760),
+  width: z.number().int().optional(),
+  height: z.number().int().optional(),
+}
 
 // 처리:
-// 1. JWT verify
-// 2. storage_path = `${job_id}/${photo_id}.${ext}` 재구성 (Request photo_id + mime로)
-// 3. Storage HEAD: supabase.storage.from('job-photos').list with prefix
-// 4. 미존재 → cleanup 불필요, PHOTO_NOT_UPLOADED 반환
+// 1. JWT verify + jobs.giver_id = auth.uid() 소유권 검증
+// 2. storage_path 정합 검증 — prefix가 :id (URL job_id)와 일치 confirm
+//    → storage_path.split('/')[0] !== params.id ⇒ VALIDATION (job 간 path 주입 차단)
+// 3. mime_type ↔ 확장자 정합 검증 (image/jpeg ⇄ .jpg / image/png ⇄ .png / image/webp ⇄ .webp)
+//    → 불일치 ⇒ VALIDATION
+// 4. Storage HEAD: supabase.storage.from('job-photos').list(`${job_id}/`, { search: photoFile })
+//    → 미존재 ⇒ PHOTO_NOT_UPLOADED (cleanup 불필요)
 // 5. RPC add_job_photo(job_id, storage_path, mime, size, w, h)
 // 6. RPC 'photo_limit' (P0001) → cleanup remove([storage_path]) → PHOTO_LIMIT_EXCEEDED
 // 7. RPC 'forbidden' (42501) → FORBIDDEN
 // Response: { ok: true, data: photo }
 ```
+
+> **B2 결정 근거**: 기존 패턴은 confirm이 photo_id+mime로 storage_path 재구성. 클라이언트가 confirm에 mime을 잘못 보내면 재구성 path 불일치로 PHOTO_NOT_UPLOADED 영구 실패 (실제 업로드는 성공한 상태). storage_path 직접 전달 + regex/prefix 검증으로 path 주입 차단. photo_id는 storage_path에서 정규식 추출 가능하므로 별도 필드 불필요.
 
 #### DELETE /api/jobs/:id/photos/:photoId
 
@@ -492,9 +525,9 @@ Future<JobPhoto> uploadPhoto({required String jobId, required XFile picked}) asy
     throw StorageUploadException(putRes.statusCode);
   }
 
-  // 4. confirm
+  // 4. confirm (B2 정정: storage_path 직접 전달)
   return api.post('/api/jobs/$jobId/photos/confirm',
-      body: {'photo_id': uploadInfo.photoId, 'mime_type': mime,
+      body: {'storage_path': uploadInfo.storagePath, 'mime_type': mime,
              'file_size_bytes': size, 'width': null, 'height': null});
 }
 ```
@@ -582,13 +615,15 @@ if (!success) {
 
 ### 9.3 Partial 업로드 복구
 
+> **V2 정정**: Supabase `createSignedUploadUrl`의 단일 사용 vs 재사용 가능 동작이 공식 docs에서 명시되지 않아, 보수적으로 *PUT 실패 시 신규 upload-url 발급* 정책 채택. 동일 URL 재사용에 의존하지 않음.
+
 | 실패 지점 | 복구 |
 |----------|------|
 | upload-url 발급 실패 | 사용자 확인 후 재시도 |
-| signed URL PUT 네트워크 실패 | 자동 재시도 1회, 실패 시 사용자 confirm |
+| signed URL PUT 네트워크 실패 | **신규 upload-url 발급 후 재시도** (V2: 동일 URL 재사용에 의존 X) |
 | signed URL 5분 만료 | upload-url 재발급 후 재시도 (자동) |
 | confirm 5장 초과 race | BFF cleanup remove + Flutter "5장 초과" |
-| confirm Storage HEAD 미존재 | Flutter PUT 재시도 |
+| confirm Storage HEAD 미존재 | **신규 upload-url 발급 + PUT 재시도** (V2: 동일 URL 재시도 X) |
 | confirm 후 Flutter crash | DB 등록됨, 재진입 시 정상 |
 
 ### 9.4 Logging 정책 (M1 그대로 + 확장)
@@ -652,11 +687,11 @@ vercel logs sharework-api --no-follow -x --since 5m
 | Sec M-2.1 | giver_id 외부 ID | ✅ M2 spec D3 직접 포함 (profiles.public_id) |
 | Sec M-4 | Rate limiting | ✅ M2 spec D6 직접 포함 (Upstash) |
 | CR S-5 | e2e phone format normalize | ✅ M2 e2e (10.2) 자연 포함 |
-| Sec I-5 | next.config.ts 보안 헤더 (HSTS, X-Frame, CSP 등) | M2 SDD 마지막 task (T_LAST) |
-| Sec L-2 | env requireEnv 헬퍼 | M2 SDD 마지막 task (T_LAST) |
-| Nits | dbFail 단위 테스트, N1~N5, DB N1·C1~C7 | M2 SDD 마지막 task (T_LAST) |
+| Sec I-5 | next.config.ts 보안 헤더 (HSTS, X-Frame, CSP 등) | **M2 SDD 첫 task (T_FIRST)** |
+| Sec L-2 | env requireEnv 헬퍼 | **M2 SDD 첫 task (T_FIRST)** |
+| Nits | dbFail 단위 테스트, N1~N5, DB N1·C1~C7 | **M2 SDD 첫 task (T_FIRST)** |
 
-T_LAST = 별도 commit (R12 사전 정리 vs 본 작업 분리 동일 패턴 — M2 본 작업 commit과 분리).
+T_FIRST = M2 본 작업 *전* 별도 commit (**N1 정정**: R12 사전 정리 룰과 시간 방향 일치 — M2 본 작업이 보안 헤더·env 헬퍼 *위에* 작성되도록 보장).
 
 ---
 
@@ -666,7 +701,7 @@ T_LAST = 별도 commit (R12 사전 정리 vs 본 작업 분리 동일 패턴 —
 - **R5 (Vercel/Upstash docs)**: Upstash REST 패키지 버전 + Vercel env 등록 절차 docs 직접 grep. training data lag 회피.
 - **R11 (DEV/Prod 분리 layer)**: env 등록 시 따옴표 strip 의무. production curl 1회 즉시 검증.
 - **R11 (비대화형 logs)**: `vercel logs --no-follow -x --since 5m` 옵션 명시.
-- **R12 (사전 정리 vs 본 작업 분리)**: M1 carry-over hardening (T_LAST) commit과 M2 본 작업 commit 분리.
+- **R12 (사전 정리 vs 본 작업 분리)**: M1 carry-over hardening (T_FIRST = P1) commit이 M2 본 작업 commit *전*에 land — 사전 정리 → 본 작업 시간 방향 정합. M2 본 작업이 새 보안 헤더·env 헬퍼 위에서 작성됨.
 - **R6 (멀티 에이전트 병렬 리뷰)**: SDD 완료 후 Code Reviewer + Security Engineer + Database Optimizer 병렬 R6 1라운드 hardening.
 
 ---
@@ -684,7 +719,7 @@ T_LAST = 별도 commit (R12 사전 정리 vs 본 작업 분리 동일 패턴 —
 | W7 | flutter_image_compress heic 미지원 | jpeg 변환 출력으로 회피 (D5) |
 | W8 | profiles.public_id backfill 실패 (대용량 시) | 베타 50명 → 무시 가능. 향후 정식 출시 시 batch backfill 재검토 |
 | W9 | Next.js 16 API 변화 (R5 위반 시 retrofit) | plan 진입 직전 `node_modules/next/dist/docs/` 사전 read |
-| W10 | M1 carry-over (T_LAST) 작업 누락 | SDD 마지막 task 등재 + commit 분리 강제 |
+| W10 | M1 carry-over (T_FIRST) 작업 누락 | SDD 첫 task 등재 (P1) + commit 분리 강제 (M2 본 작업 *전*) |
 
 ---
 
@@ -696,13 +731,13 @@ T_LAST = 별도 commit (R12 사전 정리 vs 본 작업 분리 동일 패턴 —
 |-------|------|--------|
 | P0 | Supabase Storage 버킷 + Upstash 가입 (사용자 직접) | `job-photos` 버킷 + Redis URL/TOKEN |
 | P0 | Vercel env 추가 (사용자 직접) | UPSTASH_REDIS_REST_URL/TOKEN |
-| P1 | 마이그레이션 3개 작성 + push | profiles.public_id, job_photos, storage policy |
-| P2 | BFF 라이브러리 (rate-limit.ts, schemas 확장) | 단위 테스트 PASS |
-| P3 | API 엔드포인트 7개 신규 + 3개 응답 변경 | unit/integration PASS |
-| P4 | Flutter repositories/services/widgets | dart analyze + unit test PASS |
-| P5 | Flutter 4 화면 wire-up | analyze + widget test PASS |
-| P6 | E2E (m2-giver-flow.test.ts) | e2e PASS |
-| P7 | M1 carry-over T_LAST (Sec I-5, L-2, nits) | 별도 commit |
+| **P1 (T_FIRST)** | **M1 carry-over hardening (Sec I-5 보안 헤더, L-2 requireEnv, nits)** | **별도 commit (M2 본 작업 *전*)** |
+| P2 | 마이그레이션 3개 작성 + push | profiles.public_id, job_photos, storage policy |
+| P3 | BFF 라이브러리 (rate-limit.ts, schemas 확장) | 단위 테스트 PASS |
+| P4 | API 엔드포인트 7개 신규 + 3개 응답 변경 | unit/integration PASS |
+| P5 | Flutter repositories/services/widgets | dart analyze + unit test PASS |
+| P6 | Flutter 4 화면 wire-up | analyze + widget test PASS |
+| P7 | E2E (m2-giver-flow.test.ts) | e2e PASS |
 | P8 | 멀티 에이전트 R6 1라운드 (Code Reviewer + Security + DB Optimizer 병렬) | hardening land |
 | P9 | Production deploy + smoke | https://sharework-api.vercel.app M2 routes HTTP 401 (auth normal) |
 
