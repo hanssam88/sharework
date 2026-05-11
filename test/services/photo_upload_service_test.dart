@@ -228,5 +228,65 @@ void main() {
       expect(authAdapter.requests, isEmpty);
       expect(plainAdapter.requests, isEmpty);
     });
+
+    test(
+        'requestPhotoUploadUrl 4xx → throws PhotoUploadException (no PUT attempted)',
+        () async {
+      // Auth side: upload-url returns 400 — repo throws DioException
+      // (interceptor wraps body as ApiError). Service must wrap as
+      // PhotoUploadException so UI catches a single type.
+      // Use text/plain so Dio's transformer doesn't choke on error body.
+      authAdapter.enqueue(
+        '{"error":{"code":"bad_request","message":"bad mime"}}',
+        status: 400,
+        contentType: 'application/json',
+      );
+
+      await expectLater(
+        () => service.uploadPhoto(jobId: 'j-1', picked: picked),
+        throwsA(isA<PhotoUploadException>()),
+      );
+
+      // upload-url was attempted, but PUT must NOT have been called —
+      // a failed upload-url request means we never had a URL to PUT to.
+      expect(authAdapter.requests, hasLength(1));
+      expect(authAdapter.requests[0].path,
+          '/api/jobs/j-1/photos/upload-url');
+      expect(plainAdapter.requests, isEmpty);
+    });
+
+    test(
+        'confirmPhoto 4xx → throws PhotoUploadException (PUT happened, blob stranded)',
+        () async {
+      // Auth side: upload-url 200 (valid PhotoUploadInfo) then confirm 400.
+      authAdapter.enqueue(
+        '{"data":{"photo_id":"p-1","storage_path":"j-1/p-1.jpg",'
+        '"upload_url":"https://storage.example/sig?token=abc",'
+        '"expires_at":1715000000000}}',
+      );
+      authAdapter.enqueue(
+        '{"error":{"code":"conflict","message":"already confirmed"}}',
+        status: 400,
+        contentType: 'application/json',
+      );
+      // Plain side: PUT 200 — upload succeeded.
+      plainAdapter.enqueue('', status: 200, contentType: 'text/plain');
+
+      await expectLater(
+        () => service.uploadPhoto(jobId: 'j-1', picked: picked),
+        throwsA(isA<PhotoUploadException>()),
+      );
+
+      // PUT WAS called — upload happened but confirm failed. Blob is
+      // stranded in storage (real production concern). UI catches the
+      // single PhotoUploadException type and surfaces retry.
+      expect(authAdapter.requests, hasLength(2));
+      expect(authAdapter.requests[0].path,
+          '/api/jobs/j-1/photos/upload-url');
+      expect(authAdapter.requests[1].path,
+          '/api/jobs/j-1/photos/confirm');
+      expect(plainAdapter.requests, hasLength(1));
+      expect(plainAdapter.requests[0].method, 'PUT');
+    });
   });
 }

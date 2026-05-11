@@ -9,21 +9,24 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import '../data/api_client.dart';
 import '../data/repositories/job_repository.dart';
 import '../models/api_models/job_photo.dart';
+import '../models/api_models/photo_upload_info.dart';
 
-/// Throws when the signed-URL PUT to storage fails or returns a non-2xx
-/// status. The caller (UI layer) is responsible for surfacing retry —
-/// per V2 spec, a new upload-url must be requested on each retry, never
-/// reuse the previous one.
+/// Throws on any failure across the upload pipeline — upload-url request,
+/// signed PUT, or confirm. The caller (UI layer) is responsible for
+/// surfacing retry — per V2 spec, a new upload-url must be requested on
+/// each retry, never reuse the previous one.
 class PhotoUploadException implements Exception {
   final String message;
   final int? statusCode;
   PhotoUploadException(this.message, {this.statusCode});
   @override
-  String toString() => 'PhotoUploadException($statusCode, $message)';
+  String toString() => statusCode == null
+      ? 'PhotoUploadException($message)'
+      : 'PhotoUploadException($statusCode, $message)';
 }
 
-/// Throws when the compressed payload exceeds the 10 MB ceiling. The
-/// signed-URL request is skipped to avoid burning an upload slot.
+/// Distinct from PhotoUploadException by design — UI surfaces a size-specific message
+/// ("사진이 너무 큽니다") rather than "다시 시도해주세요". Caller must catch both types separately.
 class PhotoFileTooLargeException implements Exception {
   final int sizeBytes;
   PhotoFileTooLargeException(this.sizeBytes);
@@ -44,12 +47,20 @@ typedef PhotoCompressor = Future<Uint8List?> Function(
   CompressFormat format,
 });
 
+/// Compression parameters — single source of truth for both the default
+/// compressor and the uploadPhoto call site (avoids drift). Top-level so
+/// `_defaultCompressor`'s default-parameter expressions (which must be
+/// compile-time constants) can reference them.
+const int _kCompressLongEdge = 1600;
+const int _kCompressQuality = 85;
+const CompressFormat _kCompressFormat = CompressFormat.jpeg;
+
 Future<Uint8List?> _defaultCompressor(
   String path, {
-  int minWidth = 1600,
-  int minHeight = 1600,
-  int quality = 85,
-  CompressFormat format = CompressFormat.jpeg,
+  int minWidth = _kCompressLongEdge,
+  int minHeight = _kCompressLongEdge,
+  int quality = _kCompressQuality,
+  CompressFormat format = _kCompressFormat,
 }) {
   return FlutterImageCompress.compressWithFile(
     path,
@@ -84,9 +95,10 @@ class PhotoUploadService {
   ///   4. POST /api/jobs/:id/photos/confirm (auth Dio)
   ///
   /// Throws [PhotoFileTooLargeException] when the compressed payload is
-  /// > 10 MB. Throws [PhotoUploadException] when compression yields null
-  /// or the signed PUT returns non-2xx / throws. Repo-layer failures
-  /// surface their own [ApiError] via Dio interceptors.
+  /// > 10 MB. Throws [PhotoUploadException] for ALL other pipeline
+  /// failures — compression returning null, upload-url request failing,
+  /// signed PUT returning non-2xx / throwing, or confirm failing. UI layer
+  /// catches a single exception type to surface "다시 시도해주세요".
   Future<JobPhoto> uploadPhoto({
     required String jobId,
     required XFile picked,
@@ -94,10 +106,10 @@ class PhotoUploadService {
     // 1. Compress
     final compressed = await _compress(
       picked.path,
-      minWidth: 1600,
-      minHeight: 1600,
-      quality: 85,
-      format: CompressFormat.jpeg,
+      minWidth: _kCompressLongEdge,
+      minHeight: _kCompressLongEdge,
+      quality: _kCompressQuality,
+      format: _kCompressFormat,
     );
     if (compressed == null) {
       throw PhotoUploadException('compression failed (returned null)');
@@ -108,12 +120,21 @@ class PhotoUploadService {
     }
     const mime = 'image/jpeg';
 
-    // 2. Signed URL
-    final info = await _repo.requestPhotoUploadUrl(
-      jobId,
-      mimeType: mime,
-      fileSizeBytes: size,
-    );
+    // 2. Signed URL — wrap DioException as PhotoUploadException so UI can
+    //    catch a single type across the whole pipeline.
+    final PhotoUploadInfo info;
+    try {
+      info = await _repo.requestPhotoUploadUrl(
+        jobId,
+        mimeType: mime,
+        fileSizeBytes: size,
+      );
+    } on DioException catch (e) {
+      throw PhotoUploadException(
+        'upload-url request failed: ${e.message}',
+        statusCode: e.response?.statusCode,
+      );
+    }
 
     // 3. PUT signed URL — plain Dio, no Authorization header.
     //    V2: on failure we throw, never reuse the URL. Caller must request
@@ -123,6 +144,8 @@ class PhotoUploadService {
         info.uploadUrl,
         data: Stream.value(compressed),
         options: Options(
+          // content-type set in both headers (for raw HTTP) and contentType
+          // (for Dio's transformer); Supabase signed PUT needs the wire header.
           headers: {
             'content-type': mime,
             'content-length': size,
@@ -132,7 +155,7 @@ class PhotoUploadService {
         ),
       );
       final code = res.statusCode;
-      if (code != 200 && code != 204) {
+      if (code == null || code < 200 || code >= 300) {
         throw PhotoUploadException(
           'signed PUT non-2xx',
           statusCode: code,
@@ -145,12 +168,23 @@ class PhotoUploadService {
       );
     }
 
-    // 4. Confirm
-    return _repo.confirmPhoto(
-      jobId,
-      storagePath: info.storagePath,
-      mimeType: mime,
-      fileSizeBytes: size,
-    );
+    // 4. Confirm — wrap DioException so caller has one type to catch.
+    //    Note: if confirm fails AFTER a successful PUT, the blob is
+    //    stranded in storage (BFF reconciler must clean). UI just surfaces
+    //    the exception; user retries with a fresh upload-url.
+    try {
+      final photo = await _repo.confirmPhoto(
+        jobId,
+        storagePath: info.storagePath,
+        mimeType: mime,
+        fileSizeBytes: size,
+      );
+      return photo;
+    } on DioException catch (e) {
+      throw PhotoUploadException(
+        'confirm failed: ${e.message}',
+        statusCode: e.response?.statusCode,
+      );
+    }
   }
 }
