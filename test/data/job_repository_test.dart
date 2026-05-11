@@ -198,6 +198,31 @@ void main() {
       expect(body.containsKey('wage_won'), isFalse);
     });
 
+    test('updateJob() with multiple fields includes only set fields', () async {
+      const editedJob =
+          '{"id":"j-1","title":"t","description":"d","wage_won":5000,"schedule_text":null,"status":"active","category_id":"c1","location_address":"서울시","location_lat":37.5,"giver":{"public_id":"GVR001","name":"Hong"},"photos":[],"created_at":"2026-05-11T00:00:00Z","updated_at":"2026-05-11T00:00:00Z"}';
+      adapter.setResponse('{"data":$editedJob}');
+
+      await repo.updateJob(
+        'j-1',
+        title: 't',
+        wageWon: 5000,
+        locationLat: 37.5,
+      );
+
+      final body = adapter.lastRequest!.data as Map;
+      expect(body['title'], 't');
+      expect(body['wage_won'], 5000);
+      expect(body['location_lat'], 37.5);
+      // other 6 fields must be absent
+      expect(body.containsKey('description'), isFalse);
+      expect(body.containsKey('schedule_text'), isFalse);
+      expect(body.containsKey('category_id'), isFalse);
+      expect(body.containsKey('location_address'), isFalse);
+      expect(body.containsKey('location_lng'), isFalse);
+      expect(body.containsKey('status'), isFalse);
+    });
+
     test('requestPhotoUploadUrl returns photo_id + storage_path + upload_url',
         () async {
       adapter.setResponse(
@@ -221,7 +246,8 @@ void main() {
       expect(body['file_size_bytes'], 1000);
     });
 
-    test('confirmPhoto POSTs storage_path directly (B2)', () async {
+    test('confirmPhoto POSTs storage_path from prior upload-url response',
+        () async {
       adapter.setResponse(
         '{"data":{"id":"p-1","position":1,"signed_url":"https://example/sig"}}',
       );
@@ -254,6 +280,16 @@ void main() {
       expect(ok, true);
       expect(adapter.lastRequest!.path, '/api/jobs/j-1/photos/p-1');
       expect(adapter.lastRequest!.method, 'DELETE');
+    });
+
+    test('deletePhoto throws StateError when contract violated (deleted missing)',
+        () async {
+      adapter.setResponse('{"data":{}}');
+
+      expect(
+        () => repo.deletePhoto('j-1', 'p-1'),
+        throwsA(isA<StateError>()),
+      );
     });
 
     test('reorderPhotos PATCHes new order', () async {

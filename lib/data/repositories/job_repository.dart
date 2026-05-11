@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import '../api_client.dart';
 import '../../models/api_models/job.dart';
 import '../../models/api_models/job_photo.dart';
+import '../../models/api_models/photo_upload_info.dart';
 
 class JobRepository {
   final Dio _dio;
@@ -38,19 +39,6 @@ class JobRepository {
   }
 }
 
-class PhotoUploadInfo {
-  final String photoId;
-  final String storagePath;
-  final String uploadUrl;
-  final int expiresAtMs;
-  PhotoUploadInfo({
-    required this.photoId,
-    required this.storagePath,
-    required this.uploadUrl,
-    required this.expiresAtMs,
-  });
-}
-
 extension JobRepositoryM2 on JobRepository {
   Future<List<Job>> listMine({String? status}) async {
     final res = await _dio.get(
@@ -59,7 +47,7 @@ extension JobRepositoryM2 on JobRepository {
     );
     final items = ((res.data as Map)['data'] as Map)['items'] as List;
     return items
-        .cast<Map<String, dynamic>>()
+        .cast<Map<String, Object?>>()
         .map(Job.fromJson)
         .toList();
   }
@@ -85,7 +73,7 @@ extension JobRepositoryM2 on JobRepository {
       if (locationLng != null) 'location_lng': locationLng,
     });
     return Job.fromJson(
-      ((res.data as Map)['data'] as Map).cast<String, dynamic>(),
+      ((res.data as Map)['data'] as Map).cast<String, Object?>(),
     );
   }
 
@@ -101,19 +89,20 @@ extension JobRepositoryM2 on JobRepository {
     double? locationLng,
     String? status,
   }) async {
-    final body = <String, dynamic>{};
-    if (title != null) body['title'] = title;
-    if (description != null) body['description'] = description;
-    if (wageWon != null) body['wage_won'] = wageWon;
-    if (scheduleText != null) body['schedule_text'] = scheduleText;
-    if (categoryId != null) body['category_id'] = categoryId;
-    if (locationAddress != null) body['location_address'] = locationAddress;
-    if (locationLat != null) body['location_lat'] = locationLat;
-    if (locationLng != null) body['location_lng'] = locationLng;
-    if (status != null) body['status'] = status;
+    final body = <String, dynamic>{
+      if (title != null) 'title': title,
+      if (description != null) 'description': description,
+      if (wageWon != null) 'wage_won': wageWon,
+      if (scheduleText != null) 'schedule_text': scheduleText,
+      if (categoryId != null) 'category_id': categoryId,
+      if (locationAddress != null) 'location_address': locationAddress,
+      if (locationLat != null) 'location_lat': locationLat,
+      if (locationLng != null) 'location_lng': locationLng,
+      if (status != null) 'status': status,
+    };
     final res = await _dio.patch('/api/jobs/$jobId', data: body);
     return Job.fromJson(
-      ((res.data as Map)['data'] as Map).cast<String, dynamic>(),
+      ((res.data as Map)['data'] as Map).cast<String, Object?>(),
     );
   }
 
@@ -129,13 +118,8 @@ extension JobRepositoryM2 on JobRepository {
         'file_size_bytes': fileSizeBytes,
       },
     );
-    final d = (res.data as Map)['data'] as Map;
-    return PhotoUploadInfo(
-      photoId: d['photo_id'] as String,
-      storagePath: d['storage_path'] as String,
-      uploadUrl: d['upload_url'] as String,
-      expiresAtMs: d['expires_at'] as int,
-    );
+    final d = ((res.data as Map)['data'] as Map).cast<String, dynamic>();
+    return PhotoUploadInfo.fromJson(d);
   }
 
   Future<JobPhoto> confirmPhoto(
@@ -157,14 +141,20 @@ extension JobRepositoryM2 on JobRepository {
       },
     );
     return JobPhoto.fromJson(
-      ((res.data as Map)['data'] as Map).cast<String, dynamic>(),
+      ((res.data as Map)['data'] as Map).cast<String, Object?>(),
     );
   }
 
   Future<bool> deletePhoto(String jobId, String photoId) async {
     final res = await _dio.delete('/api/jobs/$jobId/photos/$photoId');
-    final d = (res.data as Map)['data'] as Map;
-    return (d['deleted'] as bool?) ?? false;
+    final d = ((res.data as Map)['data'] as Map).cast<String, Object?>();
+    final deleted = d['deleted'];
+    if (deleted is! bool) {
+      throw StateError(
+        'deletePhoto contract violation: data.deleted missing or not bool, got: $deleted',
+      );
+    }
+    return deleted;
   }
 
   Future<List<JobPhoto>> reorderPhotos(String jobId, List<String> order) async {
@@ -174,7 +164,7 @@ extension JobRepositoryM2 on JobRepository {
     );
     final items = (res.data as Map)['data'] as List;
     return items
-        .cast<Map<String, dynamic>>()
+        .cast<Map<String, Object?>>()
         .map(JobPhoto.fromJson)
         .toList();
   }
