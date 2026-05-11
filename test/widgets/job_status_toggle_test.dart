@@ -11,7 +11,7 @@ void main() {
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
           body: JobStatusToggle(
-            current: 'active',
+            current: JobStatus.active,
             onChange: (s) => newStatus = s,
           ),
         ),
@@ -20,7 +20,7 @@ void main() {
       await tester.tap(find.text('Paused'));
       await tester.pumpAndSettle();
 
-      expect(newStatus, 'paused');
+      expect(newStatus, JobStatus.paused);
     });
 
     testWidgets('paused → active: immediate callback', (tester) async {
@@ -28,7 +28,7 @@ void main() {
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
           body: JobStatusToggle(
-            current: 'paused',
+            current: JobStatus.paused,
             onChange: (s) => newStatus = s,
           ),
         ),
@@ -37,7 +37,7 @@ void main() {
       await tester.tap(find.text('Active'));
       await tester.pumpAndSettle();
 
-      expect(newStatus, 'active');
+      expect(newStatus, JobStatus.active);
     });
 
     testWidgets('active → closed: shows confirm dialog, only fires on OK',
@@ -46,7 +46,7 @@ void main() {
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
           body: JobStatusToggle(
-            current: 'active',
+            current: JobStatus.active,
             onChange: (s) => newStatus = s,
           ),
         ),
@@ -64,7 +64,30 @@ void main() {
       await tester.tap(find.text('마감'));
       await tester.pumpAndSettle();
 
-      expect(newStatus, 'closed');
+      expect(newStatus, JobStatus.closed);
+    });
+
+    testWidgets('paused → closed: shows confirm dialog, fires on 마감',
+        (tester) async {
+      String? newStatus;
+      await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+          body: JobStatusToggle(
+            current: JobStatus.paused,
+            onChange: (s) => newStatus = s,
+          ),
+        ),
+      ));
+
+      await tester.tap(find.text('Close'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('마감 후 복구 불가'), findsOneWidget);
+
+      await tester.tap(find.text('마감'));
+      await tester.pumpAndSettle();
+
+      expect(newStatus, JobStatus.closed);
     });
 
     testWidgets('cancel dialog: no callback', (tester) async {
@@ -72,7 +95,7 @@ void main() {
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
           body: JobStatusToggle(
-            current: 'active',
+            current: JobStatus.active,
             onChange: (s) => newStatus = s,
           ),
         ),
@@ -87,11 +110,29 @@ void main() {
       expect(newStatus, isNull);
     });
 
+    testWidgets('tapping same value: no callback (no-op guard)',
+        (tester) async {
+      String? newStatus;
+      await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+          body: JobStatusToggle(
+            current: JobStatus.active,
+            onChange: (s) => newStatus = s,
+          ),
+        ),
+      ));
+
+      await tester.tap(find.text('Active'));
+      await tester.pumpAndSettle();
+
+      expect(newStatus, isNull);
+    });
+
     testWidgets('closed: disables all toggles', (tester) async {
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
           body: JobStatusToggle(
-            current: 'closed',
+            current: JobStatus.closed,
             onChange: (_) {},
           ),
         ),

@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 
+/// Job status constants. Matches the BFF schema (lowercase strings).
+abstract class JobStatus {
+  static const String active = 'active';
+  static const String paused = 'paused';
+  static const String closed = 'closed';
+  static const Set<String> values = {active, paused, closed};
+}
+
 /// 공고 상태 토글 (active / paused / closed).
 ///
 /// - 부모가 [current] 를 prop으로 전달, 상태는 부모가 관리 (StatelessWidget)
-/// - active ↔ paused 즉시 [onChange] 호출
-/// - active|paused → closed 진입 시 confirm dialog ("마감 후 복구 불가") 표시,
-///   확인 시에만 onChange('closed')
-/// - current == 'closed' 면 SegmentedButton disable (onSelectionChanged: null)
+/// - active|paused ↔ active|paused: 즉시 onChange 호출 (no dialog)
+/// - active|paused → closed: AlertDialog 확인 후 onChange('closed') 호출
+/// - closed: onSelectionChanged null (disabled, immutable)
 class JobStatusToggle extends StatelessWidget {
   final String current; // 'active' | 'paused' | 'closed'
   final void Function(String newStatus) onChange;
@@ -15,17 +22,22 @@ class JobStatusToggle extends StatelessWidget {
     super.key,
     required this.current,
     required this.onChange,
-  });
+  }) : assert(
+          current == JobStatus.active ||
+              current == JobStatus.paused ||
+              current == JobStatus.closed,
+          'JobStatusToggle: invalid current value (must be active/paused/closed)',
+        );
 
   @override
   Widget build(BuildContext context) {
-    final isClosed = current == 'closed';
+    final isClosed = current == JobStatus.closed;
 
     return SegmentedButton<String>(
       segments: const [
-        ButtonSegment(value: 'active', label: Text('Active')),
-        ButtonSegment(value: 'paused', label: Text('Paused')),
-        ButtonSegment(value: 'closed', label: Text('Close')),
+        ButtonSegment(value: JobStatus.active, label: Text('Active')),
+        ButtonSegment(value: JobStatus.paused, label: Text('Paused')),
+        ButtonSegment(value: JobStatus.closed, label: Text('Close')),
       ],
       selected: {current},
       onSelectionChanged: isClosed
@@ -33,7 +45,7 @@ class JobStatusToggle extends StatelessWidget {
           : (sel) async {
               final next = sel.first;
               if (next == current) return;
-              if (next == 'closed') {
+              if (next == JobStatus.closed) {
                 final ok = await showDialog<bool>(
                   context: context,
                   builder: (ctx) => AlertDialog(
@@ -51,7 +63,8 @@ class JobStatusToggle extends StatelessWidget {
                     ],
                   ),
                 );
-                if (ok == true) onChange('closed');
+                if (!context.mounted) return;
+                if (ok == true) onChange(JobStatus.closed);
               } else {
                 onChange(next);
               }
