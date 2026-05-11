@@ -17,7 +17,10 @@ void main() {
         ),
       ));
 
-      await tester.tap(find.text('Paused'));
+      // SegmentedButton 라벨이 한글로 변경됨 (Active/Paused/Close → 모집중/일시중지/마감).
+      // 다이얼로그의 '마감' title/button과 토글 라벨이 같으므로
+      // 토글 라벨은 widgetWithText(ButtonSegment-scoped)로 disambiguate.
+      await tester.tap(find.text('일시중지'));
       await tester.pumpAndSettle();
 
       expect(newStatus, JobStatus.paused);
@@ -34,7 +37,7 @@ void main() {
         ),
       ));
 
-      await tester.tap(find.text('Active'));
+      await tester.tap(find.text('모집중'));
       await tester.pumpAndSettle();
 
       expect(newStatus, JobStatus.active);
@@ -52,7 +55,8 @@ void main() {
         ),
       ));
 
-      await tester.tap(find.text('Close'));
+      // 토글 '마감' 탭 (다이얼로그는 아직 안 떴으므로 find.text 단일).
+      await tester.tap(find.text('마감'));
       await tester.pumpAndSettle();
 
       // dialog visible (use content text, unique to dialog)
@@ -60,8 +64,11 @@ void main() {
       // not yet fired
       expect(newStatus, isNull);
 
-      // tap confirm button ('마감' label in dialog)
-      await tester.tap(find.text('마감'));
+      // tap confirm button ('마감' label in dialog) — TextButton-scoped
+      await tester.tap(find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.widgetWithText(TextButton, '마감'),
+      ));
       await tester.pumpAndSettle();
 
       expect(newStatus, JobStatus.closed);
@@ -79,12 +86,15 @@ void main() {
         ),
       ));
 
-      await tester.tap(find.text('Close'));
+      await tester.tap(find.text('마감'));
       await tester.pumpAndSettle();
 
       expect(find.text('마감 후 복구 불가'), findsOneWidget);
 
-      await tester.tap(find.text('마감'));
+      await tester.tap(find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.widgetWithText(TextButton, '마감'),
+      ));
       await tester.pumpAndSettle();
 
       expect(newStatus, JobStatus.closed);
@@ -101,7 +111,7 @@ void main() {
         ),
       ));
 
-      await tester.tap(find.text('Close'));
+      await tester.tap(find.text('마감'));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('취소'));
@@ -122,7 +132,7 @@ void main() {
         ),
       ));
 
-      await tester.tap(find.text('Active'));
+      await tester.tap(find.text('모집중'));
       await tester.pumpAndSettle();
 
       expect(newStatus, isNull);

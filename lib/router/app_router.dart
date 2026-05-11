@@ -21,6 +21,8 @@ import '../screens/giver/escrow_screen.dart';
 import '../screens/giver/giver_main_screen.dart';
 import '../screens/giver/job_boost/job_boost_screen.dart';
 import '../screens/giver/escrow_topup_screen.dart';
+import '../models/api_models/job.dart';
+import '../models/api_models/job_photo.dart';
 import '../screens/giver/job_create/job_create_screen.dart';
 import '../screens/giver/job_create/job_preview_screen.dart';
 import '../screens/giver/job_edit/job_edit_screen.dart';
@@ -151,7 +153,19 @@ class AppRouter {
       ),
       GoRoute(
         path: '/giver/job/preview',
-        builder: (_, __) => const JobPreviewScreen(),
+        builder: (ctx, state) {
+          final extra = state.extra as Map<String, Object?>?;
+          final job = extra?['job'] as Job?;
+          final photos =
+              (extra?['photos'] as List?)?.cast<JobPhoto>() ?? const <JobPhoto>[];
+          if (job == null) {
+            return Scaffold(
+              appBar: AppBar(title: const Text('오류')),
+              body: const Center(child: Text('미리보기 데이터가 없어요')),
+            );
+          }
+          return JobPreviewScreen(job: job, photos: photos);
+        },
       ),
       GoRoute(
         path: '/giver/job/:id/stats',
@@ -170,7 +184,7 @@ class AppRouter {
       GoRoute(
         path: '/giver/job/:id/edit',
         builder: (ctx, state) {
-          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          final id = state.pathParameters['id'] ?? '';
           return JobEditScreen(jobId: id);
         },
       ),

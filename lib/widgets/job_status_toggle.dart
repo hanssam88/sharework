@@ -35,9 +35,9 @@ class JobStatusToggle extends StatelessWidget {
 
     return SegmentedButton<String>(
       segments: const [
-        ButtonSegment(value: JobStatus.active, label: Text('Active')),
-        ButtonSegment(value: JobStatus.paused, label: Text('Paused')),
-        ButtonSegment(value: JobStatus.closed, label: Text('Close')),
+        ButtonSegment(value: JobStatus.active, label: Text('모집중')),
+        ButtonSegment(value: JobStatus.paused, label: Text('일시중지')),
+        ButtonSegment(value: JobStatus.closed, label: Text('마감')),
       ],
       selected: {current},
       onSelectionChanged: isClosed
