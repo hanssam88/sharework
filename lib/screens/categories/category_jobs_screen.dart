@@ -1,90 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../data/dummy_data.dart';
-import '../../models/models.dart';
-import '../../theme/app_theme.dart';
-import '../../widgets/shared.dart';
+import '../../data/repositories/job_repository.dart';
+import '../../models/api_models/job.dart' as api;
 
 class CategoryJobsScreen extends StatefulWidget {
-  final JobCategory category;
-  const CategoryJobsScreen({super.key, required this.category});
-
+  final String categoryId;
+  final String categoryName;
+  final JobRepository? jobRepository;
+  const CategoryJobsScreen({
+    super.key,
+    required this.categoryId,
+    required this.categoryName,
+    this.jobRepository,
+  });
   @override
   State<CategoryJobsScreen> createState() => _CategoryJobsScreenState();
 }
 
 class _CategoryJobsScreenState extends State<CategoryJobsScreen> {
-  String _sort = '거리순';
+  late final JobRepository _repo;
+  late Future<({List<api.Job> items, int total})> _future;
+
+  @override
+  void initState() {
+    super.initState();
+    _repo = widget.jobRepository ?? JobRepository.fromApi();
+    _future = _repo.listJobs(category: widget.categoryId);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final jobs = Dummy.jobs
-        .where((j) =>
-            j.category == widget.category && j.status == JobStatus.open)
-        .toList();
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.category.label),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_active_outlined),
-            tooltip: '이 카테고리 알림 받기',
-            onPressed: () => context.push('/me/saved-searches/new'),
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Container(
-            color: Colors.white,
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: Row(
-              children: [
-                Text('${jobs.length}건',
-                    style: const TextStyle(
-                        fontSize: 13, fontWeight: FontWeight.w700)),
-                const Spacer(),
-                DropdownButton<String>(
-                  value: _sort,
-                  underline: const SizedBox(),
-                  iconSize: 18,
-                  style: const TextStyle(
-                      fontSize: 13,
-                      color: AppColors.text,
-                      fontWeight: FontWeight.w600),
-                  items: const [
-                    DropdownMenuItem(value: '거리순', child: Text('거리순')),
-                    DropdownMenuItem(value: '시급순', child: Text('시급순')),
-                    DropdownMenuItem(value: '최신순', child: Text('최신순')),
-                  ],
-                  onChanged: (v) => setState(() => _sort = v ?? _sort),
-                ),
-              ],
-            ),
-          ),
-          const Divider(height: 1, color: AppColors.divider),
-          Expanded(
-            child: jobs.isEmpty
-                ? const EmptyState(
-                    icon: Icons.work_off_outlined,
-                    message: '아직 이 카테고리에 공고가 없어요',
-                  )
-                : ListView.separated(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: jobs.length,
-                    separatorBuilder: (_, __) =>
-                        const SizedBox(height: 10),
-                    itemBuilder: (_, i) => JobCard(
-                      job: jobs[i],
-                      distanceKm: 1.0 + i * 0.8,
-                      onTap: () => context.push('/job/${jobs[i].id}'),
-                    ),
-                  ),
-          ),
-        ],
+      appBar: AppBar(title: Text(widget.categoryName)),
+      body: FutureBuilder<({List<api.Job> items, int total})>(
+        future: _future,
+        builder: (context, snap) {
+          if (snap.connectionState != ConnectionState.done) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snap.hasError) {
+            return const Center(child: Text('연결이 불안정합니다'));
+          }
+          final items = snap.data?.items ?? const <api.Job>[];
+          if (items.isEmpty) {
+            return const Center(child: Text('해당 카테고리에 공고가 없어요'));
+          }
+          return ListView.builder(
+            itemCount: items.length,
+            itemBuilder: (_, i) {
+              final j = items[i];
+              return ListTile(
+                title: Text(j.title),
+                subtitle: Text(
+                    '${j.giver?.name ?? "정보 없음"} · ${j.wageWon}원 · ${j.locationAddress}'),
+                onTap: () => context.push('/job/${j.id}'),
+              );
+            },
+          );
+        },
       ),
     );
   }

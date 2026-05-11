@@ -1,9 +1,46 @@
+import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:sharework_mockup/router/app_router.dart';
 import 'package:sharework_mockup/main.dart';
 
+Future<void> _initEnv() async {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  // Stub shared_preferences channel used by supabase_flutter's local storage.
+  const channel = MethodChannel('plugins.flutter.io/shared_preferences');
+  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+      .setMockMethodCallHandler(channel, (MethodCall call) async {
+    if (call.method == 'getAll') return <String, Object>{};
+    if (call.method == 'setBool' ||
+        call.method == 'setString' ||
+        call.method == 'remove' ||
+        call.method == 'clear') {
+      return true;
+    }
+    return null;
+  });
+
+  dotenv.testLoad(
+    fileInput:
+        'SUPABASE_URL=https://test.supabase.co\nSUPABASE_ANON_KEY=test-anon\nAPI_BASE_URL=http://test\n',
+  );
+
+  try {
+    Supabase.instance;
+  } catch (_) {
+    await Supabase.initialize(
+      url: 'https://test.supabase.co',
+      anonKey: 'test-anon',
+    );
+  }
+}
+
 void main() {
+  setUpAll(_initEnv);
+
   testWidgets('Sharework app renders', (WidgetTester tester) async {
     await tester.pumpWidget(const ShareworkMockupApp());
     await tester.pump(const Duration(milliseconds: 1300));

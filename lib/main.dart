@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'data/env.dart';
 import 'router/app_router.dart';
 import 'theme/app_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load();
+  await Supabase.initialize(
+    url: Env.supabaseUrl,
+    anonKey: Env.supabaseAnonKey,
+  );
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);

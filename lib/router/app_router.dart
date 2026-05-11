@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../models/models.dart';
 import '../screens/auth/identity_screen.dart';
 import '../screens/auth/phone_auth_screen.dart';
 import '../screens/auth/signup_screen.dart';
@@ -79,6 +79,23 @@ import '../screens/worker/worker_main_screen.dart';
 class AppRouter {
   static final GoRouter config = GoRouter(
     initialLocation: '/splash',
+    redirect: (context, state) {
+      Session? session;
+      try {
+        session = Supabase.instance.client.auth.currentSession;
+      } catch (_) {
+        // Supabase 미초기화 (test 환경 등) — guard 비활성
+        return null;
+      }
+      final loc = state.matchedLocation;
+      final isProtected = loc.startsWith('/worker') ||
+          loc.startsWith('/giver') ||
+          loc.startsWith('/me');
+      if (session == null && isProtected) {
+        return '/auth/phone';
+      }
+      return null;
+    },
     routes: [
       GoRoute(
         path: '/splash',
@@ -173,20 +190,17 @@ class AppRouter {
         builder: (_, __) => const CategoriesScreen(),
       ),
       GoRoute(
-        path: '/categories/:name',
+        path: '/categories/:id',
         builder: (ctx, state) {
-          final name = state.pathParameters['name'] ?? '';
-          final cat = JobCategory.values.firstWhere(
-            (c) => c.name == name,
-            orElse: () => JobCategory.etc,
-          );
-          return CategoryJobsScreen(category: cat);
+          final id = state.pathParameters['id'] ?? '';
+          final name = (state.extra as String?) ?? '카테고리';
+          return CategoryJobsScreen(categoryId: id, categoryName: name);
         },
       ),
       GoRoute(
         path: '/job/:id',
         builder: (ctx, state) {
-          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          final id = state.pathParameters['id'] ?? '';
           return JobInfoScreen(jobId: id);
         },
       ),
