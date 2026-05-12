@@ -26,8 +26,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('PIN 설정'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -95,8 +94,8 @@ class _SecurityScreenState extends State<SecurityScreen> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text('자동 잠금 시간',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               ),
             ),
             ...[
@@ -151,8 +150,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
             secondary: const Icon(Icons.lock_outline),
             title: const Text('PIN 잠금'),
             subtitle: const Text('앱 실행 시 4자리 PIN 입력',
-                style:
-                    TextStyle(fontSize: 11, color: AppColors.textMuted)),
+                style: TextStyle(fontSize: 11, color: AppColors.textMuted)),
             onChanged: (v) {
               if (v) {
                 _setupPin();
@@ -167,8 +165,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
             secondary: const Icon(Icons.fingerprint),
             title: const Text('생체 인증'),
             subtitle: const Text('Face ID / 지문으로 빠르게 잠금 해제',
-                style:
-                    TextStyle(fontSize: 11, color: AppColors.textMuted)),
+                style: TextStyle(fontSize: 11, color: AppColors.textMuted)),
             onChanged: _prefs.pinEnabled
                 ? (v) => setState(
                     () => _prefs = _prefs.copyWith(biometricEnabled: v))
@@ -178,8 +175,8 @@ class _SecurityScreenState extends State<SecurityScreen> {
             leading: const Icon(Icons.timer_outlined),
             title: const Text('자동 잠금'),
             subtitle: Text(_autoLockLabel(),
-                style: const TextStyle(
-                    fontSize: 11, color: AppColors.textMuted)),
+                style:
+                    const TextStyle(fontSize: 11, color: AppColors.textMuted)),
             trailing:
                 const Icon(Icons.chevron_right, color: AppColors.textFaint),
             onTap: _prefs.pinEnabled ? _pickAutoLock : null,
@@ -192,12 +189,10 @@ class _SecurityScreenState extends State<SecurityScreen> {
             activeColor: AppColors.brandDark,
             secondary: const Icon(Icons.shield_outlined),
             title: const Text('결제 시 추가 인증'),
-            subtitle: const Text(
-                '에스크로 충전·환불 시 PIN 또는 생체 인증 요구',
-                style:
-                    TextStyle(fontSize: 11, color: AppColors.textMuted)),
-            onChanged: (v) => setState(
-                () => _prefs = _prefs.copyWith(requireAuthOnPay: v)),
+            subtitle: const Text('에스크로 충전·환불 시 PIN 또는 생체 인증 요구',
+                style: TextStyle(fontSize: 11, color: AppColors.textMuted)),
+            onChanged: (v) =>
+                setState(() => _prefs = _prefs.copyWith(requireAuthOnPay: v)),
           ),
           const Divider(thickness: 8, color: AppColors.bg),
           const SectionHeader(title: '로그인 보안'),
@@ -205,8 +200,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
             leading: const Icon(Icons.devices_outlined),
             title: const Text('로그인 기기 관리'),
             subtitle: const Text('현재 2개 기기에서 로그인됨',
-                style: TextStyle(
-                    fontSize: 11, color: AppColors.textMuted)),
+                style: TextStyle(fontSize: 11, color: AppColors.textMuted)),
             trailing:
                 const Icon(Icons.chevron_right, color: AppColors.textFaint),
             onTap: () => ScaffoldMessenger.of(context).showSnackBar(
@@ -217,8 +211,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
             leading: const Icon(Icons.history),
             title: const Text('최근 로그인 기록'),
             subtitle: const Text('30일간의 접속 이력',
-                style: TextStyle(
-                    fontSize: 11, color: AppColors.textMuted)),
+                style: TextStyle(fontSize: 11, color: AppColors.textMuted)),
             trailing:
                 const Icon(Icons.chevron_right, color: AppColors.textFaint),
             onTap: () => ScaffoldMessenger.of(context).showSnackBar(

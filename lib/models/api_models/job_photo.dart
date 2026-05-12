@@ -13,5 +13,6 @@ class JobPhoto with _$JobPhoto {
     @JsonKey(name: 'signed_url') required String signedUrl,
   }) = _JobPhoto;
 
-  factory JobPhoto.fromJson(Map<String, dynamic> json) => _$JobPhotoFromJson(json);
+  factory JobPhoto.fromJson(Map<String, dynamic> json) =>
+      _$JobPhotoFromJson(json);
 }

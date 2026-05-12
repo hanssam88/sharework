@@ -53,8 +53,7 @@ class JobTemplatesScreen extends StatelessWidget {
                   child: ListView.separated(
                     padding: const EdgeInsets.all(16),
                     itemCount: items.length,
-                    separatorBuilder: (_, __) =>
-                        const SizedBox(height: 10),
+                    separatorBuilder: (_, __) => const SizedBox(height: 10),
                     itemBuilder: (_, i) {
                       final t = items[i];
                       return Container(
@@ -91,8 +90,7 @@ class JobTemplatesScreen extends StatelessWidget {
                                         horizontal: 6, vertical: 3),
                                     decoration: BoxDecoration(
                                       color: AppColors.chipBg,
-                                      borderRadius:
-                                          BorderRadius.circular(6),
+                                      borderRadius: BorderRadius.circular(6),
                                     ),
                                     child: Text(
                                       '사용 ${t.useCount}회',
@@ -110,8 +108,7 @@ class JobTemplatesScreen extends StatelessWidget {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
-                                            content: Text(
-                                                '템플릿 삭제 (목업)')),
+                                            content: Text('템플릿 삭제 (목업)')),
                                       );
                                     }
                                   },
@@ -129,13 +126,11 @@ class JobTemplatesScreen extends StatelessWidget {
                             const SizedBox(height: 8),
                             Text(t.name,
                                 style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w800)),
+                                    fontSize: 15, fontWeight: FontWeight.w800)),
                             const SizedBox(height: 4),
                             Text(t.title,
                                 style: const TextStyle(
-                                    fontSize: 13,
-                                    color: AppColors.textMuted)),
+                                    fontSize: 13, color: AppColors.textMuted)),
                             const SizedBox(height: 8),
                             Wrap(
                               spacing: 8,
@@ -158,8 +153,7 @@ class JobTemplatesScreen extends StatelessWidget {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
-                                            content:
-                                                Text('템플릿 편집 (목업)')),
+                                            content: Text('템플릿 편집 (목업)')),
                                       );
                                     },
                                     icon: const Icon(Icons.edit, size: 16),
@@ -175,8 +169,7 @@ class JobTemplatesScreen extends StatelessWidget {
                                       context.push(
                                           '/giver/job/create?templateId=${t.id}');
                                     },
-                                    icon: const Icon(
-                                        Icons.add_box_outlined,
+                                    icon: const Icon(Icons.add_box_outlined,
                                         size: 16),
                                     label: const Text('이 템플릿으로 등록'),
                                   ),
@@ -212,8 +205,7 @@ class JobTemplatesScreen extends StatelessWidget {
         Icon(icon, size: 13, color: AppColors.textMuted),
         const SizedBox(width: 3),
         Text(text,
-            style: const TextStyle(
-                fontSize: 12, color: AppColors.textMuted)),
+            style: const TextStyle(fontSize: 12, color: AppColors.textMuted)),
       ],
     );
   }

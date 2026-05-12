@@ -81,8 +81,8 @@ class _DisputeCard extends StatelessWidget {
               const SizedBox(height: 6),
               Text(
                 '상대방 ${dispute.otherPartyName} · ${dispute.reason.label}',
-                style: const TextStyle(
-                    fontSize: 12, color: AppColors.textMuted),
+                style:
+                    const TextStyle(fontSize: 12, color: AppColors.textMuted),
               ),
               const SizedBox(height: 8),
               Text(

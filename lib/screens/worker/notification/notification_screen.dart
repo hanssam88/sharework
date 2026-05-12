@@ -78,8 +78,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           Expanded(
             child: list.isEmpty
                 ? const EmptyState(
-                    icon: Icons.notifications_none,
-                    message: '해당 카테고리에 알림이 없어요')
+                    icon: Icons.notifications_none, message: '해당 카테고리에 알림이 없어요')
                 : ListView.separated(
                     itemCount: list.length,
                     separatorBuilder: (_, __) => const Divider(height: 1),

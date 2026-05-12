@@ -17,11 +17,14 @@ const _job = Job(
   updatedAt: '2026-05-12T00:00:00Z',
 );
 
-const _photo1 = JobPhoto(id: 'p1', position: 1, signedUrl: 'https://example/sig1');
-const _photo2 = JobPhoto(id: 'p2', position: 2, signedUrl: 'https://example/sig2');
+const _photo1 =
+    JobPhoto(id: 'p1', position: 1, signedUrl: 'https://example/sig1');
+const _photo2 =
+    JobPhoto(id: 'p2', position: 2, signedUrl: 'https://example/sig2');
 
 void main() {
-  testWidgets('renders job title + wage + description from constructor args', (tester) async {
+  testWidgets('renders job title + wage + description from constructor args',
+      (tester) async {
     await tester.pumpWidget(
       const MaterialApp(home: JobPreviewScreen(job: _job, photos: [])),
     );
@@ -71,7 +74,8 @@ void main() {
 
   testWidgets('photos provided → PageView carousel rendered', (tester) async {
     await tester.pumpWidget(
-      const MaterialApp(home: JobPreviewScreen(job: _job, photos: [_photo1, _photo2])),
+      const MaterialApp(
+          home: JobPreviewScreen(job: _job, photos: [_photo1, _photo2])),
     );
     await tester.pumpAndSettle();
     expect(find.byType(PageView), findsOneWidget);

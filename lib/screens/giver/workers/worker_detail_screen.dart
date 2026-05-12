@@ -26,17 +26,14 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
 
   // 함께한 횟수 (목업: 결정적)
   int _hireCount(int workerId) {
-    final regular = Dummy.regulars
-        .where((r) => r.workerId == workerId)
-        .toList();
+    final regular =
+        Dummy.regulars.where((r) => r.workerId == workerId).toList();
     return regular.isEmpty ? 0 : regular.first.hireCount;
   }
 
   void _toggleRegular(AppUser u) {
     setState(() => _isRegular = !_isRegular);
-    _snack(_isRegular
-        ? '${u.name}님을 단골 워커에 추가했어요'
-        : '단골 워커에서 제거했어요');
+    _snack(_isRegular ? '${u.name}님을 단골 워커에 추가했어요' : '단골 워커에서 제거했어요');
   }
 
   void _toggleFavorite(AppUser u) {
@@ -58,8 +55,8 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
             ListTile(
               leading: const Icon(Icons.share_outlined),
               title: const Text('프로필 공유'),
-              subtitle: const Text('동료 사장님께 추천',
-                  style: TextStyle(fontSize: 11)),
+              subtitle:
+                  const Text('동료 사장님께 추천', style: TextStyle(fontSize: 11)),
               onTap: () {
                 Navigator.pop(sheetCtx);
                 _snack('https://sharework.kr/worker/${u.id} 복사됨');
@@ -74,8 +71,7 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.flag_outlined,
-                  color: AppColors.danger),
+              leading: const Icon(Icons.flag_outlined, color: AppColors.danger),
               title: const Text('신고하기'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -83,11 +79,9 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
               },
             ),
             ListTile(
-              leading:
-                  const Icon(Icons.block, color: AppColors.danger),
+              leading: const Icon(Icons.block, color: AppColors.danger),
               title: const Text('차단하기'),
-              subtitle: const Text(
-                  '내 공고에 다시 지원할 수 없어요',
+              subtitle: const Text('내 공고에 다시 지원할 수 없어요',
                   style: TextStyle(fontSize: 11)),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -104,11 +98,9 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text('${u.name}님을 차단하시겠어요?'),
-        content: const Text(
-            '차단된 워커는 내 공고에 지원·문의할 수 없고, 채팅도 차단돼요.'),
+        content: const Text('차단된 워커는 내 공고에 지원·문의할 수 없고, 채팅도 차단돼요.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -118,8 +110,8 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
             style: FilledButton.styleFrom(
                 backgroundColor: AppColors.danger,
                 minimumSize: const Size(80, 40),
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 8)),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8)),
             onPressed: () {
               Navigator.pop(context);
               _snack('${u.name}님을 차단했어요');
@@ -139,29 +131,24 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
     final messageCtrl = TextEditingController(
       text: '안녕하세요. 프로필 보고 연락드립니다. 함께 일하실 수 있을까요?',
     );
-    final myJobs =
-        Dummy.jobs.where((j) => j.status == JobStatus.open).toList();
+    final myJobs = Dummy.jobs.where((j) => j.status == JobStatus.open).toList();
 
     final templates = const [
       _ScoutTemplate(
         name: '신규 채용 제안',
-        body:
-            '안녕하세요, 프로필 보고 연락드립니다. 다음 근무에 함께해주실 수 있을까요?',
+        body: '안녕하세요, 프로필 보고 연락드립니다. 다음 근무에 함께해주실 수 있을까요?',
       ),
       _ScoutTemplate(
         name: '단골 재의뢰',
-        body:
-            '저번에 같이 일했던 알바입니다. 비슷한 일정으로 다시 모실 수 있으면 좋겠어요!',
+        body: '저번에 같이 일했던 알바입니다. 비슷한 일정으로 다시 모실 수 있으면 좋겠어요!',
       ),
       _ScoutTemplate(
         name: '시급 우대',
-        body:
-            '경력이 좋아 보여서 시급 우대해드리려 해요. 일정 가능하시면 회신 부탁드립니다.',
+        body: '경력이 좋아 보여서 시급 우대해드리려 해요. 일정 가능하시면 회신 부탁드립니다.',
       ),
       _ScoutTemplate(
         name: '면접 요청',
-        body:
-            '간단한 사전 면접 후 진행하려고 합니다. 가능한 시간을 알려주세요.',
+        body: '간단한 사전 면접 후 진행하려고 합니다. 가능한 시간을 알려주세요.',
       ),
     ];
 
@@ -191,8 +178,7 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
                 const SizedBox(height: 4),
                 const Text(
                   '구직자에게 직접 일감을 제안할 수 있어요. 채팅으로 연결됩니다.',
-                  style: TextStyle(
-                      fontSize: 12, color: AppColors.textMuted),
+                  style: TextStyle(fontSize: 12, color: AppColors.textMuted),
                 ),
                 const SizedBox(height: 16),
                 const Text('메시지 템플릿',
@@ -229,8 +215,8 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
                 const SizedBox(height: 8),
                 if (myJobs.isEmpty)
                   const Text('등록된 공고가 없어요',
-                      style: TextStyle(
-                          fontSize: 12, color: AppColors.textMuted))
+                      style:
+                          TextStyle(fontSize: 12, color: AppColors.textMuted))
                 else
                   Column(
                     children: myJobs
@@ -271,8 +257,7 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
                           activeColor: AppColors.brandDark,
                           inactiveColor: AppColors.chipBg,
                           label: '${(hourly / 1000).toStringAsFixed(0)}천원',
-                          onChanged: (v) =>
-                              setSheet(() => hourly = v.toInt()),
+                          onChanged: (v) => setSheet(() => hourly = v.toInt()),
                         ),
                       ),
                     ),
@@ -310,8 +295,7 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
                       child: FilledButton(
                         onPressed: () {
                           Navigator.pop(sheetCtx);
-                          _snack(
-                              '${u.name}님께 스카웃 발송 (시급 ${hourly}원, 목업)');
+                          _snack('${u.name}님께 스카웃 발송 (시급 ${hourly}원, 목업)');
                         },
                         child: const Text('스카웃 보내기'),
                       ),
@@ -339,9 +323,7 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
           title: const Text('워커 프로필'),
           actions: [
             IconButton(
-              icon: Icon(_isFavorite
-                  ? Icons.bookmark
-                  : Icons.bookmark_border),
+              icon: Icon(_isFavorite ? Icons.bookmark : Icons.bookmark_border),
               color: _isFavorite ? AppColors.brandDark : null,
               tooltip: '즐겨찾기',
               onPressed: () => _toggleFavorite(u),
@@ -372,8 +354,7 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
                       children: [
                         Text(u.name,
                             style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w800)),
+                                fontSize: 20, fontWeight: FontWeight.w800)),
                         if (u.identityVerified) ...[
                           const SizedBox(width: 6),
                           const Icon(Icons.verified,
@@ -389,8 +370,8 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
                             color: Color(0xFFFFC400), size: 16),
                         const SizedBox(width: 2),
                         Text('${u.rating}',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w700)),
+                            style:
+                                const TextStyle(fontWeight: FontWeight.w700)),
                         const SizedBox(width: 4),
                         Text('· 리뷰 ${u.reviewCount}개',
                             style: const TextStyle(
@@ -482,8 +463,7 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
                     ListView.separated(
                       padding: const EdgeInsets.all(16),
                       itemCount: reviews.length,
-                      separatorBuilder: (_, __) =>
-                          const SizedBox(height: 10),
+                      separatorBuilder: (_, __) => const SizedBox(height: 10),
                       itemBuilder: (_, i) => ReviewCard(review: reviews[i]),
                     ),
                   ],
@@ -518,8 +498,7 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       padding: EdgeInsets.zero,
-                      backgroundColor:
-                          _isRegular ? AppColors.brandSoft : null,
+                      backgroundColor: _isRegular ? AppColors.brandSoft : null,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12)),
                       side: BorderSide(
@@ -530,9 +509,7 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
                     onPressed: () => _toggleRegular(u),
                     child: Icon(
                       _isRegular ? Icons.star : Icons.star_outline,
-                      color: _isRegular
-                          ? AppColors.brandDark
-                          : AppColors.text,
+                      color: _isRegular ? AppColors.brandDark : AppColors.text,
                     ),
                   ),
                 ),
@@ -584,8 +561,7 @@ class _StatBox extends StatelessWidget {
                   color: color ?? AppColors.text)),
           const SizedBox(height: 2),
           Text(label,
-              style: const TextStyle(
-                  fontSize: 10, color: AppColors.textMuted)),
+              style: const TextStyle(fontSize: 10, color: AppColors.textMuted)),
         ],
       ),
     );

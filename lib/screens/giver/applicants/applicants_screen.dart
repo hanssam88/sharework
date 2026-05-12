@@ -103,13 +103,12 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('거절 사유',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 4),
                 const Text(
                   '선택한 사유는 워커에게 공개되지 않으며 통계에만 사용돼요.',
-                  style: TextStyle(
-                      fontSize: 12, color: AppColors.textMuted),
+                  style: TextStyle(fontSize: 12, color: AppColors.textMuted),
                 ),
                 const SizedBox(height: 12),
                 ...[
@@ -138,8 +137,8 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
                       style: TextStyle(fontSize: 13)),
                   subtitle: const Text(
                       '"이번에는 다른 분과 함께하게 되었습니다. 다음 기회에 또 만나요." (자동 작성)',
-                      style: TextStyle(
-                          fontSize: 11, color: AppColors.textMuted)),
+                      style:
+                          TextStyle(fontSize: 11, color: AppColors.textMuted)),
                   onChanged: (v) => setSheet(() => send = v ?? true),
                 ),
                 const SizedBox(height: 8),
@@ -221,8 +220,8 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.phone_outlined,
-                  color: AppColors.brandDark),
+              leading:
+                  const Icon(Icons.phone_outlined, color: AppColors.brandDark),
               title: const Text('안심번호 통화'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -236,8 +235,7 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
   }
 
   void _openCompareDialog() {
-    final selectedApps =
-        _items.where((a) => _selected.contains(a.id)).toList();
+    final selectedApps = _items.where((a) => _selected.contains(a.id)).toList();
     if (selectedApps.length < 2) {
       _snack('비교할 지원자를 2명 이상 선택해주세요');
       return;
@@ -249,8 +247,7 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
     showDialog(
       context: context,
       builder: (_) => Dialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -258,8 +255,7 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('지원자 비교',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 12),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -280,24 +276,19 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(w.name,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w800)),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w800)),
                           const SizedBox(height: 6),
-                          _kv('매칭', '$score점',
-                              color: _scoreColor(score)),
-                          _kv('평점',
-                              '${w.rating} (${w.reviewCount})'),
-                          _kv('거리',
-                              '${a.distanceKm.toStringAsFixed(1)}km'),
+                          _kv('매칭', '$score점', color: _scoreColor(score)),
+                          _kv('평점', '${w.rating} (${w.reviewCount})'),
+                          _kv('거리', '${a.distanceKm.toStringAsFixed(1)}km'),
                           _kv('지원', fmtRelative(a.appliedAt)),
                           const SizedBox(height: 6),
                           Wrap(
                             spacing: 4,
                             runSpacing: 4,
-                            children: w.tags
-                                .take(3)
-                                .map((t) => TagChip(t))
-                                .toList(),
+                            children:
+                                w.tags.take(3).map((t) => TagChip(t)).toList(),
                           ),
                         ],
                       ),
@@ -356,8 +347,7 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
 
   void _bulkReject() {
     _showRejectReasonSheet(onPick: (reason, send) {
-      final apps =
-          _items.where((a) => _selected.contains(a.id)).toList();
+      final apps = _items.where((a) => _selected.contains(a.id)).toList();
       for (final a in apps) {
         _setStatus(a, ApplicationStatus.rejected);
       }
@@ -400,9 +390,8 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
           actions: [
             IconButton(
               tooltip: _selectMode ? '선택 취소' : '선택 모드',
-              icon: Icon(_selectMode
-                  ? Icons.close
-                  : Icons.checklist_rtl_outlined),
+              icon: Icon(
+                  _selectMode ? Icons.close : Icons.checklist_rtl_outlined),
               onPressed: () {
                 setState(() {
                   _selectMode = !_selectMode;
@@ -448,10 +437,8 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
                     spacing: 6,
                     runSpacing: 4,
                     children: [
-                      TagChip(
-                          '평균 평점 ${avgRating.toStringAsFixed(1)}'),
-                      TagChip(
-                          '평균 거리 ${avgDistance.toStringAsFixed(1)}km'),
+                      TagChip('평균 평점 ${avgRating.toStringAsFixed(1)}'),
+                      TagChip('평균 거리 ${avgDistance.toStringAsFixed(1)}km'),
                       TagChip(
                           '매우 적합 ${pending.where((a) => _matchScore(a) >= 85).length}명',
                           primary: true),
@@ -465,8 +452,7 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
             // 자동 채용 자동화 카드 (대기 탭에서만 의미 있음)
             Container(
               color: AppColors.bg,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -474,9 +460,7 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: _autoHire
-                        ? AppColors.brandDark
-                        : AppColors.divider,
+                    color: _autoHire ? AppColors.brandDark : AppColors.divider,
                   ),
                 ),
                 child: Row(
@@ -493,13 +477,10 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
                         children: [
                           Text('자동 채용',
                               style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w800)),
-                          Text(
-                              '매칭 85점↑ · 거리 5km↓ · 평점 4.5↑ 인 지원자 자동 채용',
+                                  fontSize: 13, fontWeight: FontWeight.w800)),
+                          Text('매칭 85점↑ · 거리 5km↓ · 평점 4.5↑ 인 지원자 자동 채용',
                               style: TextStyle(
-                                  fontSize: 11,
-                                  color: AppColors.textMuted)),
+                                  fontSize: 11, color: AppColors.textMuted)),
                         ],
                       ),
                     ),
@@ -521,8 +502,7 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
                 children: [
                   _list(pending, showActions: true),
                   _list(hired, showActions: false, statusLabel: '채용됨'),
-                  _list(rejected,
-                      showActions: false, statusLabel: '거절됨'),
+                  _list(rejected, showActions: false, statusLabel: '거절됨'),
                 ],
               ),
             ),
@@ -534,16 +514,15 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
                   decoration: const BoxDecoration(
                     color: Colors.white,
-                    border:
-                        Border(top: BorderSide(color: AppColors.divider)),
+                    border: Border(top: BorderSide(color: AppColors.divider)),
                   ),
                   child: Row(
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Text('${_selected.length}명 선택',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w800)),
+                            style:
+                                const TextStyle(fontWeight: FontWeight.w800)),
                       ),
                       const Spacer(),
                       OutlinedButton.icon(
@@ -649,8 +628,7 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
                         child: const CircleAvatar(
                           radius: 22,
                           backgroundColor: AppColors.brandSoft,
-                          child: Icon(Icons.person,
-                              color: AppColors.brandDark),
+                          child: Icon(Icons.person, color: AppColors.brandDark),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -670,10 +648,9 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 6, vertical: 2),
                                     decoration: BoxDecoration(
-                                      color: _scoreColor(score)
-                                          .withOpacity(0.12),
-                                      borderRadius:
-                                          BorderRadius.circular(4),
+                                      color:
+                                          _scoreColor(score).withOpacity(0.12),
+                                      borderRadius: BorderRadius.circular(4),
                                     ),
                                     child: Text(
                                       '$score · ${_scoreLabel(score)}',
@@ -695,15 +672,13 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
                                 Text(
                                   '${w.rating} · 리뷰 ${w.reviewCount}',
                                   style: const TextStyle(
-                                      fontSize: 12,
-                                      color: AppColors.textMuted),
+                                      fontSize: 12, color: AppColors.textMuted),
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
                                   '· ${a.distanceKm.toStringAsFixed(1)}km',
                                   style: const TextStyle(
-                                      fontSize: 12,
-                                      color: AppColors.textFaint),
+                                      fontSize: 12, color: AppColors.textFaint),
                                 ),
                               ],
                             ),
@@ -718,8 +693,7 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
                     Wrap(
                       spacing: 6,
                       runSpacing: 6,
-                      children:
-                          w.tags.map((t) => TagChip('#$t')).toList(),
+                      children: w.tags.map((t) => TagChip('#$t')).toList(),
                     ),
                   ],
                   const SizedBox(height: 12),
@@ -739,12 +713,11 @@ class _ApplicantsScreenState extends State<ApplicantsScreen> {
                             style: OutlinedButton.styleFrom(
                               padding: EdgeInsets.zero,
                               shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(10)),
+                                  borderRadius: BorderRadius.circular(10)),
                             ),
                             onPressed: () => _openTemplateSheet(a),
-                            child: const Icon(Icons.chat_bubble_outline,
-                                size: 18),
+                            child:
+                                const Icon(Icons.chat_bubble_outline, size: 18),
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -779,7 +752,8 @@ class _Template {
   final String title;
   final String body;
   final IconData icon;
-  const _Template({required this.title, required this.body, required this.icon});
+  const _Template(
+      {required this.title, required this.body, required this.icon});
 }
 
 const _templates = <_Template>[

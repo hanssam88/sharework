@@ -85,7 +85,8 @@ class Dummy {
       sameDayPayment: true,
       foodProvided: true,
       extraPay: false,
-      description: '주말 오전 9시 ~ 오후 5시까지 카페 홀 서빙·주문 받기 도와주실 분 구합니다. 친절하게 손님 응대 가능하신 분 환영해요.',
+      description:
+          '주말 오전 9시 ~ 오후 5시까지 카페 홀 서빙·주문 받기 도와주실 분 구합니다. 친절하게 손님 응대 가능하신 분 환영해요.',
       checklists: const ['카페 알바 경험 있으신가요?', '바리스타 자격증 보유?', '주말 8시간 근무 가능?'],
       status: JobStatus.open,
       category: JobCategory.cafe,
@@ -523,7 +524,8 @@ class Dummy {
     FaqItem(
       category: '계정',
       question: '구직자/구인자 모드는 어떻게 전환하나요?',
-      answer: '마이페이지 상단의 "모드 전환" 버튼으로 언제든 두 모드를 오갈 수 있습니다. 두 모드는 같은 계정·전화번호를 공유합니다.',
+      answer:
+          '마이페이지 상단의 "모드 전환" 버튼으로 언제든 두 모드를 오갈 수 있습니다. 두 모드는 같은 계정·전화번호를 공유합니다.',
     ),
     FaqItem(
       category: '지원·채용',
@@ -543,7 +545,8 @@ class Dummy {
     FaqItem(
       category: '정산',
       question: '플랫폼 수수료는 얼마인가요?',
-      answer: '구인자에게만 결제 금액의 일정 비율이 부과되며, 구직자에게는 수수료가 없습니다. 자세한 내역은 정산 명세서에서 확인하세요.',
+      answer:
+          '구인자에게만 결제 금액의 일정 비율이 부과되며, 구직자에게는 수수료가 없습니다. 자세한 내역은 정산 명세서에서 확인하세요.',
     ),
     FaqItem(
       category: '신고·안전',
@@ -565,7 +568,8 @@ class Dummy {
       body: '어제 카페 알바 끝나고 당일지급 처리됐다고 알림이 왔는데 통장에 입금이 안 됐어요.',
       status: InquiryStatus.answered,
       createdAt: DateTime.now().subtract(const Duration(days: 2)),
-      answer: '확인해보니 등록 계좌 정보 오류로 보류된 상태였습니다. 정상 계좌로 재처리하여 오늘 14:00 입금 완료되었습니다.',
+      answer:
+          '확인해보니 등록 계좌 정보 오류로 보류된 상태였습니다. 정상 계좌로 재처리하여 오늘 14:00 입금 완료되었습니다.',
     ),
     Inquiry(
       id: 2,
@@ -747,8 +751,8 @@ class Dummy {
       applications: 18 + base * 2,
       hires: 3 + (base % 4),
       avgPay: 11800,
-      last7DaysImpressions: List.generate(
-          7, (i) => 100 + ((i + base) * 27) % 240),
+      last7DaysImpressions:
+          List.generate(7, (i) => 100 + ((i + base) * 27) % 240),
     );
   }
 
@@ -950,8 +954,7 @@ class Dummy {
       toWorkerName: '김알바',
       jobId: 1001,
       jobTitle: '카페 주말 알바 구합니다',
-      message:
-          '안녕하세요! 프로필 보고 연락드려요. 다음 주말 함께 일하실 수 있을까요? 시급 우대해드릴게요.',
+      message: '안녕하세요! 프로필 보고 연락드려요. 다음 주말 함께 일하실 수 있을까요? 시급 우대해드릴게요.',
       status: ScoutStatus.sent,
       createdAt: DateTime.now().subtract(const Duration(hours: 2)),
       offerHourly: 13500,
@@ -1172,8 +1175,7 @@ class Dummy {
       jobTitle: '평일 오전 카페 오픈 알바',
       otherPartyName: '카페 모카',
       reason: DisputeReason.payAmount,
-      description:
-          '근무 시간은 6시간으로 합의했는데 정산서에는 5.5시간으로 처리되어 차액 6,000원 정산을 요청합니다.',
+      description: '근무 시간은 6시간으로 합의했는데 정산서에는 5.5시간으로 처리되어 차액 6,000원 정산을 요청합니다.',
       stage: DisputeStage.mediation,
       createdAt: DateTime.now().subtract(const Duration(days: 3)),
       timeline: [

@@ -79,7 +79,8 @@ class _NotificationSettingsScreenState
               Row(
                 children: [
                   Container(
-                    width: 40, height: 40,
+                    width: 40,
+                    height: 40,
                     decoration: BoxDecoration(
                       color: _permColor.withOpacity(0.15),
                       shape: BoxShape.circle,
@@ -93,12 +94,10 @@ class _NotificationSettingsScreenState
                       children: [
                         Text('시스템 알림 권한 — $_permLabel',
                             style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w800)),
+                                fontSize: 15, fontWeight: FontWeight.w800)),
                         Text(_permHint,
                             style: const TextStyle(
-                                fontSize: 12,
-                                color: AppColors.textMuted)),
+                                fontSize: 12, color: AppColors.textMuted)),
                       ],
                     ),
                   ),
@@ -128,8 +127,7 @@ class _NotificationSettingsScreenState
                               fontWeight: FontWeight.w800)),
                       const SizedBox(width: 8),
                       Expanded(
-                        child: Text(t[1],
-                            style: const TextStyle(fontSize: 13)),
+                        child: Text(t[1], style: const TextStyle(fontSize: 13)),
                       ),
                     ],
                   ),
@@ -149,17 +147,14 @@ class _NotificationSettingsScreenState
                       onPressed: () {
                         Navigator.pop(sheetCtx);
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('시스템 설정으로 이동 (목업)')),
+                          const SnackBar(content: Text('시스템 설정으로 이동 (목업)')),
                         );
-                        Future.delayed(const Duration(milliseconds: 800),
-                            () {
+                        Future.delayed(const Duration(milliseconds: 800), () {
                           if (mounted) {
                             setState(() => _perm = _PermStatus.allowed);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                  content: Text(
-                                      '권한이 변경되어 알림이 정상 동작합니다 (목업)')),
+                                  content: Text('권한이 변경되어 알림이 정상 동작합니다 (목업)')),
                             );
                           }
                         });
@@ -217,12 +212,10 @@ class _NotificationSettingsScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('방해금지 시간',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 4),
               const Text('지정한 시간에는 알림 사운드·진동이 꺼집니다',
-                  style: TextStyle(
-                      fontSize: 12, color: AppColors.textMuted)),
+                  style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
               const SizedBox(height: 16),
               Row(
                 children: [
@@ -295,11 +288,10 @@ class _NotificationSettingsScreenState
                 value: _urgentExempt,
                 activeColor: AppColors.brandDark,
                 title: const Text('긴급 알림은 예외',
-                    style: TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w700)),
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
                 subtitle: const Text('체크인·정산 지연 등 시간 민감한 알림',
-                    style: TextStyle(
-                        fontSize: 12, color: AppColors.textMuted)),
+                    style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
                 onChanged: (v) {
                   innerSet(() => _urgentExempt = v);
                   setState(() => _urgentExempt = v);
@@ -333,8 +325,7 @@ class _NotificationSettingsScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('샘플 알림 미리보기',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 12),
               const _PreviewCard(
                 icon: Icons.send,
@@ -383,8 +374,8 @@ class _NotificationSettingsScreenState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('사운드 · 진동',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 12),
                 const Text('알림 사운드',
                     style: TextStyle(
@@ -401,8 +392,7 @@ class _NotificationSettingsScreenState
                           color: AppColors.brandDark),
                       onPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text('${s.label} 미리듣기 (목업)')),
+                          SnackBar(content: Text('${s.label} 미리듣기 (목업)')),
                         );
                       },
                     ),
@@ -422,7 +412,9 @@ class _NotificationSettingsScreenState
                         fontWeight: FontWeight.w700)),
                 Slider(
                   value: _vibration.toDouble(),
-                  min: 0, max: 3, divisions: 3,
+                  min: 0,
+                  max: 3,
+                  divisions: 3,
                   label: ['끄기', '약함', '보통', '강함'][_vibration],
                   activeColor: AppColors.brandDark,
                   onChanged: (v) {
@@ -469,11 +461,10 @@ class _NotificationSettingsScreenState
           leading: Icon(icon,
               color: value ? AppColors.brandDark : AppColors.textFaint),
           title: Text(label,
-              style: const TextStyle(
-                  fontSize: 14, fontWeight: FontWeight.w700)),
+              style:
+                  const TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
           subtitle: Text(desc,
-              style: const TextStyle(
-                  fontSize: 12, color: AppColors.textMuted)),
+              style: const TextStyle(fontSize: 12, color: AppColors.textMuted)),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -570,12 +561,10 @@ class _NotificationSettingsScreenState
                     children: [
                       Text('시스템 권한 — $_permLabel',
                           style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w800)),
+                              fontSize: 14, fontWeight: FontWeight.w800)),
                       Text(_permHint,
                           style: const TextStyle(
-                              fontSize: 12,
-                              color: AppColors.textMuted)),
+                              fontSize: 12, color: AppColors.textMuted)),
                     ],
                   ),
                 ),
@@ -593,8 +582,8 @@ class _NotificationSettingsScreenState
             label: '지원·매칭',
             desc: '내 지원이 등록·검토될 때',
             value: _prefs.application,
-            onChanged: (v) => setState(
-                () => _prefs = _prefs.copyWith(application: v)),
+            onChanged: (v) =>
+                setState(() => _prefs = _prefs.copyWith(application: v)),
           ),
           _categoryItem(
             key: 'hire',
@@ -602,8 +591,7 @@ class _NotificationSettingsScreenState
             label: '채용 확정',
             desc: '구인자가 채용을 확정했을 때',
             value: _prefs.hire,
-            onChanged: (v) =>
-                setState(() => _prefs = _prefs.copyWith(hire: v)),
+            onChanged: (v) => setState(() => _prefs = _prefs.copyWith(hire: v)),
           ),
           _categoryItem(
             key: 'chat',
@@ -611,8 +599,7 @@ class _NotificationSettingsScreenState
             label: '채팅 메시지',
             desc: '새 메시지·답장 도착',
             value: _prefs.chat,
-            onChanged: (v) =>
-                setState(() => _prefs = _prefs.copyWith(chat: v)),
+            onChanged: (v) => setState(() => _prefs = _prefs.copyWith(chat: v)),
           ),
           _categoryItem(
             key: 'review',
@@ -649,13 +636,11 @@ class _NotificationSettingsScreenState
             contentPadding: const EdgeInsets.symmetric(horizontal: 16),
             leading: const Icon(Icons.bedtime_outlined),
             title: const Text('방해금지 시간',
-                style: TextStyle(
-                    fontSize: 14, fontWeight: FontWeight.w700)),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
             subtitle: Text(
               '${_fmtTime(_quietStart)} ~ ${_fmtTime(_quietEnd)} · '
               '${_quietWeekdays.length}/7일${_urgentExempt ? ' · 긴급 예외' : ''}',
-              style: const TextStyle(
-                  fontSize: 12, color: AppColors.textMuted),
+              style: const TextStyle(fontSize: 12, color: AppColors.textMuted),
             ),
             trailing: Switch(
               value: _prefs.nightQuiet,
@@ -669,15 +654,13 @@ class _NotificationSettingsScreenState
             contentPadding: const EdgeInsets.symmetric(horizontal: 16),
             leading: const Icon(Icons.music_note_outlined),
             title: const Text('사운드 · 진동',
-                style: TextStyle(
-                    fontSize: 14, fontWeight: FontWeight.w700)),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
             subtitle: Text(
               '${_tone.label} · 진동 ${['끄기', '약함', '보통', '강함'][_vibration]}',
-              style: const TextStyle(
-                  fontSize: 12, color: AppColors.textMuted),
+              style: const TextStyle(fontSize: 12, color: AppColors.textMuted),
             ),
-            trailing: const Icon(Icons.chevron_right,
-                color: AppColors.textMuted),
+            trailing:
+                const Icon(Icons.chevron_right, color: AppColors.textMuted),
             onTap: _showSoundSheet,
           ),
           const SizedBox(height: 24),
@@ -720,8 +703,7 @@ class _ChannelPrefs {
     required this.sms,
   });
 
-  _ChannelPrefs copyWith({bool? app, bool? email, bool? sms}) =>
-      _ChannelPrefs(
+  _ChannelPrefs copyWith({bool? app, bool? email, bool? sms}) => _ChannelPrefs(
         app: app ?? this.app,
         email: email ?? this.email,
         sms: sms ?? this.sms,
@@ -744,8 +726,8 @@ class _ChannelRow extends StatelessWidget {
       children: [
         Expanded(
           child: Text(label,
-              style: const TextStyle(
-                  fontSize: 13, fontWeight: FontWeight.w600)),
+              style:
+                  const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
         ),
         Switch(
           value: value,
@@ -842,7 +824,8 @@ class _PreviewCard extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 40, height: 40,
+            width: 40,
+            height: 40,
             decoration: const BoxDecoration(
               color: AppColors.brandSoft,
               shape: BoxShape.circle,
@@ -859,8 +842,7 @@ class _PreviewCard extends StatelessWidget {
                     Expanded(
                       child: Text(title,
                           style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w800)),
+                              fontSize: 14, fontWeight: FontWeight.w800)),
                     ),
                     Text(relative,
                         style: const TextStyle(

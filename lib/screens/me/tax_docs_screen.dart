@@ -17,8 +17,7 @@ class _TaxDocsScreenState extends State<TaxDocsScreen> {
   @override
   Widget build(BuildContext context) {
     final payments = Dummy.payments;
-    final totalGross =
-        payments.fold<int>(0, (a, p) => a + p.amount);
+    final totalGross = payments.fold<int>(0, (a, p) => a + p.amount);
     final totalTax = payments.fold<int>(0, (a, p) => a + p.tax);
     final totalNet = payments.fold<int>(0, (a, p) => a + p.netAmount);
 
@@ -39,7 +38,8 @@ class _TaxDocsScreenState extends State<TaxDocsScreen> {
         ),
         body: TabBarView(
           children: [
-            _MonthlyTab(year: _year, onYearChanged: (y) => setState(() => _year = y)),
+            _MonthlyTab(
+                year: _year, onYearChanged: (y) => setState(() => _year = y)),
             _AnnualTab(
               year: _year,
               gross: totalGross,
@@ -76,8 +76,7 @@ class _MonthlyTab extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       children: [
         Container(
-          padding:
-              const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
@@ -147,8 +146,7 @@ class _MonthlyRow extends StatelessWidget {
               IconButton(
                 visualDensity: VisualDensity.compact,
                 icon: const Icon(Icons.file_download_outlined, size: 20),
-                onPressed: () =>
-                    ScaffoldMessenger.of(context).showSnackBar(
+                onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('$year-$month 명세서 PDF 다운로드 (목업)')),
                 ),
               ),
@@ -165,15 +163,13 @@ class _MonthlyRow extends StatelessWidget {
     );
   }
 
-  Widget _kv(String k, String v,
-      {bool muted = false, bool highlight = false}) {
+  Widget _kv(String k, String v, {bool muted = false, bool highlight = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Row(
         children: [
           Text(k,
-              style: const TextStyle(
-                  fontSize: 12, color: AppColors.textMuted)),
+              style: const TextStyle(fontSize: 12, color: AppColors.textMuted)),
           const Spacer(),
           Text(v,
               style: TextStyle(
@@ -312,8 +308,7 @@ class _DistRow extends StatelessWidget {
                   value: percent / 100,
                   minHeight: 6,
                   backgroundColor: AppColors.chipBg,
-                  valueColor: const AlwaysStoppedAnimation(
-                      AppColors.brandDark),
+                  valueColor: const AlwaysStoppedAnimation(AppColors.brandDark),
                 ),
               ),
             ],
@@ -321,8 +316,7 @@ class _DistRow extends StatelessWidget {
         ),
         const SizedBox(width: 12),
         Text(fmtMoney(amount),
-            style: const TextStyle(
-                fontSize: 13, fontWeight: FontWeight.w800)),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800)),
       ],
     );
   }

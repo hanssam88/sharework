@@ -12,5 +12,6 @@ class GiverPublic with _$GiverPublic {
     required String name,
   }) = _GiverPublic;
 
-  factory GiverPublic.fromJson(Map<String, dynamic> json) => _$GiverPublicFromJson(json);
+  factory GiverPublic.fromJson(Map<String, dynamic> json) =>
+      _$GiverPublicFromJson(json);
 }

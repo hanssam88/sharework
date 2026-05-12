@@ -47,19 +47,16 @@ void main() {
     final router = GoRouter(
       initialLocation: '/splash',
       routes: [
-        GoRoute(
-            path: '/splash', builder: (_, __) => const SplashScreen()),
+        GoRoute(path: '/splash', builder: (_, __) => const SplashScreen()),
         GoRoute(
             path: '/onboarding',
-            builder: (_, __) =>
-                const Scaffold(body: Text('onboarding'))),
+            builder: (_, __) => const Scaffold(body: Text('onboarding'))),
         GoRoute(
             path: '/worker',
             builder: (_, __) => const Scaffold(body: Text('worker'))),
         GoRoute(
             path: '/auth/phone',
-            builder: (_, __) =>
-                const Scaffold(body: Text('auth'))),
+            builder: (_, __) => const Scaffold(body: Text('auth'))),
       ],
     );
     await tester.pumpWidget(MaterialApp.router(routerConfig: router));
@@ -77,16 +74,13 @@ void main() {
     final router = GoRouter(
       initialLocation: '/splash',
       routes: [
-        GoRoute(
-            path: '/splash', builder: (_, __) => const SplashScreen()),
+        GoRoute(path: '/splash', builder: (_, __) => const SplashScreen()),
         GoRoute(
             path: '/onboarding',
-            builder: (_, __) =>
-                const Scaffold(body: Text('onboarding-page'))),
+            builder: (_, __) => const Scaffold(body: Text('onboarding-page'))),
         GoRoute(
             path: '/worker',
-            builder: (_, __) =>
-                const Scaffold(body: Text('worker-page'))),
+            builder: (_, __) => const Scaffold(body: Text('worker-page'))),
       ],
     );
     await tester.pumpWidget(MaterialApp.router(routerConfig: router));

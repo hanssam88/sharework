@@ -56,8 +56,8 @@ class _EscrowTopupScreenState extends State<EscrowTopupScreen> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text('결제수단 선택',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               ),
             ),
             ...Dummy.paymentMethods.map((m) => RadioListTile<int>(
@@ -96,8 +96,7 @@ class _EscrowTopupScreenState extends State<EscrowTopupScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('충전 확인'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -166,8 +165,7 @@ class _EscrowTopupScreenState extends State<EscrowTopupScreen> {
             ),
             child: Row(
               children: [
-                const Icon(Icons.shield_outlined,
-                    color: AppColors.brandDark),
+                const Icon(Icons.shield_outlined, color: AppColors.brandDark),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Column(
@@ -261,18 +259,16 @@ class _EscrowTopupScreenState extends State<EscrowTopupScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(_method?.label ?? '결제수단 선택',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w700)),
+                            style:
+                                const TextStyle(fontWeight: FontWeight.w700)),
                         if (_method != null)
                           Text(_method!.maskedNumber,
                               style: const TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.textMuted)),
+                                  fontSize: 12, color: AppColors.textMuted)),
                       ],
                     ),
                   ),
-                  const Icon(Icons.chevron_right,
-                      color: AppColors.textFaint),
+                  const Icon(Icons.chevron_right, color: AppColors.textFaint),
                 ],
               ),
             ),
@@ -289,9 +285,7 @@ class _EscrowTopupScreenState extends State<EscrowTopupScreen> {
               '• 미사용 금액은 언제든 환불할 수 있어요\n'
               '• 결제 영수증은 마이페이지 > 지급 내역에서 확인할 수 있어요',
               style: TextStyle(
-                  fontSize: 12,
-                  color: AppColors.textMuted,
-                  height: 1.6),
+                  fontSize: 12, color: AppColors.textMuted, height: 1.6),
             ),
           ),
         ],
@@ -302,9 +296,7 @@ class _EscrowTopupScreenState extends State<EscrowTopupScreen> {
           child: FilledButton(
             onPressed: _amount == null ? null : _confirm,
             child: Text(
-              _amount == null
-                  ? '충전하기'
-                  : '${fmtMoney(_amount!)} 충전하기',
+              _amount == null ? '충전하기' : '${fmtMoney(_amount!)} 충전하기',
             ),
           ),
         ),

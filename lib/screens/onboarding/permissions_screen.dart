@@ -49,9 +49,8 @@ class _PermissionsScreenState extends State<PermissionsScreen> {
   @override
   Widget build(BuildContext context) {
     final store = PermissionStore.I;
-    final progress = PermissionKind.values
-        .where((k) => store.get(k).isGranted)
-        .length;
+    final progress =
+        PermissionKind.values.where((k) => store.get(k).isGranted).length;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -92,15 +91,14 @@ class _PermissionsScreenState extends State<PermissionsScreen> {
                   value: progress / PermissionKind.values.length,
                   minHeight: 6,
                   backgroundColor: AppColors.chipBg,
-                  valueColor:
-                      const AlwaysStoppedAnimation(AppColors.brandDark),
+                  valueColor: const AlwaysStoppedAnimation(AppColors.brandDark),
                 ),
               ),
               const SizedBox(height: 6),
               Text(
                 '$progress / ${PermissionKind.values.length} 완료',
-                style: const TextStyle(
-                    fontSize: 12, color: AppColors.textMuted),
+                style:
+                    const TextStyle(fontSize: 12, color: AppColors.textMuted),
               ),
               const SizedBox(height: 20),
               Expanded(
@@ -154,15 +152,14 @@ class _PermissionsScreenState extends State<PermissionsScreen> {
                   minimumSize: const Size(double.infinity, 52),
                 ),
                 child: const Text('계속하기',
-                    style: TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
               ),
               const SizedBox(height: 4),
               const Center(
                 child: Text(
                   '언제든 마이페이지 → 권한 관리에서 변경할 수 있어요',
-                  style:
-                      TextStyle(fontSize: 11, color: AppColors.textFaint),
+                  style: TextStyle(fontSize: 11, color: AppColors.textFaint),
                 ),
               ),
             ],
@@ -229,7 +226,8 @@ class _PermItem extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  width: 44, height: 44,
+                  width: 44,
+                  height: 44,
                   decoration: BoxDecoration(
                     color: AppColors.brandSoft,
                     borderRadius: BorderRadius.circular(12),
@@ -245,8 +243,7 @@ class _PermItem extends StatelessWidget {
                         children: [
                           Text(title,
                               style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w800)),
+                                  fontSize: 15, fontWeight: FontWeight.w800)),
                           const SizedBox(width: 6),
                           Container(
                             padding: const EdgeInsets.symmetric(
@@ -281,8 +278,7 @@ class _PermItem extends StatelessWidget {
                   ),
                 ),
                 if (detail)
-                  const Icon(Icons.chevron_right,
-                      color: AppColors.textMuted),
+                  const Icon(Icons.chevron_right, color: AppColors.textMuted),
               ],
             ),
             if (detail && !granted) ...[
@@ -295,8 +291,8 @@ class _PermItem extends StatelessWidget {
                       style: OutlinedButton.styleFrom(
                         minimumSize: const Size(0, 36),
                       ),
-                      child: const Text('빠르게 허용',
-                          style: TextStyle(fontSize: 13)),
+                      child:
+                          const Text('빠르게 허용', style: TextStyle(fontSize: 13)),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -308,8 +304,8 @@ class _PermItem extends StatelessWidget {
                         minimumSize: const Size(0, 36),
                       ),
                       icon: const Icon(Icons.info_outline, size: 14),
-                      label: const Text('자세히 보기',
-                          style: TextStyle(fontSize: 13)),
+                      label:
+                          const Text('자세히 보기', style: TextStyle(fontSize: 13)),
                     ),
                   ),
                 ],

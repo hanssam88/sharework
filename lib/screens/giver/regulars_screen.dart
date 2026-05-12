@@ -53,9 +53,7 @@ class _RegularsScreenState extends State<RegularsScreen> {
   List<RegularWorker> get _visible {
     var list = _filterGroup == null
         ? List.of(_items)
-        : _items
-            .where((r) => _groups[r.workerId] == _filterGroup)
-            .toList();
+        : _items.where((r) => _groups[r.workerId] == _filterGroup).toList();
     switch (_sort) {
       case _SortMode.recent:
         list.sort((a, b) => b.lastWorkedAt.compareTo(a.lastWorkedAt));
@@ -106,7 +104,9 @@ class _RegularsScreenState extends State<RegularsScreen> {
       ),
       builder: (sheetCtx) => Padding(
         padding: EdgeInsets.only(
-          left: 20, right: 20, top: 20,
+          left: 20,
+          right: 20,
+          top: 20,
           bottom: MediaQuery.of(sheetCtx).viewInsets.bottom + 20,
         ),
         child: StatefulBuilder(
@@ -145,8 +145,7 @@ class _RegularsScreenState extends State<RegularsScreen> {
                           child: Text(
                             '진행 중인 공고가 없어요. 공고 없이 안부 메시지만 보낼 수 있어요.',
                             style: TextStyle(
-                                fontSize: 12,
-                                color: AppColors.textMuted),
+                                fontSize: 12, color: AppColors.textMuted),
                           ),
                         ),
                       ],
@@ -154,8 +153,8 @@ class _RegularsScreenState extends State<RegularsScreen> {
                   )
                 else ...[
                   const Text('연결할 공고',
-                      style: TextStyle(
-                          fontSize: 13, fontWeight: FontWeight.w700)),
+                      style:
+                          TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
                   const SizedBox(height: 6),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -184,8 +183,8 @@ class _RegularsScreenState extends State<RegularsScreen> {
                 ],
                 const SizedBox(height: 16),
                 const Text('메시지 템플릿',
-                    style: TextStyle(
-                        fontSize: 13, fontWeight: FontWeight.w700)),
+                    style:
+                        TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
                 const SizedBox(height: 6),
                 Wrap(
                   spacing: 6,
@@ -272,7 +271,9 @@ class _RegularsScreenState extends State<RegularsScreen> {
       ),
       builder: (sheetCtx) => Padding(
         padding: EdgeInsets.only(
-          left: 20, right: 20, top: 20,
+          left: 20,
+          right: 20,
+          top: 20,
           bottom: MediaQuery.of(sheetCtx).viewInsets.bottom + 20,
         ),
         child: Column(
@@ -280,12 +281,11 @@ class _RegularsScreenState extends State<RegularsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('${r.name}님 메모',
-                style: const TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w800)),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
             const SizedBox(height: 4),
             const Text('워커에게는 보이지 않는 비공개 메모예요',
-                style:
-                    TextStyle(fontSize: 12, color: AppColors.textMuted)),
+                style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
             const SizedBox(height: 12),
             TextField(
               controller: ctrl,
@@ -351,12 +351,10 @@ class _RegularsScreenState extends State<RegularsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('그룹 할당',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 4),
               const Text('단골을 그룹별로 분류해 빠르게 찾을 수 있어요',
-                  style: TextStyle(
-                      fontSize: 12, color: AppColors.textMuted)),
+                  style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
               const SizedBox(height: 12),
               Wrap(
                 spacing: 6,
@@ -427,44 +425,39 @@ class _RegularsScreenState extends State<RegularsScreen> {
                     Navigator.pop(sheetCtx);
                     _scoutSheet([r]);
                   }),
-                  _quickTile(Icons.chat_bubble, '메시지',
-                      AppColors.brandDark, () {
+                  _quickTile(Icons.chat_bubble, '메시지', AppColors.brandDark, () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          content: Text('${r.name}님과의 채팅 (목업)')),
+                      SnackBar(content: Text('${r.name}님과의 채팅 (목업)')),
                     );
                   }),
-                  _quickTile(Icons.label_outline, '그룹',
-                      AppColors.brandDark, () {
+                  _quickTile(Icons.label_outline, '그룹', AppColors.brandDark,
+                      () {
                     Navigator.pop(sheetCtx);
                     _groupSheet(r);
                   }),
-                  _quickTile(Icons.sticky_note_2_outlined, '메모',
-                      AppColors.brandDark, () {
+                  _quickTile(
+                      Icons.sticky_note_2_outlined, '메모', AppColors.brandDark,
+                      () {
                     Navigator.pop(sheetCtx);
                     _memoSheet(r);
                   }),
-                  _quickTile(Icons.history, '근무 이력',
-                      AppColors.brandDark, () {
+                  _quickTile(Icons.history, '근무 이력', AppColors.brandDark, () {
                     Navigator.pop(sheetCtx);
                     _historySheet(r);
                   }),
-                  _quickTile(Icons.star_border, '리뷰', AppColors.brandDark,
-                      () {
+                  _quickTile(Icons.star_border, '리뷰', AppColors.brandDark, () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          content: Text('${r.name}님 리뷰 보기 (목업)')),
+                      SnackBar(content: Text('${r.name}님 리뷰 보기 (목업)')),
                     );
                   }),
-                  _quickTile(Icons.person_remove, '단골 해제',
-                      AppColors.danger, () {
+                  _quickTile(Icons.person_remove, '단골 해제', AppColors.danger,
+                      () {
                     Navigator.pop(sheetCtx);
                     _confirmRemove(r);
                   }),
-                  _quickTile(Icons.flag_outlined, '신고',
-                      AppColors.danger, () {
+                  _quickTile(Icons.flag_outlined, '신고', AppColors.danger, () {
                     Navigator.pop(sheetCtx);
                     context.push('/report/user/${r.workerId}');
                   }),
@@ -477,8 +470,8 @@ class _RegularsScreenState extends State<RegularsScreen> {
     );
   }
 
-  Widget _quickTile(IconData icon, String label, Color color,
-      VoidCallback onTap) {
+  Widget _quickTile(
+      IconData icon, String label, Color color, VoidCallback onTap) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(14),
@@ -486,7 +479,8 @@ class _RegularsScreenState extends State<RegularsScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 52, height: 52,
+            width: 52,
+            height: 52,
             decoration: BoxDecoration(
               color: color == AppColors.danger
                   ? const Color(0xFFFFE5E5)
@@ -497,8 +491,8 @@ class _RegularsScreenState extends State<RegularsScreen> {
           ),
           const SizedBox(height: 6),
           Text(label,
-              style: const TextStyle(
-                  fontSize: 11, fontWeight: FontWeight.w600)),
+              style:
+                  const TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
         ],
       ),
     );
@@ -534,7 +528,8 @@ class _RegularsScreenState extends State<RegularsScreen> {
                   child: Row(
                     children: [
                       Container(
-                        width: 36, height: 36,
+                        width: 36,
+                        height: 36,
                         decoration: const BoxDecoration(
                           color: AppColors.brandSoft,
                           shape: BoxShape.circle,
@@ -555,15 +550,13 @@ class _RegularsScreenState extends State<RegularsScreen> {
                                 '평일 오픈 근무',
                               ][i % 4],
                               style: const TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w700),
+                                  fontSize: 13, fontWeight: FontWeight.w700),
                             ),
                             Text(
                               fmtRelative(r.lastWorkedAt
                                   .subtract(Duration(days: i * 14))),
                               style: const TextStyle(
-                                  fontSize: 11,
-                                  color: AppColors.textMuted),
+                                  fontSize: 11, color: AppColors.textMuted),
                             ),
                           ],
                         ),
@@ -582,8 +575,7 @@ class _RegularsScreenState extends State<RegularsScreen> {
                             const SizedBox(width: 2),
                             Text((r.rating - i * 0.05).toStringAsFixed(1),
                                 style: const TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w700)),
+                                    fontSize: 11, fontWeight: FontWeight.w700)),
                           ],
                         ),
                       ),
@@ -650,8 +642,8 @@ class _RegularsScreenState extends State<RegularsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('정렬·필터',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 12),
                 const Text('정렬',
                     style: TextStyle(
@@ -720,9 +712,7 @@ class _RegularsScreenState extends State<RegularsScreen> {
         _items.where((r) => _selected.contains(r.workerId)).toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text(_selectMode
-            ? '${_selected.length}명 선택됨'
-            : '단골 워커'),
+        title: Text(_selectMode ? '${_selected.length}명 선택됨' : '단골 워커'),
         leading: _selectMode
             ? IconButton(
                 icon: const Icon(Icons.close),
@@ -734,9 +724,8 @@ class _RegularsScreenState extends State<RegularsScreen> {
                 IconButton(
                   icon: const Icon(Icons.send),
                   tooltip: '일괄 스카웃',
-                  onPressed: _selected.isEmpty
-                      ? null
-                      : () => _scoutSheet(selected),
+                  onPressed:
+                      _selected.isEmpty ? null : () => _scoutSheet(selected),
                 ),
                 IconButton(
                   icon: const Icon(Icons.chat),
@@ -746,8 +735,8 @@ class _RegularsScreenState extends State<RegularsScreen> {
                       : () {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                                content: Text(
-                                    '${selected.length}명에게 메시지 발송 (목업)')),
+                                content:
+                                    Text('${selected.length}명에게 메시지 발송 (목업)')),
                           );
                           _exitSelectMode();
                         },
@@ -762,8 +751,7 @@ class _RegularsScreenState extends State<RegularsScreen> {
                 IconButton(
                   icon: const Icon(Icons.checklist),
                   tooltip: '일괄 선택',
-                  onPressed: () =>
-                      setState(() => _selectMode = true),
+                  onPressed: () => setState(() => _selectMode = true),
                 ),
                 IconButton(
                   icon: const Icon(Icons.person_search),
@@ -785,13 +773,11 @@ class _RegularsScreenState extends State<RegularsScreen> {
                   padding: const EdgeInsets.all(16),
                   child: Row(
                     children: [
-                      const Icon(Icons.people,
-                          color: AppColors.brandDark),
+                      const Icon(Icons.people, color: AppColors.brandDark),
                       const SizedBox(width: 8),
                       Text('단골 ${_items.length}명',
                           style: const TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 14)),
+                              fontWeight: FontWeight.w800, fontSize: 14)),
                       if (_filterGroup != null) ...[
                         const SizedBox(width: 6),
                         Container(
@@ -860,15 +846,14 @@ class _RegularsScreenState extends State<RegularsScreen> {
                                   ),
                                 ),
                                 child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
                                       children: [
                                         if (_selectMode)
                                           Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 8),
+                                            padding:
+                                                const EdgeInsets.only(right: 8),
                                             child: Icon(
                                               sel
                                                   ? Icons.check_circle
@@ -889,8 +874,7 @@ class _RegularsScreenState extends State<RegularsScreen> {
                                             backgroundColor:
                                                 AppColors.brandSoft,
                                             child: Icon(Icons.person,
-                                                color:
-                                                    AppColors.brandDark),
+                                                color: AppColors.brandDark),
                                           ),
                                         ),
                                         const SizedBox(width: 12),
@@ -902,26 +886,20 @@ class _RegularsScreenState extends State<RegularsScreen> {
                                               Row(
                                                 children: [
                                                   Text(r.name,
-                                                      style:
-                                                          const TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w800,
-                                                              fontSize:
-                                                                  15)),
+                                                      style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w800,
+                                                          fontSize: 15)),
                                                   if (group != null) ...[
-                                                    const SizedBox(
-                                                        width: 6),
+                                                    const SizedBox(width: 6),
                                                     Container(
-                                                      padding:
-                                                          const EdgeInsets
-                                                              .symmetric(
-                                                              horizontal: 6,
-                                                              vertical: 2),
-                                                      decoration:
-                                                          BoxDecoration(
-                                                        color: AppColors
-                                                            .brandDark,
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 6,
+                                                          vertical: 2),
+                                                      decoration: BoxDecoration(
+                                                        color:
+                                                            AppColors.brandDark,
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(6),
@@ -929,8 +907,7 @@ class _RegularsScreenState extends State<RegularsScreen> {
                                                       child: Text(group,
                                                           style:
                                                               const TextStyle(
-                                                                  fontSize:
-                                                                      10,
+                                                                  fontSize: 10,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w800,
@@ -944,8 +921,7 @@ class _RegularsScreenState extends State<RegularsScreen> {
                                               Row(
                                                 children: [
                                                   const Icon(Icons.star,
-                                                      color: Color(
-                                                          0xFFFFC400),
+                                                      color: Color(0xFFFFC400),
                                                       size: 14),
                                                   const SizedBox(width: 2),
                                                   Text(
@@ -957,26 +933,23 @@ class _RegularsScreenState extends State<RegularsScreen> {
                                                   ),
                                                   const SizedBox(width: 8),
                                                   Container(
-                                                    padding:
-                                                        const EdgeInsets
-                                                            .symmetric(
-                                                            horizontal: 6,
-                                                            vertical: 2),
-                                                    decoration:
-                                                        BoxDecoration(
-                                                      color: AppColors
-                                                          .brandSoft,
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 6,
+                                                        vertical: 2),
+                                                    decoration: BoxDecoration(
+                                                      color:
+                                                          AppColors.brandSoft,
                                                       borderRadius:
-                                                          BorderRadius
-                                                              .circular(6),
+                                                          BorderRadius.circular(
+                                                              6),
                                                     ),
                                                     child: Text(
                                                       '${r.hireCount}회 채용',
                                                       style: const TextStyle(
                                                           fontSize: 10,
                                                           fontWeight:
-                                                              FontWeight
-                                                                  .w800,
+                                                              FontWeight.w800,
                                                           color: AppColors
                                                               .brandDark),
                                                     ),
@@ -988,10 +961,8 @@ class _RegularsScreenState extends State<RegularsScreen> {
                                         ),
                                         if (!_selectMode)
                                           IconButton(
-                                            icon:
-                                                const Icon(Icons.more_vert),
-                                            onPressed: () =>
-                                                _quickActions(r),
+                                            icon: const Icon(Icons.more_vert),
+                                            onPressed: () => _quickActions(r),
                                           ),
                                       ],
                                     ),
@@ -1019,8 +990,7 @@ class _RegularsScreenState extends State<RegularsScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             const Icon(
-                                                Icons
-                                                    .sticky_note_2_outlined,
+                                                Icons.sticky_note_2_outlined,
                                                 size: 14,
                                                 color: Color(0xFFB45309)),
                                             const SizedBox(width: 6),
@@ -1028,8 +998,8 @@ class _RegularsScreenState extends State<RegularsScreen> {
                                               child: Text(memo,
                                                   style: const TextStyle(
                                                       fontSize: 12,
-                                                      color: Color(
-                                                          0xFF7C5300))),
+                                                      color:
+                                                          Color(0xFF7C5300))),
                                             ),
                                           ],
                                         ),
@@ -1047,16 +1017,15 @@ class _RegularsScreenState extends State<RegularsScreen> {
                                         const Spacer(),
                                         if (!_selectMode)
                                           FilledButton.icon(
-                                            onPressed: () =>
-                                                _scoutSheet([r]),
+                                            onPressed: () => _scoutSheet([r]),
                                             icon: const Icon(Icons.send,
                                                 size: 16),
                                             label: const Text('스카웃'),
                                             style: FilledButton.styleFrom(
-                                              minimumSize:
-                                                  const Size(0, 36),
-                                              padding: const EdgeInsets
-                                                  .symmetric(horizontal: 14),
+                                              minimumSize: const Size(0, 36),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 14),
                                             ),
                                           ),
                                       ],

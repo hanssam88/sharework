@@ -91,9 +91,8 @@ class _JobCreateScreenState extends State<JobCreateScreen> {
         title: _titleC.text.trim(),
         description: _descC.text.trim(),
         wageWon: int.parse(_wageC.text.replaceAll(',', '')),
-        scheduleText: _scheduleC.text.trim().isEmpty
-            ? null
-            : _scheduleC.text.trim(),
+        scheduleText:
+            _scheduleC.text.trim().isEmpty ? null : _scheduleC.text.trim(),
         categoryId: _categoryId!,
         locationAddress: _addrC.text.trim(),
       );

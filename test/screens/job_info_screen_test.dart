@@ -10,8 +10,9 @@ class _Stub implements HttpClientAdapter {
   _Stub(this.body, [this.status = 200]);
   @override
   Future<ResponseBody> fetch(RequestOptions o, _, __) async =>
-      ResponseBody.fromString(body, status,
-          headers: {Headers.contentTypeHeader: ['application/json']});
+      ResponseBody.fromString(body, status, headers: {
+        Headers.contentTypeHeader: ['application/json']
+      });
   @override
   void close({bool force = false}) {}
 }
@@ -61,8 +62,8 @@ void main() {
     await tester.pumpWidget(MaterialApp(
       home: JobInfoScreen(
           jobId: 'missing',
-          jobRepository: _repo(
-              '{"error":{"code":"NOT_FOUND","message":"x"}}', 404)),
+          jobRepository:
+              _repo('{"error":{"code":"NOT_FOUND","message":"x"}}', 404)),
     ));
     await tester.pumpAndSettle();
     expect(find.textContaining('연결이 불안정'), findsOneWidget);

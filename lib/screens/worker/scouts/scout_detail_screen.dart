@@ -62,8 +62,7 @@ class _ScoutDetailScreenState extends State<ScoutDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('거절 사유',
-                  style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 12),
               ...['일정이 안 맞아요', '거리가 멀어요', '조건이 맞지 않아요', '기타']
                   .map((r) => ListTile(
@@ -108,8 +107,7 @@ class _ScoutDetailScreenState extends State<ScoutDetailScreen> {
           IconButton(
             icon: const Icon(Icons.flag_outlined),
             tooltip: '신고',
-            onPressed: () =>
-                context.push('/report/scout/${_scout.id}'),
+            onPressed: () => context.push('/report/scout/${_scout.id}'),
           ),
         ],
       ),
@@ -127,8 +125,7 @@ class _ScoutDetailScreenState extends State<ScoutDetailScreen> {
                     const CircleAvatar(
                       radius: 24,
                       backgroundColor: AppColors.brandSoft,
-                      child: Icon(Icons.business,
-                          color: AppColors.brandDark),
+                      child: Icon(Icons.business, color: AppColors.brandDark),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
@@ -137,12 +134,10 @@ class _ScoutDetailScreenState extends State<ScoutDetailScreen> {
                         children: [
                           Text(_scout.fromGiverName,
                               style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w800)),
+                                  fontSize: 16, fontWeight: FontWeight.w800)),
                           Text(fmtRelative(_scout.createdAt),
                               style: const TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.textFaint)),
+                                  fontSize: 12, color: AppColors.textFaint)),
                         ],
                       ),
                     ),
@@ -174,8 +169,7 @@ class _ScoutDetailScreenState extends State<ScoutDetailScreen> {
                             child: Text(
                               _scout.jobTitle ?? '',
                               style: const TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w700),
+                                  fontSize: 13, fontWeight: FontWeight.w700),
                             ),
                           ),
                           const Icon(Icons.chevron_right,
@@ -241,9 +235,7 @@ class _ScoutDetailScreenState extends State<ScoutDetailScreen> {
                   onPressed: () {},
                   icon: const Icon(Icons.chat_bubble_outline),
                   label: Text(
-                    _scout.status == ScoutStatus.accepted
-                        ? '대화 이어가기'
-                        : '닫기',
+                    _scout.status == ScoutStatus.accepted ? '대화 이어가기' : '닫기',
                   ),
                 ),
         ),

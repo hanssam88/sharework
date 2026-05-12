@@ -5,7 +5,14 @@ import '../../theme/app_theme.dart';
 
 enum _Step { intro, method, capture, ocr, edit, complete }
 
-enum _IdMethod { residentCard, driverLicense, passport, foreignerCard, pass, kakao }
+enum _IdMethod {
+  residentCard,
+  driverLicense,
+  passport,
+  foreignerCard,
+  pass,
+  kakao
+}
 
 extension _IdMethodX on _IdMethod {
   String get label {
@@ -42,8 +49,7 @@ extension _IdMethodX on _IdMethod {
     }
   }
 
-  bool get isCertApp =>
-      this == _IdMethod.pass || this == _IdMethod.kakao;
+  bool get isCertApp => this == _IdMethod.pass || this == _IdMethod.kakao;
 }
 
 class IdentityVerificationScreen extends StatefulWidget {
@@ -139,8 +145,8 @@ class _IdentityVerificationScreenState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('보호자 동의',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 4),
                 const Text(
                   '청소년 근로보호법에 따라 만 18세 미만은 보호자 휴대폰 인증이 필요해요.',
@@ -210,7 +216,9 @@ class _IdentityVerificationScreenState
       case _Step.intro:
         return '인증 시작하기';
       case _Step.method:
-        return _method.isCertApp ? '${_method.label}으로 인증' : '${_method.label} 촬영';
+        return _method.isCertApp
+            ? '${_method.label}으로 인증'
+            : '${_method.label} 촬영';
       case _Step.capture:
         return '촬영 완료';
       case _Step.ocr:
@@ -242,13 +250,12 @@ class _IdentityVerificationScreenState
                 _method.isCertApp
                     ? '${_method.label} 진행 중...'
                     : '신분증 정보 분석 중...',
-                style: const TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w700),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 8),
               const Text('보통 5초 이내 완료됩니다',
-                  style: TextStyle(
-                      fontSize: 12, color: AppColors.textMuted)),
+                  style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
             ],
           ),
         );
@@ -285,18 +292,16 @@ class _IdentityVerificationScreenState
         const Text(
           '신분증 또는 인증앱(PASS/카카오)으로 인증을 완료하면\n구인자에게 더 신뢰받을 수 있어요.',
           textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 13, color: AppColors.textMuted, height: 1.5),
+          style:
+              TextStyle(fontSize: 13, color: AppColors.textMuted, height: 1.5),
         ),
         const SizedBox(height: 28),
         const _BulletRow(
             icon: Icons.shield_outlined, text: '신분증 사본은 암호화되어 저장됩니다'),
         const _BulletRow(
-            icon: Icons.text_snippet_outlined,
-            text: 'OCR로 자동 추출한 정보만 사용해요'),
+            icon: Icons.text_snippet_outlined, text: 'OCR로 자동 추출한 정보만 사용해요'),
         const _BulletRow(
-            icon: Icons.delete_outline,
-            text: '인증 완료 후 사본 이미지는 즉시 삭제됩니다'),
+            icon: Icons.delete_outline, text: '인증 완료 후 사본 이미지는 즉시 삭제됩니다'),
       ],
     );
   }
@@ -356,8 +361,7 @@ class _IdentityVerificationScreenState
           activeColor: AppColors.brandDark,
           title: const Text('만 18세 미만이에요',
               style: TextStyle(fontWeight: FontWeight.w700)),
-          subtitle: const Text(
-              '청소년 근로보호법에 따라 보호자 동의가 필요해요',
+          subtitle: const Text('청소년 근로보호법에 따라 보호자 동의가 필요해요',
               style: TextStyle(fontSize: 11, color: AppColors.textMuted)),
           onChanged: (v) => setState(() {
             _isMinor = v;
@@ -427,8 +431,7 @@ class _IdentityVerificationScreenState
                 color: color.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(method.icon,
-                  color: AppColors.brandDark, size: 22),
+              child: Icon(method.icon, color: AppColors.brandDark, size: 22),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -445,8 +448,7 @@ class _IdentityVerificationScreenState
                 ],
               ),
             ),
-            if (on)
-              const Icon(Icons.check_circle, color: AppColors.brandDark),
+            if (on) const Icon(Icons.check_circle, color: AppColors.brandDark),
           ],
         ),
       ),
@@ -467,8 +469,7 @@ class _IdentityVerificationScreenState
                 width: 280,
                 height: 180,
                 decoration: BoxDecoration(
-                  border:
-                      Border.all(color: AppColors.brand, width: 2.5),
+                  border: Border.all(color: AppColors.brand, width: 2.5),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 alignment: Alignment.center,
@@ -489,8 +490,7 @@ class _IdentityVerificationScreenState
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
-                    border: Border.all(
-                        color: AppColors.brand, width: 4),
+                    border: Border.all(color: AppColors.brand, width: 4),
                   ),
                 ),
               ),
@@ -503,8 +503,8 @@ class _IdentityVerificationScreenState
             children: [
               Text(
                 '${_method.label} 촬영',
-                style: const TextStyle(
-                    fontSize: 18, fontWeight: FontWeight.w800),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
               ),
               const SizedBox(height: 8),
               const Text(
@@ -518,8 +518,7 @@ class _IdentityVerificationScreenState
                 children: [
                   Expanded(
                     child: OutlinedButton.icon(
-                      onPressed: () =>
-                          _snack('갤러리에서 선택 (목업)'),
+                      onPressed: () => _snack('갤러리에서 선택 (목업)'),
                       icon: const Icon(Icons.image_outlined, size: 18),
                       label: const Text('갤러리'),
                     ),
@@ -568,14 +567,12 @@ class _IdentityVerificationScreenState
         ),
         const SizedBox(height: 20),
         const Text('이름',
-            style: TextStyle(
-                fontSize: 13, color: AppColors.textMuted)),
+            style: TextStyle(fontSize: 13, color: AppColors.textMuted)),
         const SizedBox(height: 4),
         TextField(controller: _nameCtrl),
         const SizedBox(height: 16),
         const Text('생년월일',
-            style: TextStyle(
-                fontSize: 13, color: AppColors.textMuted)),
+            style: TextStyle(fontSize: 13, color: AppColors.textMuted)),
         const SizedBox(height: 4),
         TextField(controller: _birthCtrl),
         const SizedBox(height: 16),
@@ -588,8 +585,7 @@ class _IdentityVerificationScreenState
             ),
             child: Row(
               children: [
-                const Icon(Icons.family_restroom,
-                    color: Color(0xFFB45309)),
+                const Icon(Icons.family_restroom, color: Color(0xFFB45309)),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -640,8 +636,7 @@ class _IdentityVerificationScreenState
         Text(
           '${_method.label}로 인증되었어요. 프로필에 인증 배지가 표시됩니다.',
           textAlign: TextAlign.center,
-          style: const TextStyle(
-              fontSize: 13, color: AppColors.textMuted),
+          style: const TextStyle(fontSize: 13, color: AppColors.textMuted),
         ),
         const SizedBox(height: 28),
         _DataCard(
@@ -651,9 +646,7 @@ class _IdentityVerificationScreenState
             _DataRow(label: '인증 방식', value: _method.label),
             const _DataRow(label: '인증 일시', value: '방금 전'),
             if (_isMinor)
-              _DataRow(
-                  label: '보호자',
-                  value: _guardianPhone ?? '미입력'),
+              _DataRow(label: '보호자', value: _guardianPhone ?? '미입력'),
           ],
         ),
       ],
@@ -672,7 +665,9 @@ class _IdentityVerificationScreenState
 
   String _maskBirth(String birth) {
     if (birth.length < 4) return birth;
-    return birth.replaceAll(RegExp(r'\d'), '*').replaceFirst('*', birth[0])
+    return birth
+        .replaceAll(RegExp(r'\d'), '*')
+        .replaceFirst('*', birth[0])
         .replaceFirst('*', birth[1])
         .replaceFirst('*', birth[2])
         .replaceFirst('*', birth[3]);
@@ -707,8 +702,8 @@ class _BulletRow extends StatelessWidget {
           Icon(icon, color: AppColors.brandDark, size: 20),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(text,
-                style: const TextStyle(fontSize: 13, height: 1.5)),
+            child:
+                Text(text, style: const TextStyle(fontSize: 13, height: 1.5)),
           ),
         ],
       ),
@@ -748,13 +743,13 @@ class _DataRow extends StatelessWidget {
           SizedBox(
             width: 80,
             child: Text(label,
-                style: const TextStyle(
-                    fontSize: 13, color: AppColors.textMuted)),
+                style:
+                    const TextStyle(fontSize: 13, color: AppColors.textMuted)),
           ),
           Expanded(
             child: Text(value,
-                style: const TextStyle(
-                    fontSize: 14, fontWeight: FontWeight.w700)),
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
           ),
         ],
       ),

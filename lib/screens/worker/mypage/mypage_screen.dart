@@ -145,14 +145,11 @@ class _MyPageScreenState extends State<MyPageScreen> {
                 _Tile(
                   icon: Icons.business_center_outlined,
                   label: '사업자 인증',
-                  onTap: () =>
-                      context.push('/giver/business-verification'),
+                  onTap: () => context.push('/giver/business-verification'),
                 ),
               _Tile(
                 icon: Icons.swap_horiz,
-                label: widget.appType == 'worker'
-                    ? '구인자 모드로 전환'
-                    : '구직자 모드로 전환',
+                label: widget.appType == 'worker' ? '구인자 모드로 전환' : '구직자 모드로 전환',
                 onTap: () => context
                     .go(widget.appType == 'worker' ? '/giver' : '/worker'),
               ),
@@ -352,8 +349,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
               const Center(
                 child: Text(
                   'Sharework v0.1.0',
-                  style:
-                      TextStyle(color: AppColors.textFaint, fontSize: 12),
+                  style: TextStyle(color: AppColors.textFaint, fontSize: 12),
                 ),
               ),
               const SizedBox(height: 32),
@@ -369,8 +365,7 @@ class _Tile extends StatelessWidget {
   final IconData icon;
   final String label;
   final VoidCallback onTap;
-  const _Tile(
-      {required this.icon, required this.label, required this.onTap});
+  const _Tile({required this.icon, required this.label, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

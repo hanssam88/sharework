@@ -48,8 +48,8 @@ class _SafetyScreenState extends State<SafetyScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('긴급연락처 추가',
-                      style: TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w800)),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
                   const SizedBox(height: 16),
                   TextField(
                     controller: nameCtrl,
@@ -118,8 +118,7 @@ class _SafetyScreenState extends State<SafetyScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: const [
             Icon(Icons.emergency_outlined, color: AppColors.danger),
@@ -179,8 +178,8 @@ class _SafetyScreenState extends State<SafetyScreen> {
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(14),
-                    border: Border.all(
-                        color: AppColors.danger.withOpacity(0.3)),
+                    border:
+                        Border.all(color: AppColors.danger.withOpacity(0.3)),
                   ),
                   child: Column(
                     children: [
@@ -211,8 +210,8 @@ class _SafetyScreenState extends State<SafetyScreen> {
                       const SizedBox(height: 4),
                       const Text(
                         '실제 사용 시 길게 눌러 5초 카운트다운 후 발송',
-                        style: TextStyle(
-                            fontSize: 11, color: AppColors.textMuted),
+                        style:
+                            TextStyle(fontSize: 11, color: AppColors.textMuted),
                       ),
                     ],
                   ),
@@ -227,38 +226,31 @@ class _SafetyScreenState extends State<SafetyScreen> {
             activeColor: AppColors.brandDark,
             title: const Text('SOS 사용'),
             subtitle: const Text('홈 화면 + 채팅방에서 SOS 버튼 표시',
-                style:
-                    TextStyle(fontSize: 11, color: AppColors.textMuted)),
+                style: TextStyle(fontSize: 11, color: AppColors.textMuted)),
             onChanged: (v) => setState(() => _sosEnabled = v),
           ),
           SwitchListTile(
             value: _shareLocation,
             activeColor: AppColors.brandDark,
             title: const Text('실시간 위치 공유'),
-            subtitle: const Text(
-                'SOS 발동 시 등록된 연락처에 위치 60분간 공유',
-                style:
-                    TextStyle(fontSize: 11, color: AppColors.textMuted)),
+            subtitle: const Text('SOS 발동 시 등록된 연락처에 위치 60분간 공유',
+                style: TextStyle(fontSize: 11, color: AppColors.textMuted)),
             onChanged: (v) => setState(() => _shareLocation = v),
           ),
           SwitchListTile(
             value: _autoCheckin,
             activeColor: AppColors.brandDark,
             title: const Text('근무 종료 자동 체크'),
-            subtitle: const Text(
-                '예정 종료 시간 30분 후까지 체크아웃 없으면 자동 알림',
-                style:
-                    TextStyle(fontSize: 11, color: AppColors.textMuted)),
+            subtitle: const Text('예정 종료 시간 30분 후까지 체크아웃 없으면 자동 알림',
+                style: TextStyle(fontSize: 11, color: AppColors.textMuted)),
             onChanged: (v) => setState(() => _autoCheckin = v),
           ),
           SwitchListTile(
             value: _shareItinerary,
             activeColor: AppColors.brandDark,
             title: const Text('근무 일정 자동 공유'),
-            subtitle: const Text(
-                '채용 확정 시 매번 등록된 연락처에 일정·위치 자동 전송',
-                style:
-                    TextStyle(fontSize: 11, color: AppColors.textMuted)),
+            subtitle: const Text('채용 확정 시 매번 등록된 연락처에 일정·위치 자동 전송',
+                style: TextStyle(fontSize: 11, color: AppColors.textMuted)),
             onChanged: (v) => setState(() => _shareItinerary = v),
           ),
           const Divider(thickness: 8, color: AppColors.bg),
@@ -284,8 +276,7 @@ class _SafetyScreenState extends State<SafetyScreen> {
                     child: Icon(Icons.person, color: AppColors.brandDark),
                   ),
                   title: Text(c.name,
-                      style:
-                          const TextStyle(fontWeight: FontWeight.w700)),
+                      style: const TextStyle(fontWeight: FontWeight.w700)),
                   subtitle: Text('${c.relation} · ${c.phone}',
                       style: const TextStyle(
                           fontSize: 12, color: AppColors.textMuted)),

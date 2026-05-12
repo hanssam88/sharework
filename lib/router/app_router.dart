@@ -156,8 +156,8 @@ class AppRouter {
         builder: (ctx, state) {
           final extra = state.extra as Map<String, Object?>?;
           final job = extra?['job'] as Job?;
-          final photos =
-              (extra?['photos'] as List?)?.cast<JobPhoto>() ?? const <JobPhoto>[];
+          final photos = (extra?['photos'] as List?)?.cast<JobPhoto>() ??
+              const <JobPhoto>[];
           if (job == null) {
             return Scaffold(
               appBar: AppBar(title: const Text('오류')),

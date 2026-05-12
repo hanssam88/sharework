@@ -33,16 +33,13 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
   }
 
   bool get _canSubmit =>
-      _reason != null &&
-      _agreed &&
-      _confirmCtrl.text.trim() == _confirmText;
+      _reason != null && _agreed && _confirmCtrl.text.trim() == _confirmText;
 
   void _submit() {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('정말 탈퇴하시겠어요?'),
         content: const Text(
             '탈퇴 후에는 같은 휴대폰 번호로 30일간 재가입이 제한돼요. 미수령 정산금이 있으면 자동 환불되며, 미정산 분쟁은 진행이 종료됩니다.'),
@@ -135,8 +132,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
           const SizedBox(height: 6),
           Text(
             '아래 칸에 「$_confirmText」 라고 입력해 주세요.',
-            style:
-                const TextStyle(fontSize: 12, color: AppColors.textMuted),
+            style: const TextStyle(fontSize: 12, color: AppColors.textMuted),
           ),
           const SizedBox(height: 8),
           TextField(
@@ -170,8 +166,8 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
               const SizedBox(width: 8),
               Expanded(
                 child: FilledButton(
-                  style: FilledButton.styleFrom(
-                      backgroundColor: AppColors.danger),
+                  style:
+                      FilledButton.styleFrom(backgroundColor: AppColors.danger),
                   onPressed: _canSubmit ? _submit : null,
                   child: const Text('탈퇴하기'),
                 ),
@@ -199,8 +195,8 @@ class _Bullet extends StatelessWidget {
           Icon(icon, size: 18, color: AppColors.brandDark),
           const SizedBox(width: 8),
           Expanded(
-            child: Text(text,
-                style: const TextStyle(fontSize: 13, height: 1.5)),
+            child:
+                Text(text, style: const TextStyle(fontSize: 13, height: 1.5)),
           ),
         ],
       ),

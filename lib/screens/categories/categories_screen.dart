@@ -46,8 +46,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 children: [
                   const Text('연결이 불안정합니다'),
                   const SizedBox(height: 8),
-                  ElevatedButton(
-                      onPressed: _retry, child: const Text('다시 시도')),
+                  ElevatedButton(onPressed: _retry, child: const Text('다시 시도')),
                 ],
               ),
             );

@@ -29,24 +29,23 @@ class PaymentDetailScreen extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text('명세서 공유',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               ),
             ),
             ListTile(
               leading: const Icon(Icons.picture_as_pdf_outlined,
                   color: AppColors.danger),
               title: const Text('PDF 다운로드'),
-              subtitle: const Text('연말정산 신고용',
-                  style: TextStyle(fontSize: 11)),
+              subtitle: const Text('연말정산 신고용', style: TextStyle(fontSize: 11)),
               onTap: () {
                 Navigator.pop(sheetCtx);
                 _snack(context, 'PDF 다운로드 시작 (목업)');
               },
             ),
             ListTile(
-              leading: const Icon(Icons.email_outlined,
-                  color: AppColors.brandDark),
+              leading:
+                  const Icon(Icons.email_outlined, color: AppColors.brandDark),
               title: const Text('이메일로 받기'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -54,8 +53,7 @@ class PaymentDetailScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.chat_bubble,
-                  color: Color(0xFFFEE500)),
+              leading: const Icon(Icons.chat_bubble, color: Color(0xFFFEE500)),
               title: const Text('카카오톡으로 보내기'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -88,11 +86,10 @@ class PaymentDetailScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: const Icon(Icons.gavel_outlined,
-                  color: AppColors.warning),
+              leading:
+                  const Icon(Icons.gavel_outlined, color: AppColors.warning),
               title: const Text('이의 제기'),
-              subtitle: const Text(
-                  '정산 금액·근무 시간·세금이 잘못되었나요?',
+              subtitle: const Text('정산 금액·근무 시간·세금이 잘못되었나요?',
                   style: TextStyle(fontSize: 11)),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -162,8 +159,8 @@ class PaymentDetailScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8, vertical: 3),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(
                     color: p.paid
                         ? const Color(0xFFE8F8EE)
@@ -188,13 +185,12 @@ class PaymentDetailScreen extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   '${p.giverName} · ${fmtDate(p.workedAt)}',
-                  style: const TextStyle(
-                      fontSize: 12, color: AppColors.textMuted),
+                  style:
+                      const TextStyle(fontSize: 12, color: AppColors.textMuted),
                 ),
                 const SizedBox(height: 16),
                 const Text('실수령액',
-                    style: TextStyle(
-                        fontSize: 12, color: AppColors.textMuted)),
+                    style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
                 Text(fmtMoney(p.netAmount),
                     style: const TextStyle(
                         fontSize: 28,
@@ -256,14 +252,12 @@ class PaymentDetailScreen extends StatelessWidget {
             ),
             child: const Row(
               children: [
-                Icon(Icons.info_outline,
-                    size: 16, color: AppColors.textMuted),
+                Icon(Icons.info_outline, size: 16, color: AppColors.textMuted),
                 SizedBox(width: 6),
                 Expanded(
                   child: Text(
                     '원천징수는 일용직 소득세(3.3%) 기준입니다. 실 정산 시 변동될 수 있어요.',
-                    style: TextStyle(
-                        fontSize: 11, color: AppColors.textMuted),
+                    style: TextStyle(fontSize: 11, color: AppColors.textMuted),
                   ),
                 ),
               ],
@@ -304,10 +298,12 @@ class _Timeline extends StatelessWidget {
   Widget build(BuildContext context) {
     final stages = [
       ('근무 완료', p.workedAt as DateTime, true),
-      ('정산 처리', p.workedAt.add(const Duration(hours: 2)) as DateTime,
-          (p.paid ?? false) as bool),
-      ('입금 완료', p.paidAt ?? p.workedAt as DateTime,
-          (p.paid ?? false) as bool),
+      (
+        '정산 처리',
+        p.workedAt.add(const Duration(hours: 2)) as DateTime,
+        (p.paid ?? false) as bool
+      ),
+      ('입금 완료', p.paidAt ?? p.workedAt as DateTime, (p.paid ?? false) as bool),
     ];
     return Column(
       children: List.generate(stages.length, (i) {
@@ -327,17 +323,14 @@ class _Timeline extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: done
-                        ? const Icon(Icons.check,
-                            size: 12, color: Colors.white)
+                        ? const Icon(Icons.check, size: 12, color: Colors.white)
                         : null,
                   ),
                   if (i < stages.length - 1)
                     Expanded(
                       child: Container(
                         width: 2,
-                        color: done
-                            ? AppColors.brandDark
-                            : AppColors.divider,
+                        color: done ? AppColors.brandDark : AppColors.divider,
                       ),
                     ),
                 ],
@@ -353,9 +346,8 @@ class _Timeline extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w800,
-                              color: done
-                                  ? AppColors.text
-                                  : AppColors.textFaint)),
+                              color:
+                                  done ? AppColors.text : AppColors.textFaint)),
                       Text(
                         '${fmtDate(s.$2)} ${fmtTime(s.$2)}',
                         style: const TextStyle(
@@ -391,8 +383,7 @@ class _SectionCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(title,
-              style: const TextStyle(
-                  fontSize: 13, color: AppColors.textMuted)),
+              style: const TextStyle(fontSize: 13, color: AppColors.textMuted)),
           const SizedBox(height: 10),
           ...children,
         ],

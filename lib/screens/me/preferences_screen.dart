@@ -197,8 +197,8 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 SwitchListTile(
                   contentPadding: EdgeInsets.zero,
                   value: _prefs.allowSameDay,
-                  onChanged: (v) => setState(
-                      () => _prefs = _prefs.copyWith(allowSameDay: v)),
+                  onChanged: (v) =>
+                      setState(() => _prefs = _prefs.copyWith(allowSameDay: v)),
                   title: const Text('당일 매칭 알림 받기'),
                   subtitle: const Text(
                     '오늘/내일 시작하는 공고도 알림',
@@ -209,8 +209,8 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 SwitchListTile(
                   contentPadding: EdgeInsets.zero,
                   value: _prefs.allowNight,
-                  onChanged: (v) => setState(
-                      () => _prefs = _prefs.copyWith(allowNight: v)),
+                  onChanged: (v) =>
+                      setState(() => _prefs = _prefs.copyWith(allowNight: v)),
                   title: const Text('야간 근무 가능 (22시~06시)'),
                   activeColor: AppColors.brandDark,
                 ),
@@ -250,8 +250,8 @@ class _Section extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(title,
-              style: const TextStyle(
-                  fontSize: 14, fontWeight: FontWeight.w800)),
+              style:
+                  const TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
           const SizedBox(height: 12),
           child,
         ],

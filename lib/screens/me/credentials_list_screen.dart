@@ -113,8 +113,7 @@ class _CredentialCard extends StatelessWidget {
                   color: AppColors.brandSoft,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(c.kind.icon,
-                    color: AppColors.brandDark, size: 22),
+                child: Icon(c.kind.icon, color: AppColors.brandDark, size: 22),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -128,15 +127,13 @@ class _CredentialCard extends StatelessWidget {
                       const SizedBox(height: 2),
                       Text(c.memo!,
                           style: const TextStyle(
-                              fontSize: 12,
-                              color: AppColors.textMuted)),
+                              fontSize: 12, color: AppColors.textMuted)),
                     ],
                   ],
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: _statusColor.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(6),
@@ -155,13 +152,12 @@ class _CredentialCard extends StatelessWidget {
           const SizedBox(height: 10),
           Row(
             children: [
-              const Icon(Icons.event,
-                  size: 14, color: AppColors.textMuted),
+              const Icon(Icons.event, size: 14, color: AppColors.textMuted),
               const SizedBox(width: 4),
               Text(
                 '발급 ${fmtDate(c.issuedAt)}',
-                style: const TextStyle(
-                    fontSize: 12, color: AppColors.textMuted),
+                style:
+                    const TextStyle(fontSize: 12, color: AppColors.textMuted),
               ),
               if (c.expiresAt != null) ...[
                 const SizedBox(width: 12),

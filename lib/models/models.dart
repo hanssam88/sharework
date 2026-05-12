@@ -238,12 +238,9 @@ class JobStats {
     required this.last7DaysImpressions,
   });
 
-  double get hireRate =>
-      applications == 0 ? 0 : hires / applications;
-  double get clickRate =>
-      impressions == 0 ? 0 : clicks / impressions;
-  double get applyRate =>
-      clicks == 0 ? 0 : applications / clicks;
+  double get hireRate => applications == 0 ? 0 : hires / applications;
+  double get clickRate => impressions == 0 ? 0 : clicks / impressions;
+  double get applyRate => clicks == 0 ? 0 : applications / clicks;
 }
 
 enum BoostKind { topPin, brandColor, push, premium }

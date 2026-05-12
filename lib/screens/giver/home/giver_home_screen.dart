@@ -220,8 +220,8 @@ class _GiverJobCard extends StatelessWidget {
                           color: Colors.grey.shade200,
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child:
-                            const Icon(Icons.image_outlined, color: Colors.grey),
+                        child: const Icon(Icons.image_outlined,
+                            color: Colors.grey),
                       ),
               ),
               const SizedBox(width: 12),

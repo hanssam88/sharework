@@ -84,8 +84,7 @@ void main() {
 
       ApiClient.instance.auth.httpClientAdapter = _StubAdapter(
         statusCode: 401,
-        body:
-            '{"error":{"code":"AUTH_REQUIRED","message":"login required"}}',
+        body: '{"error":{"code":"AUTH_REQUIRED","message":"login required"}}',
       );
 
       final repo = MeRepository(ApiClient.instance.auth);

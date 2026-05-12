@@ -49,12 +49,10 @@ class InviteScreen extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           const Text('내 추천코드',
-              style:
-                  TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
           const SizedBox(height: 8),
           Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 16, vertical: 18),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
@@ -62,8 +60,7 @@ class InviteScreen extends StatelessWidget {
             ),
             child: Row(
               children: [
-                const Icon(Icons.qr_code,
-                    color: AppColors.brandDark, size: 28),
+                const Icon(Icons.qr_code, color: AppColors.brandDark, size: 28),
                 const SizedBox(width: 14),
                 Expanded(
                   child: Text(_code,
@@ -128,23 +125,20 @@ class InviteScreen extends StatelessWidget {
           ),
           const SizedBox(height: 28),
           const Text('초대 현황',
-              style:
-                  TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
           const SizedBox(height: 8),
           Row(
             children: const [
               Expanded(child: _StatCard(label: '초대 완료', value: '3')),
               SizedBox(width: 8),
-              Expanded(
-                  child: _StatCard(label: '받은 쿠폰', value: '15,000원')),
+              Expanded(child: _StatCard(label: '받은 쿠폰', value: '15,000원')),
               SizedBox(width: 8),
               Expanded(child: _StatCard(label: '랭킹', value: 'TOP 12%')),
             ],
           ),
           const SizedBox(height: 24),
           const Text('안내',
-              style:
-                  TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
           const SizedBox(height: 8),
           ...const [
             _BulletRow('친구가 추천코드 입력 후 가입해야 인정돼요.'),
@@ -175,8 +169,7 @@ class _StatCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label,
-              style: const TextStyle(
-                  fontSize: 11, color: AppColors.textMuted)),
+              style: const TextStyle(fontSize: 11, color: AppColors.textMuted)),
           const SizedBox(height: 4),
           Text(value,
               style: const TextStyle(
@@ -203,13 +196,12 @@ class _BulletRow extends StatelessWidget {
         children: [
           const Padding(
             padding: EdgeInsets.only(top: 6),
-            child:
-                Icon(Icons.circle, size: 5, color: AppColors.textMuted),
+            child: Icon(Icons.circle, size: 5, color: AppColors.textMuted),
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: Text(text,
-                style: const TextStyle(fontSize: 12, height: 1.6)),
+            child:
+                Text(text, style: const TextStyle(fontSize: 12, height: 1.6)),
           ),
         ],
       ),

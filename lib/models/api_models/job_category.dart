@@ -14,5 +14,6 @@ class JobCategory with _$JobCategory {
     String? emoji,
   }) = _JobCategory;
 
-  factory JobCategory.fromJson(Map<String, dynamic> json) => _$JobCategoryFromJson(json);
+  factory JobCategory.fromJson(Map<String, dynamic> json) =>
+      _$JobCategoryFromJson(json);
 }

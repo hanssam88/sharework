@@ -342,9 +342,8 @@ class _JobEditScreenState extends State<JobEditScreen> {
                       controller: _titleC,
                       decoration: const InputDecoration(labelText: '제목'),
                       maxLength: 50,
-                      validator: (v) => (v == null || v.trim().isEmpty)
-                          ? '제목을 입력하세요'
-                          : null,
+                      validator: (v) =>
+                          (v == null || v.trim().isEmpty) ? '제목을 입력하세요' : null,
                     ),
                     const SizedBox(height: 12),
                     TextFormField(
@@ -371,9 +370,8 @@ class _JobEditScreenState extends State<JobEditScreen> {
                       key: const Key('field-address'),
                       controller: _addrC,
                       decoration: const InputDecoration(labelText: '주소'),
-                      validator: (v) => (v == null || v.trim().isEmpty)
-                          ? '주소를 입력하세요'
-                          : null,
+                      validator: (v) =>
+                          (v == null || v.trim().isEmpty) ? '주소를 입력하세요' : null,
                     ),
                     const SizedBox(height: 12),
                     TextFormField(

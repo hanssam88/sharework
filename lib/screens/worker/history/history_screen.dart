@@ -122,13 +122,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('지원 취소 사유',
-                    style: TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 4),
                 const Text(
                   '잦은 취소는 신뢰 점수에 반영될 수 있어요.',
-                  style: TextStyle(
-                      fontSize: 12, color: AppColors.textMuted),
+                  style: TextStyle(fontSize: 12, color: AppColors.textMuted),
                 ),
                 const SizedBox(height: 12),
                 ...reasons.map((r) => RadioListTile<String>(
@@ -216,7 +215,8 @@ class _StatusBadge extends StatelessWidget {
     }
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(6)),
+      decoration:
+          BoxDecoration(color: bg, borderRadius: BorderRadius.circular(6)),
       child: Text(
         text,
         style: TextStyle(color: fg, fontSize: 11, fontWeight: FontWeight.w700),

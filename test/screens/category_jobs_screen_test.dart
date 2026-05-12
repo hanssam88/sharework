@@ -11,8 +11,9 @@ class _Stub implements HttpClientAdapter {
   @override
   Future<ResponseBody> fetch(RequestOptions o, _, __) async {
     lastQuery = o.uri.queryParametersAll;
-    return ResponseBody.fromString(body, 200,
-        headers: {Headers.contentTypeHeader: ['application/json']});
+    return ResponseBody.fromString(body, 200, headers: {
+      Headers.contentTypeHeader: ['application/json']
+    });
   }
 
   @override
@@ -24,8 +25,8 @@ const _job =
 
 void main() {
   testWidgets('passes categoryId to listJobs', (tester) async {
-    final adapter = _Stub(
-        '{"data":[$_job],"page":{"total":1,"page":1,"limit":20}}');
+    final adapter =
+        _Stub('{"data":[$_job],"page":{"total":1,"page":1,"limit":20}}');
     final dio = Dio()..httpClientAdapter = adapter;
     final repo = JobRepository(dio);
     await tester.pumpWidget(MaterialApp(

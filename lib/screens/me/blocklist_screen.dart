@@ -65,8 +65,7 @@ class _BlocklistScreenState extends State<BlocklistScreen> {
                 return ListTile(
                   leading: const CircleAvatar(
                     backgroundColor: AppColors.chipBg,
-                    child:
-                        Icon(Icons.person, color: AppColors.textMuted),
+                    child: Icon(Icons.person, color: AppColors.textMuted),
                   ),
                   title: Text(u.name,
                       style: const TextStyle(fontWeight: FontWeight.w700)),

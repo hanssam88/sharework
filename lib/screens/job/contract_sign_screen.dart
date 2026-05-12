@@ -94,15 +94,15 @@ class _ContractSignScreenState extends State<ContractSignScreen> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text('서명 전 본인인증',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               ),
             ),
             ListTile(
               leading: _appIcon(Icons.security, const Color(0xFFE60000)),
               title: const Text('PASS'),
-              subtitle: const Text('이동통신 3사 통합인증',
-                  style: TextStyle(fontSize: 11)),
+              subtitle:
+                  const Text('이동통신 3사 통합인증', style: TextStyle(fontSize: 11)),
               onTap: () {
                 Navigator.pop(sheetCtx);
                 setState(() => _identityReverified = true);
@@ -165,8 +165,8 @@ class _ContractSignScreenState extends State<ContractSignScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('보호자 동의',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 4),
                 const Text(
                   '만 18세 미만인 경우 보호자 휴대폰 번호를 입력해주세요. 인증 SMS가 발송되며 보호자가 동의하면 서명이 완료됩니다.',
@@ -207,8 +207,7 @@ class _ContractSignScreenState extends State<ContractSignScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('서명 제출 완료'),
         content: const Text('전자근로계약서가 양측에 자동 발송되었어요. 사본은 마이페이지에서 다운로드할 수 있어요.'),
         actions: [
@@ -305,12 +304,11 @@ class _ContractSignScreenState extends State<ContractSignScreen> {
                   value: _isMinor,
                   activeColor: AppColors.brandDark,
                   title: const Text('만 18세 미만이에요',
-                      style: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w700)),
-                  subtitle: const Text(
-                      '청소년 근로보호법에 따라 보호자 동의가 필요해요',
-                      style: TextStyle(
-                          fontSize: 11, color: AppColors.textMuted)),
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
+                  subtitle: const Text('청소년 근로보호법에 따라 보호자 동의가 필요해요',
+                      style:
+                          TextStyle(fontSize: 11, color: AppColors.textMuted)),
                   onChanged: (v) => setState(() {
                     _isMinor = v;
                     if (!v) _guardianPhone = null;
@@ -366,9 +364,7 @@ class _ContractSignScreenState extends State<ContractSignScreen> {
                         color: on ? AppColors.brandSoft : Colors.white,
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          color: on
-                              ? AppColors.brandDark
-                              : AppColors.divider,
+                          color: on ? AppColors.brandDark : AppColors.divider,
                           width: on ? 1.5 : 1,
                         ),
                       ),
@@ -413,9 +409,7 @@ class _ContractSignScreenState extends State<ContractSignScreen> {
             child: Row(
               children: [
                 Icon(
-                  _identityReverified
-                      ? Icons.verified
-                      : Icons.shield_outlined,
+                  _identityReverified ? Icons.verified : Icons.shield_outlined,
                   color: _identityReverified
                       ? AppColors.brandDark
                       : const Color(0xFFB45309),
@@ -426,9 +420,7 @@ class _ContractSignScreenState extends State<ContractSignScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        _identityReverified
-                            ? '본인인증 완료'
-                            : '서명 전 본인인증이 필요해요',
+                        _identityReverified ? '본인인증 완료' : '서명 전 본인인증이 필요해요',
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 13,
@@ -479,8 +471,7 @@ class _ContractSignScreenState extends State<ContractSignScreen> {
             const Align(
               alignment: Alignment.centerLeft,
               child: Text('아래 영역에 손가락(또는 마우스)으로 서명해주세요.',
-                  style: TextStyle(
-                      fontSize: 12, color: AppColors.textMuted)),
+                  style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
             ),
             const SizedBox(height: 8),
             Container(
@@ -540,8 +531,7 @@ class _ContractSignScreenState extends State<ContractSignScreen> {
             const Align(
               alignment: Alignment.centerLeft,
               child: Text('이름을 입력하면 자동으로 손글씨 폰트가 적용돼요.',
-                  style: TextStyle(
-                      fontSize: 12, color: AppColors.textMuted)),
+                  style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
             ),
             const SizedBox(height: 8),
             Container(
@@ -579,9 +569,7 @@ class _ContractSignScreenState extends State<ContractSignScreen> {
         return Container(
           height: 220,
           decoration: BoxDecoration(
-            color: _fingerprintConfirmed
-                ? AppColors.brandSoft
-                : Colors.white,
+            color: _fingerprintConfirmed ? AppColors.brandSoft : Colors.white,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: _fingerprintConfirmed
@@ -604,8 +592,7 @@ class _ContractSignScreenState extends State<ContractSignScreen> {
                       Text('생체 인증'),
                     ],
                   ),
-                  content: const Text(
-                      '기기에 등록된 지문 또는 Face ID로 서명해주세요.'),
+                  content: const Text('기기에 등록된 지문 또는 Face ID로 서명해주세요.'),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(context),
@@ -633,9 +620,7 @@ class _ContractSignScreenState extends State<ContractSignScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    _fingerprintConfirmed
-                        ? Icons.verified
-                        : Icons.fingerprint,
+                    _fingerprintConfirmed ? Icons.verified : Icons.fingerprint,
                     size: 80,
                     color: _fingerprintConfirmed
                         ? AppColors.brandDark

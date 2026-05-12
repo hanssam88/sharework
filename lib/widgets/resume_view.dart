@@ -37,8 +37,7 @@ class ResumeView extends StatelessWidget {
             ),
             child: Row(
               children: [
-                const Icon(Icons.format_quote,
-                    color: AppColors.brandDark),
+                const Icon(Icons.format_quote, color: AppColors.brandDark),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -83,12 +82,11 @@ class ResumeView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('${e.school} · ${e.degree}',
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w700)),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w700)),
                           Text(e.period,
                               style: const TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.textMuted)),
+                                  fontSize: 12, color: AppColors.textMuted)),
                         ],
                       ),
                     ),

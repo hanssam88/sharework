@@ -9,8 +9,9 @@ class _Stub implements HttpClientAdapter {
   _Stub(this.body);
   @override
   Future<ResponseBody> fetch(RequestOptions o, _, __) async =>
-      ResponseBody.fromString(body, 200,
-          headers: {Headers.contentTypeHeader: ['application/json']});
+      ResponseBody.fromString(body, 200, headers: {
+        Headers.contentTypeHeader: ['application/json']
+      });
 
   @override
   void close({bool force = false}) {}

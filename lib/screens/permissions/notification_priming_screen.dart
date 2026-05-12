@@ -84,7 +84,8 @@ class _NotificationPrimingScreenState extends State<NotificationPrimingScreen> {
               Row(
                 children: [
                   Container(
-                    width: 40, height: 40,
+                    width: 40,
+                    height: 40,
                     decoration: const BoxDecoration(
                       color: Color(0xFFFFE5E5),
                       shape: BoxShape.circle,
@@ -103,8 +104,7 @@ class _NotificationPrimingScreenState extends State<NotificationPrimingScreen> {
               const SizedBox(height: 12),
               const Text(
                 '푸시 알림이 꺼져 있어도 중요한 안내(채용 확정·정산·체크인)는 이메일이나 문자로 받을 수 있어요.',
-                style: TextStyle(
-                    fontSize: 13, color: AppColors.textMuted),
+                style: TextStyle(fontSize: 13, color: AppColors.textMuted),
               ),
               const SizedBox(height: 12),
               SwitchListTile(
@@ -113,8 +113,7 @@ class _NotificationPrimingScreenState extends State<NotificationPrimingScreen> {
                 activeColor: AppColors.brandDark,
                 title: const Text('이메일로 받기'),
                 subtitle: const Text('a***@gmail.com',
-                    style: TextStyle(
-                        fontSize: 12, color: AppColors.textMuted)),
+                    style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
                 onChanged: (v) => innerSet(() => emailOn = v),
               ),
               SwitchListTile(
@@ -123,8 +122,7 @@ class _NotificationPrimingScreenState extends State<NotificationPrimingScreen> {
                 activeColor: AppColors.brandDark,
                 title: const Text('문자(SMS)로 받기'),
                 subtitle: const Text('010-****-1234 (건당 30원)',
-                    style: TextStyle(
-                        fontSize: 12, color: AppColors.textMuted)),
+                    style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
                 onChanged: (v) => innerSet(() => smsOn = v),
               ),
               const SizedBox(height: 12),
@@ -204,7 +202,8 @@ class _NotificationPrimingScreenState extends State<NotificationPrimingScreen> {
                     Icon(Icons.notifications_active,
                         size: 100, color: AppColors.brandDark),
                     Positioned(
-                      top: 30, right: 90,
+                      top: 30,
+                      right: 90,
                       child: CircleAvatar(
                         radius: 14,
                         backgroundColor: AppColors.danger,
@@ -276,8 +275,8 @@ class _NotificationPrimingScreenState extends State<NotificationPrimingScreen> {
                     Expanded(
                       child: Text(
                         '야간(22:00~08:00) 방해금지가 자동 설정돼요. 긴급 알림은 예외로 들어옵니다.',
-                        style: TextStyle(
-                            fontSize: 11, color: AppColors.textMuted),
+                        style:
+                            TextStyle(fontSize: 11, color: AppColors.textMuted),
                       ),
                     ),
                   ],
@@ -345,8 +344,7 @@ class _Cat extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Icon(icon,
-                  color: on ? AppColors.brandDark : AppColors.textMuted),
+              Icon(icon, color: on ? AppColors.brandDark : AppColors.textMuted),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
@@ -362,9 +360,7 @@ class _Cat extends StatelessWidget {
                 ),
               ),
               Icon(
-                on
-                    ? Icons.check_circle
-                    : Icons.radio_button_unchecked,
+                on ? Icons.check_circle : Icons.radio_button_unchecked,
                 color: on ? AppColors.brandDark : AppColors.textFaint,
               ),
             ],

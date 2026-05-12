@@ -26,8 +26,7 @@ class EscrowScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('현재 예치 잔액',
-                    style: TextStyle(
-                        fontSize: 13, color: AppColors.textMuted)),
+                    style: TextStyle(fontSize: 13, color: AppColors.textMuted)),
                 const SizedBox(height: 6),
                 Text(fmtMoney(balance),
                     style: const TextStyle(
@@ -111,8 +110,7 @@ class EscrowScreen extends StatelessWidget {
                         ),
                         title: Text(e.description,
                             style: const TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 14)),
+                                fontWeight: FontWeight.w700, fontSize: 14)),
                         subtitle: Text(
                           '${fmtDate(e.createdAt)} · ${_labelFor(e.kind)}',
                           style: const TextStyle(

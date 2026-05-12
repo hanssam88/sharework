@@ -34,8 +34,7 @@ void main() {
     testWithMockNetwork('hides add button at 5 photos', (tester) async {
       final photos = List.generate(
         5,
-        (i) =>
-            JobPhoto(id: 'p$i', position: i + 1, signedUrl: 'https://$i'),
+        (i) => JobPhoto(id: 'p$i', position: i + 1, signedUrl: 'https://$i'),
       );
       await tester.pumpWidget(
         MaterialApp(
@@ -58,8 +57,7 @@ void main() {
       (tester) async {
         final photos = List.generate(
           3,
-          (i) =>
-              JobPhoto(id: 'p$i', position: i + 1, signedUrl: 'https://$i'),
+          (i) => JobPhoto(id: 'p$i', position: i + 1, signedUrl: 'https://$i'),
         );
         await tester.pumpWidget(
           MaterialApp(
@@ -108,8 +106,7 @@ void main() {
         List<String>? result;
         final photos = List.generate(
           3,
-          (i) =>
-              JobPhoto(id: 'p$i', position: i + 1, signedUrl: 'https://$i'),
+          (i) => JobPhoto(id: 'p$i', position: i + 1, signedUrl: 'https://$i'),
         );
         await tester.pumpWidget(
           MaterialApp(

@@ -46,8 +46,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 child: Text('프로필 공유',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               ),
               const SizedBox(height: 8),
               GridView.count(
@@ -138,8 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.flag_outlined,
-                  color: AppColors.danger),
+              leading: const Icon(Icons.flag_outlined, color: AppColors.danger),
               title: const Text('신고하기'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -149,8 +148,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ListTile(
               leading: const Icon(Icons.block, color: AppColors.danger),
               title: const Text('차단하기'),
-              subtitle: const Text(
-                  '이 사용자의 공고·메시지가 더 이상 보이지 않아요',
+              subtitle: const Text('이 사용자의 공고·메시지가 더 이상 보이지 않아요',
                   style: TextStyle(fontSize: 11)),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -167,8 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text('${u.name}님을 차단하시겠어요?'),
         content: const Text(
             '차단하면 이 사용자의 공고·메시지가 더 이상 보이지 않고, 채팅도 차단됩니다. 마이페이지 > 차단 목록에서 해제할 수 있어요.'),
@@ -181,8 +178,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             style: FilledButton.styleFrom(
                 backgroundColor: AppColors.danger,
                 minimumSize: const Size(80, 40),
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 8)),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8)),
             onPressed: () {
               Navigator.pop(context);
               _snack('${u.name}님을 차단했어요');
@@ -260,8 +257,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         Text(user.name,
                             style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w800)),
+                                fontSize: 20, fontWeight: FontWeight.w800)),
                         if (user.identityVerified) ...[
                           const SizedBox(width: 6),
                           const Icon(Icons.verified,
@@ -277,13 +273,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Color(0xFFFFC400), size: 16),
                         const SizedBox(width: 2),
                         Text('${user.rating}',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w700)),
+                            style:
+                                const TextStyle(fontWeight: FontWeight.w700)),
                         const SizedBox(width: 4),
                         Text('· 리뷰 ${user.reviewCount}개',
                             style: const TextStyle(
-                                color: AppColors.textMuted,
-                                fontSize: 13)),
+                                color: AppColors.textMuted, fontSize: 13)),
                       ],
                     ),
                     if (user.verificationBadges.isNotEmpty) ...[
@@ -298,8 +293,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       horizontal: 8, vertical: 3),
                                   decoration: BoxDecoration(
                                     color: AppColors.brandSoft,
-                                    borderRadius:
-                                        BorderRadius.circular(6),
+                                    borderRadius: BorderRadius.circular(6),
                                     border: Border.all(
                                         color: AppColors.brandDark
                                             .withOpacity(0.3)),
@@ -308,8 +302,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       const Icon(Icons.verified,
-                                          size: 12,
-                                          color: AppColors.brandDark),
+                                          size: 12, color: AppColors.brandDark),
                                       const SizedBox(width: 3),
                                       Text(b,
                                           style: const TextStyle(
@@ -361,8 +354,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Expanded(
                           child: OutlinedButton.icon(
                             onPressed: () => _snack('채팅방 진입 (목업)'),
-                            icon: const Icon(Icons.chat_bubble_outline,
-                                size: 18),
+                            icon:
+                                const Icon(Icons.chat_bubble_outline, size: 18),
                             label: const Text('채팅'),
                           ),
                         ),
@@ -375,9 +368,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ? Icons.bookmark
                                   : Icons.bookmark_border,
                               size: 18,
-                              color: _favorited
-                                  ? AppColors.brandDark
-                                  : null,
+                              color: _favorited ? AppColors.brandDark : null,
                             ),
                             style: OutlinedButton.styleFrom(
                               backgroundColor:
@@ -423,17 +414,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         const Text('소개',
                             style: TextStyle(
-                                fontSize: 13,
-                                color: AppColors.textMuted)),
+                                fontSize: 13, color: AppColors.textMuted)),
                         const SizedBox(height: 8),
                         Text(user.introduction,
-                            style: const TextStyle(
-                                fontSize: 14, height: 1.5)),
+                            style: const TextStyle(fontSize: 14, height: 1.5)),
                         const SizedBox(height: 24),
                         const Text('태그',
                             style: TextStyle(
-                                fontSize: 13,
-                                color: AppColors.textMuted)),
+                                fontSize: 13, color: AppColors.textMuted)),
                         const SizedBox(height: 8),
                         Wrap(
                           spacing: 6,
@@ -449,16 +437,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         resume: Dummy.resume,
                         userTags: user.tags,
                       ),
-                    if (isWorker)
-                      PortfolioGrid(items: Dummy.portfolio),
+                    if (isWorker) PortfolioGrid(items: Dummy.portfolio),
                     _ReviewsTab(
                       user: user,
                       reviews: reviews,
                       sort: _reviewSort,
-                      distribution:
-                          _ratingDistribution(user.reviewCount),
-                      onSortChange: (v) =>
-                          setState(() => _reviewSort = v),
+                      distribution: _ratingDistribution(user.reviewCount),
+                      onSortChange: (v) => setState(() => _reviewSort = v),
                     ),
                   ],
                 ),
@@ -487,8 +472,7 @@ class _ReviewsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final maxCount =
-        distribution.values.fold<int>(1, (a, b) => a > b ? a : b);
+    final maxCount = distribution.values.fold<int>(1, (a, b) => a > b ? a : b);
     return ListView(
       padding: EdgeInsets.zero,
       children: [
@@ -536,8 +520,7 @@ class _ReviewsTab extends StatelessWidget {
                             width: 16,
                             child: Text('$star',
                                 style: const TextStyle(
-                                    fontSize: 11,
-                                    color: AppColors.textMuted)),
+                                    fontSize: 11, color: AppColors.textMuted)),
                           ),
                           const SizedBox(width: 4),
                           Expanded(
@@ -558,8 +541,7 @@ class _ReviewsTab extends StatelessWidget {
                             child: Text('$cnt',
                                 textAlign: TextAlign.end,
                                 style: const TextStyle(
-                                    fontSize: 11,
-                                    color: AppColors.textMuted)),
+                                    fontSize: 11, color: AppColors.textMuted)),
                           ),
                         ],
                       ),
@@ -575,8 +557,7 @@ class _ReviewsTab extends StatelessWidget {
         // 정렬
         Container(
           color: Colors.white,
-          padding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             children: [
               const Spacer(),
@@ -642,8 +623,7 @@ class _StatBox extends StatelessWidget {
                   color: color ?? AppColors.text)),
           const SizedBox(height: 2),
           Text(label,
-              style: const TextStyle(
-                  fontSize: 10, color: AppColors.textMuted)),
+              style: const TextStyle(fontSize: 10, color: AppColors.textMuted)),
         ],
       ),
     );

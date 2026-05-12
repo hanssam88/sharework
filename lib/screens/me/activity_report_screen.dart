@@ -118,8 +118,8 @@ class _ActivityReportScreenState extends State<ActivityReportScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('월별 근무 횟수',
-                    style: TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 16),
                 _BarChart(values: monthly),
               ],
@@ -137,14 +137,15 @@ class _ActivityReportScreenState extends State<ActivityReportScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('지원 추이',
-                    style: TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 12),
                 _MetricRow(
                   label: '진행 중',
-                  value: hired + Dummy.applications
-                      .where((a) => a.status == ApplicationStatus.applied)
-                      .length,
+                  value: hired +
+                      Dummy.applications
+                          .where((a) => a.status == ApplicationStatus.applied)
+                          .length,
                   color: const Color(0xFF2F66E2),
                 ),
                 _MetricRow(
@@ -182,8 +183,8 @@ class _ActivityReportScreenState extends State<ActivityReportScreen> {
                       SizedBox(height: 2),
                       Text(
                         '같은 지역 워커 대비 평점·완료율이 우수해요',
-                        style: TextStyle(
-                            fontSize: 11, color: AppColors.textMuted),
+                        style:
+                            TextStyle(fontSize: 11, color: AppColors.textMuted),
                       ),
                     ],
                   ),
@@ -232,8 +233,8 @@ class _StatCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(value,
-              style: const TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.w800)),
+              style:
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
         ],
       ),
     );
@@ -263,12 +264,11 @@ class _MetricRow extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: Text(label,
-                style: const TextStyle(fontSize: 13)),
+            child: Text(label, style: const TextStyle(fontSize: 13)),
           ),
           Text('$value건',
-              style: const TextStyle(
-                  fontSize: 14, fontWeight: FontWeight.w800)),
+              style:
+                  const TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
         ],
       ),
     );
@@ -308,8 +308,8 @@ class _BarChart extends StatelessWidget {
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                       ),
-                      borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(4)),
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(4)),
                     ),
                   ),
                   const SizedBox(height: 4),

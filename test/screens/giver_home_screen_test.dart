@@ -33,8 +33,8 @@ void main() {
   testWidgets('renders 4 status tabs (전체/모집중/일시중지/마감)', (tester) async {
     final stub = _Stub()..bodyBuilder = (o) => '{"data":{"items":[]}}';
     final repo = _repoWithStub(stub);
-    await tester.pumpWidget(
-        MaterialApp(home: GiverHomeScreen(jobRepository: repo)));
+    await tester
+        .pumpWidget(MaterialApp(home: GiverHomeScreen(jobRepository: repo)));
     await tester.pumpAndSettle();
     expect(find.text('전체'), findsOneWidget);
     expect(find.text('모집중'), findsOneWidget);
@@ -46,21 +46,19 @@ void main() {
       (tester) async {
     final stub = _Stub()..bodyBuilder = (o) => '{"data":{"items":[]}}';
     final repo = _repoWithStub(stub);
-    await tester.pumpWidget(
-        MaterialApp(home: GiverHomeScreen(jobRepository: repo)));
+    await tester
+        .pumpWidget(MaterialApp(home: GiverHomeScreen(jobRepository: repo)));
     await tester.pumpAndSettle();
     expect(stub.requests, isNotEmpty);
     expect(stub.requests.first.path, '/api/me/jobs');
-    expect(
-        stub.requests.first.queryParameters.containsKey('status'), isFalse);
+    expect(stub.requests.first.queryParameters.containsKey('status'), isFalse);
   });
 
-  testWidgets('tap 일시중지 tab → listMine(status:paused) called',
-      (tester) async {
+  testWidgets('tap 일시중지 tab → listMine(status:paused) called', (tester) async {
     final stub = _Stub()..bodyBuilder = (o) => '{"data":{"items":[]}}';
     final repo = _repoWithStub(stub);
-    await tester.pumpWidget(
-        MaterialApp(home: GiverHomeScreen(jobRepository: repo)));
+    await tester
+        .pumpWidget(MaterialApp(home: GiverHomeScreen(jobRepository: repo)));
     await tester.pumpAndSettle();
     await tester.tap(find.text('일시중지'));
     await tester.pumpAndSettle();
@@ -72,8 +70,8 @@ void main() {
     final stub = _Stub()
       ..bodyBuilder = (o) => '{"data":{"items":[$_jobActive]}}';
     final repo = _repoWithStub(stub);
-    await tester.pumpWidget(
-        MaterialApp(home: GiverHomeScreen(jobRepository: repo)));
+    await tester
+        .pumpWidget(MaterialApp(home: GiverHomeScreen(jobRepository: repo)));
     await tester.pumpAndSettle();
     expect(find.text('카페 알바'), findsOneWidget);
   });
@@ -81,8 +79,8 @@ void main() {
   testWidgets('shows empty state when no jobs', (tester) async {
     final stub = _Stub()..bodyBuilder = (o) => '{"data":{"items":[]}}';
     final repo = _repoWithStub(stub);
-    await tester.pumpWidget(
-        MaterialApp(home: GiverHomeScreen(jobRepository: repo)));
+    await tester
+        .pumpWidget(MaterialApp(home: GiverHomeScreen(jobRepository: repo)));
     await tester.pumpAndSettle();
     expect(find.textContaining('공고가 없'), findsOneWidget);
   });
@@ -92,8 +90,8 @@ void main() {
       ..bodyBuilder = ((o) => '{"error":{"code":"INTERNAL","message":"x"}}')
       ..status = 500;
     final repo = _repoWithStub(stub);
-    await tester.pumpWidget(
-        MaterialApp(home: GiverHomeScreen(jobRepository: repo)));
+    await tester
+        .pumpWidget(MaterialApp(home: GiverHomeScreen(jobRepository: repo)));
     await tester.pumpAndSettle();
     expect(find.textContaining('연결이 불안정'), findsOneWidget);
   });
@@ -102,8 +100,8 @@ void main() {
   testWidgets('pull-to-refresh triggers listMine refresh', (tester) async {
     final stub = _Stub()..bodyBuilder = (o) => '{"data":{"items":[]}}';
     final repo = _repoWithStub(stub);
-    await tester.pumpWidget(
-        MaterialApp(home: GiverHomeScreen(jobRepository: repo)));
+    await tester
+        .pumpWidget(MaterialApp(home: GiverHomeScreen(jobRepository: repo)));
     await tester.pumpAndSettle();
     final initialCount = stub.requests.length;
     expect(initialCount, 1);

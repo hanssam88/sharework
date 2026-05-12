@@ -63,8 +63,7 @@ class InquiryListScreen extends StatelessWidget {
                               Text(
                                 fmtRelative(q.createdAt),
                                 style: const TextStyle(
-                                    fontSize: 11,
-                                    color: AppColors.textFaint),
+                                    fontSize: 11, color: AppColors.textFaint),
                               ),
                             ],
                           ),
@@ -126,8 +125,7 @@ class InquiryListScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16),
-              Text(q.body,
-                  style: const TextStyle(fontSize: 14, height: 1.5)),
+              Text(q.body, style: const TextStyle(fontSize: 14, height: 1.5)),
               const SizedBox(height: 24),
               if (q.answer != null) ...[
                 Container(
@@ -160,8 +158,7 @@ class InquiryListScreen extends StatelessWidget {
               ] else
                 const Text(
                   '답변 대기 중입니다. 영업일 기준 24시간 내 답변을 드릴게요.',
-                  style:
-                      TextStyle(fontSize: 13, color: AppColors.textMuted),
+                  style: TextStyle(fontSize: 13, color: AppColors.textMuted),
                 ),
               const SizedBox(height: 24),
             ],

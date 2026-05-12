@@ -46,8 +46,8 @@ class _DisputeNewScreenState extends State<DisputeNewScreen> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text('대상 공고 선택',
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w800)),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 ),
               ),
               Expanded(
@@ -59,12 +59,10 @@ class _DisputeNewScreenState extends State<DisputeNewScreen> {
                     final j = Dummy.jobs[i];
                     return ListTile(
                       title: Text(j.title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis),
+                          maxLines: 1, overflow: TextOverflow.ellipsis),
                       subtitle: Text(j.giverName,
                           style: const TextStyle(
-                              fontSize: 12,
-                              color: AppColors.textMuted)),
+                              fontSize: 12, color: AppColors.textMuted)),
                       onTap: () {
                         setState(() => _job = j);
                         Navigator.pop(sheetCtx);
@@ -90,8 +88,7 @@ class _DisputeNewScreenState extends State<DisputeNewScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('분쟁 조정 신청'),
         content: const Text(
             '제출하신 내용은 양측에 공유되며, 영업일 기준 1~2일 내에 담당자가 검토합니다. 제출하시겠어요?'),
@@ -151,8 +148,7 @@ class _DisputeNewScreenState extends State<DisputeNewScreen> {
             onTap: _pickJob,
             borderRadius: BorderRadius.circular(10),
             child: Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 14, vertical: 14),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
               decoration: BoxDecoration(
                 color: AppColors.bg,
                 borderRadius: BorderRadius.circular(10),
@@ -163,14 +159,12 @@ class _DisputeNewScreenState extends State<DisputeNewScreen> {
                     child: Text(
                       _job?.title ?? '공고 선택',
                       style: TextStyle(
-                        color: _job == null
-                            ? AppColors.textFaint
-                            : AppColors.text,
+                        color:
+                            _job == null ? AppColors.textFaint : AppColors.text,
                       ),
                     ),
                   ),
-                  const Icon(Icons.expand_more,
-                      color: AppColors.textMuted),
+                  const Icon(Icons.expand_more, color: AppColors.textMuted),
                 ],
               ),
             ),
@@ -213,14 +207,13 @@ class _DisputeNewScreenState extends State<DisputeNewScreen> {
             children: [
               ..._attachments.map((a) => Chip(
                     label: Text(a),
-                    onDeleted: () =>
-                        setState(() => _attachments.remove(a)),
+                    onDeleted: () => setState(() => _attachments.remove(a)),
                   )),
               ActionChip(
                 avatar: const Icon(Icons.add, size: 16),
                 label: const Text('파일 첨부'),
-                onPressed: () => setState(() => _attachments
-                    .add('파일${_attachments.length + 1}.jpg')),
+                onPressed: () => setState(
+                    () => _attachments.add('파일${_attachments.length + 1}.jpg')),
               ),
             ],
           ),
@@ -230,8 +223,8 @@ class _DisputeNewScreenState extends State<DisputeNewScreen> {
             controlAffinity: ListTileControlAffinity.leading,
             contentPadding: EdgeInsets.zero,
             activeColor: AppColors.brandDark,
-            title: const Text('제출 내용이 사실임에 동의합니다',
-                style: TextStyle(fontSize: 13)),
+            title:
+                const Text('제출 내용이 사실임에 동의합니다', style: TextStyle(fontSize: 13)),
             subtitle: const Text(
               '거짓 신청 시 계정 제재·법적 책임이 따를 수 있어요',
               style: TextStyle(fontSize: 11, color: AppColors.textMuted),
@@ -260,7 +253,6 @@ class _Label extends StatelessWidget {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.only(bottom: 6, top: 4),
         child: Text(text,
-            style:
-                const TextStyle(fontSize: 13, color: AppColors.textMuted)),
+            style: const TextStyle(fontSize: 13, color: AppColors.textMuted)),
       );
 }

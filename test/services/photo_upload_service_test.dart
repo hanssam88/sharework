@@ -36,16 +36,14 @@ class _StubAdapter implements HttpClientAdapter {
   ) async {
     requests.add(options);
     if (_queue.isEmpty) {
-      return ResponseBody.fromString('{}', 200,
-          headers: {
-            'content-type': ['application/json'],
-          });
+      return ResponseBody.fromString('{}', 200, headers: {
+        'content-type': ['application/json'],
+      });
     }
     final r = _queue.removeAt(0);
-    return ResponseBody.fromString(r.body, r.status,
-        headers: {
-          'content-type': [r.contentType],
-        });
+    return ResponseBody.fromString(r.body, r.status, headers: {
+      'content-type': [r.contentType],
+    });
   }
 
   @override
@@ -122,8 +120,7 @@ void main() {
       // text — not JSON, so set content-type accordingly).
       plainAdapter.enqueue('', status: 200, contentType: 'text/plain');
 
-      final result =
-          await service.uploadPhoto(jobId: 'j-1', picked: picked);
+      final result = await service.uploadPhoto(jobId: 'j-1', picked: picked);
 
       expect(result.id, 'p-1');
       expect(result.position, 1);
@@ -149,8 +146,7 @@ void main() {
 
       final putReq = plainAdapter.requests[0];
       expect(putReq.method, 'PUT');
-      expect(putReq.uri.toString(),
-          'https://storage.example/sig?token=abc');
+      expect(putReq.uri.toString(), 'https://storage.example/sig?token=abc');
       // Plain Dio MUST NOT carry an Authorization header (F1).
       expect(putReq.headers.containsKey('authorization'), isFalse);
       expect(putReq.headers['content-type'], 'image/jpeg');
@@ -186,8 +182,7 @@ void main() {
       // upload-url + PUT ran, but confirm must NOT have been called
       // — V2 spec: a retry must request a fresh upload-url, never reuse.
       expect(authAdapter.requests, hasLength(1));
-      expect(authAdapter.requests[0].path,
-          '/api/jobs/j-1/photos/upload-url');
+      expect(authAdapter.requests[0].path, '/api/jobs/j-1/photos/upload-url');
       expect(plainAdapter.requests, hasLength(1));
     });
 
@@ -250,8 +245,7 @@ void main() {
       // upload-url was attempted, but PUT must NOT have been called —
       // a failed upload-url request means we never had a URL to PUT to.
       expect(authAdapter.requests, hasLength(1));
-      expect(authAdapter.requests[0].path,
-          '/api/jobs/j-1/photos/upload-url');
+      expect(authAdapter.requests[0].path, '/api/jobs/j-1/photos/upload-url');
       expect(plainAdapter.requests, isEmpty);
     });
 
@@ -281,10 +275,8 @@ void main() {
       // stranded in storage (real production concern). UI catches the
       // single PhotoUploadException type and surfaces retry.
       expect(authAdapter.requests, hasLength(2));
-      expect(authAdapter.requests[0].path,
-          '/api/jobs/j-1/photos/upload-url');
-      expect(authAdapter.requests[1].path,
-          '/api/jobs/j-1/photos/confirm');
+      expect(authAdapter.requests[0].path, '/api/jobs/j-1/photos/upload-url');
+      expect(authAdapter.requests[1].path, '/api/jobs/j-1/photos/confirm');
       expect(plainAdapter.requests, hasLength(1));
       expect(plainAdapter.requests[0].method, 'PUT');
     });

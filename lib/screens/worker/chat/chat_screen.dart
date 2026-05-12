@@ -23,8 +23,7 @@ class ChatScreen extends StatelessWidget {
             )
           : ListView.separated(
               itemCount: rooms.length,
-              separatorBuilder: (_, __) =>
-                  const Divider(height: 1, indent: 76),
+              separatorBuilder: (_, __) => const Divider(height: 1, indent: 76),
               itemBuilder: (_, i) {
                 final r = rooms[i];
                 return InkWell(
@@ -37,8 +36,8 @@ class ChatScreen extends StatelessWidget {
                         const CircleAvatar(
                           radius: 24,
                           backgroundColor: AppColors.brandSoft,
-                          child: Icon(Icons.business,
-                              color: AppColors.brandDark),
+                          child:
+                              Icon(Icons.business, color: AppColors.brandDark),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -175,8 +174,7 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scroll.hasClients) {
         _scroll.animateTo(_scroll.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeOut);
+            duration: const Duration(milliseconds: 200), curve: Curves.easeOut);
       }
     });
   }
@@ -201,8 +199,8 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: const Icon(Icons.phone_outlined,
-                  color: AppColors.brandDark),
+              leading:
+                  const Icon(Icons.phone_outlined, color: AppColors.brandDark),
               title: const Text('안심번호로 통화'),
               subtitle: const Text(
                 '050으로 시작하는 가상번호로 연결돼요',
@@ -239,8 +237,7 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
             ),
             const Divider(),
             ListTile(
-              leading: const Icon(Icons.flag_outlined,
-                  color: AppColors.danger),
+              leading: const Icon(Icons.flag_outlined, color: AppColors.danger),
               title: const Text('신고하기'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -270,8 +267,7 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (sheetCtx) {
-        Widget tile(IconData icon, String label, VoidCallback onTap) =>
-            InkWell(
+        Widget tile(IconData icon, String label, VoidCallback onTap) => InkWell(
               onTap: () {
                 Navigator.pop(sheetCtx);
                 onTap();
@@ -297,8 +293,7 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
             );
         return SafeArea(
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
             child: GridView.count(
               shrinkWrap: true,
               crossAxisCount: 4,
@@ -341,8 +336,8 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.image_outlined,
-                  color: AppColors.brandDark),
+              leading:
+                  const Icon(Icons.image_outlined, color: AppColors.brandDark),
               title: const Text('갤러리'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -373,8 +368,7 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('위치 공유',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 12),
               Container(
                 height: 160,
@@ -390,8 +384,8 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 dense: true,
-                leading: const Icon(Icons.my_location,
-                    color: AppColors.brandDark),
+                leading:
+                    const Icon(Icons.my_location, color: AppColors.brandDark),
                 title: const Text('현재 위치 공유'),
                 onTap: () async {
                   Navigator.pop(sheetCtx);
@@ -408,8 +402,7 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 dense: true,
-                leading: const Icon(Icons.search,
-                    color: AppColors.brandDark),
+                leading: const Icon(Icons.search, color: AppColors.brandDark),
                 title: const Text('주소 검색해서 공유'),
                 onTap: () {
                   Navigator.pop(sheetCtx);
@@ -444,8 +437,8 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text('공유할 일감 선택',
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w800)),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 ),
               ),
               Expanded(
@@ -459,10 +452,8 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
                       leading: const Icon(Icons.work_outline,
                           color: AppColors.brandDark),
                       title: Text(j.title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis),
-                      subtitle: Text(
-                          '${j.giverName} · ${fmtMoney(j.pay)}',
+                          maxLines: 1, overflow: TextOverflow.ellipsis),
+                      subtitle: Text('${j.giverName} · ${fmtMoney(j.pay)}',
                           style: const TextStyle(fontSize: 12)),
                       onTap: () {
                         Navigator.pop(sheetCtx);
@@ -486,10 +477,10 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('전자근로계약서 보내기'),
-        content: const Text('현재 진행 중인 일감의 계약서를 채팅으로 발송합니다. 상대방이 서명하면 자동으로 채용 확정돼요.'),
+        content:
+            const Text('현재 진행 중인 일감의 계약서를 채팅으로 발송합니다. 상대방이 서명하면 자동으로 채용 확정돼요.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -498,8 +489,8 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
           FilledButton(
             style: FilledButton.styleFrom(
                 minimumSize: const Size(80, 40),
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 8)),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8)),
             onPressed: () {
               Navigator.pop(context);
               _addMessage(
@@ -534,8 +525,8 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('결제 요청',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 12),
                 TextField(
                   controller: ctrl,
@@ -548,9 +539,8 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
                 const SizedBox(height: 16),
                 FilledButton(
                   onPressed: () {
-                    final amt = int.tryParse(
-                            ctrl.text.replaceAll(',', '').trim()) ??
-                        0;
+                    final amt =
+                        int.tryParse(ctrl.text.replaceAll(',', '').trim()) ?? 0;
                     if (amt < 1000) {
                       _snack('금액을 정확히 입력해주세요');
                       return;
@@ -575,8 +565,7 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('출퇴근 체크 요청'),
         content: const Text('상대방이 근무 시작·종료 시점에 체크인을 누르도록 알림을 보냅니다.'),
         actions: [
@@ -587,8 +576,8 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
           FilledButton(
             style: FilledButton.styleFrom(
                 minimumSize: const Size(80, 40),
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 8)),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8)),
             onPressed: () {
               Navigator.pop(context);
               _addMessage(
@@ -632,8 +621,8 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
             ),
             if (m.mine)
               ListTile(
-                leading: const Icon(Icons.delete_outline,
-                    color: AppColors.danger),
+                leading:
+                    const Icon(Icons.delete_outline, color: AppColors.danger),
                 title: const Text('삭제'),
                 onTap: () {
                   Navigator.pop(sheetCtx);
@@ -642,8 +631,8 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
               )
             else
               ListTile(
-                leading: const Icon(Icons.flag_outlined,
-                    color: AppColors.danger),
+                leading:
+                    const Icon(Icons.flag_outlined, color: AppColors.danger),
                 title: const Text('이 메시지 신고'),
                 onTap: () {
                   Navigator.pop(sheetCtx);
@@ -672,8 +661,7 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(widget.otherName,
-                style: const TextStyle(fontSize: 16)),
+            Text(widget.otherName, style: const TextStyle(fontSize: 16)),
             const Text('● 응답 평균 5분',
                 style: TextStyle(
                     fontSize: 11,
@@ -709,8 +697,7 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
           if (_showQuickReply)
             Container(
               color: Colors.white,
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -739,14 +726,12 @@ class _ChatRoomScreenState extends State<_ChatRoomScreen> {
                       ),
                     ),
                     ..._quickReplies.map((r) => Padding(
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 4),
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: ActionChip(
-                            label: Text(r,
-                                style: const TextStyle(fontSize: 12)),
+                            label:
+                                Text(r, style: const TextStyle(fontSize: 12)),
                             onPressed: () {
-                              _addMessage(
-                                  kind: ChatMessageKind.text, body: r);
+                              _addMessage(kind: ChatMessageKind.text, body: r);
                               setState(() => _showQuickReply = false);
                             },
                           ),
@@ -804,16 +789,14 @@ class _Msg extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Center(
           child: Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 12, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
               color: AppColors.chipBg,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
               message.body,
-              style: const TextStyle(
-                  fontSize: 11, color: AppColors.textMuted),
+              style: const TextStyle(fontSize: 11, color: AppColors.textMuted),
             ),
           ),
         ),
@@ -833,8 +816,8 @@ class _Msg extends StatelessWidget {
         children: [
           if (mine)
             Text(ago,
-                style: const TextStyle(
-                    fontSize: 10, color: AppColors.textFaint)),
+                style:
+                    const TextStyle(fontSize: 10, color: AppColors.textFaint)),
           if (mine) const SizedBox(width: 4),
           ConstrainedBox(
             constraints: BoxConstraints(
@@ -845,8 +828,8 @@ class _Msg extends StatelessWidget {
           if (!mine) const SizedBox(width: 4),
           if (!mine)
             Text(ago,
-                style: const TextStyle(
-                    fontSize: 10, color: AppColors.textFaint)),
+                style:
+                    const TextStyle(fontSize: 10, color: AppColors.textFaint)),
         ],
       ),
     );
@@ -857,8 +840,7 @@ class _Msg extends StatelessWidget {
     switch (message.kind) {
       case ChatMessageKind.text:
         return Container(
-          padding:
-              const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
             color: mine ? AppColors.brandDark : Colors.white,
             borderRadius: BorderRadius.circular(14),
@@ -880,8 +862,8 @@ class _Msg extends StatelessWidget {
             height: 140,
             color: AppColors.brandSoft,
             alignment: Alignment.center,
-            child: const Icon(Icons.image,
-                size: 40, color: AppColors.brandDark),
+            child:
+                const Icon(Icons.image, size: 40, color: AppColors.brandDark),
           ),
         );
       case ChatMessageKind.location:
@@ -951,8 +933,7 @@ class _Msg extends StatelessWidget {
                         fontWeight: FontWeight.w800, fontSize: 14)),
                 const SizedBox(height: 8),
                 const Text('탭해서 공고 보기',
-                    style: TextStyle(
-                        fontSize: 11, color: AppColors.textMuted)),
+                    style: TextStyle(fontSize: 11, color: AppColors.textMuted)),
               ],
             ),
           ),
@@ -991,8 +972,7 @@ class _Msg extends StatelessWidget {
                         fontWeight: FontWeight.w800, fontSize: 14)),
                 const SizedBox(height: 8),
                 const Text('탭해서 계약서 확인 / 서명',
-                    style: TextStyle(
-                        fontSize: 11, color: AppColors.brandDark)),
+                    style: TextStyle(fontSize: 11, color: AppColors.brandDark)),
               ],
             ),
           ),

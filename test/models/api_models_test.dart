@@ -25,11 +25,18 @@ void main() {
     test('fromJson with giver + photos', () {
       final json = {
         'id': 'j-1',
-        'title': 't', 'description': 'd', 'wage_won': 1000, 'status': 'active',
-        'category_id': 'c-1', 'location_address': 'Seoul',
+        'title': 't',
+        'description': 'd',
+        'wage_won': 1000,
+        'status': 'active',
+        'category_id': 'c-1',
+        'location_address': 'Seoul',
         'giver': {'public_id': 'gpid', 'name': 'gname'},
-        'photos': [{'id': 'p1', 'position': 1, 'signed_url': 'https://example/sig'}],
-        'created_at': '2026-05-11T00:00:00Z', 'updated_at': '2026-05-11T00:00:00Z',
+        'photos': [
+          {'id': 'p1', 'position': 1, 'signed_url': 'https://example/sig'}
+        ],
+        'created_at': '2026-05-11T00:00:00Z',
+        'updated_at': '2026-05-11T00:00:00Z',
       };
       final job = Job.fromJson(json);
       expect(job.giver?.publicId, 'gpid');
@@ -40,9 +47,14 @@ void main() {
     test('fromJson without photos defaults to empty list (M3 정정)', () {
       final json = {
         'id': 'j-1',
-        'title': 't', 'description': 'd', 'wage_won': 1000, 'status': 'active',
-        'category_id': 'c-1', 'location_address': 'Seoul',
-        'created_at': '2026-05-11T00:00:00Z', 'updated_at': '2026-05-11T00:00:00Z',
+        'title': 't',
+        'description': 'd',
+        'wage_won': 1000,
+        'status': 'active',
+        'category_id': 'c-1',
+        'location_address': 'Seoul',
+        'created_at': '2026-05-11T00:00:00Z',
+        'updated_at': '2026-05-11T00:00:00Z',
       };
       final job = Job.fromJson(json);
       expect(job.photos, isEmpty);
@@ -52,7 +64,12 @@ void main() {
 
   group('JobCategory', () {
     test('fromJson with emoji', () {
-      final json = {'id': 'c-1', 'slug': 'restaurant', 'name': '식당', 'emoji': '🍽'};
+      final json = {
+        'id': 'c-1',
+        'slug': 'restaurant',
+        'name': '식당',
+        'emoji': '🍽'
+      };
       final c = JobCategory.fromJson(json);
       expect(c.emoji, '🍽');
     });

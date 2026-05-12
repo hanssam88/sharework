@@ -10,8 +10,9 @@ class _Stub implements HttpClientAdapter {
   _Stub(this.body);
   @override
   Future<ResponseBody> fetch(RequestOptions o, _, __) async =>
-      ResponseBody.fromString(body, status,
-          headers: {Headers.contentTypeHeader: ['application/json']});
+      ResponseBody.fromString(body, status, headers: {
+        Headers.contentTypeHeader: ['application/json']
+      });
   @override
   void close({bool force = false}) {}
 }
@@ -29,18 +30,17 @@ void main() {
       (tester) async {
     final repo =
         _repo('{"data":[$_job],"page":{"total":1,"page":1,"limit":20}}');
-    await tester.pumpWidget(
-        MaterialApp(home: WorkerHomeScreen(jobRepository: repo)));
+    await tester
+        .pumpWidget(MaterialApp(home: WorkerHomeScreen(jobRepository: repo)));
     await tester.pumpAndSettle();
     expect(find.text('카페 알바'), findsOneWidget);
     expect(find.textContaining('홍길동'), findsOneWidget); // giver.name 표시
   });
 
   testWidgets('shows empty state when no jobs', (tester) async {
-    final repo =
-        _repo('{"data":[],"page":{"total":0,"page":1,"limit":20}}');
-    await tester.pumpWidget(
-        MaterialApp(home: WorkerHomeScreen(jobRepository: repo)));
+    final repo = _repo('{"data":[],"page":{"total":0,"page":1,"limit":20}}');
+    await tester
+        .pumpWidget(MaterialApp(home: WorkerHomeScreen(jobRepository: repo)));
     await tester.pumpAndSettle();
     expect(find.textContaining('근처 공고가 없'), findsOneWidget);
   });
@@ -48,21 +48,20 @@ void main() {
   testWidgets('shows error state on API failure', (tester) async {
     final repo =
         _repo('{"error":{"code":"INTERNAL","message":"x"}}', status: 500);
-    await tester.pumpWidget(
-        MaterialApp(home: WorkerHomeScreen(jobRepository: repo)));
+    await tester
+        .pumpWidget(MaterialApp(home: WorkerHomeScreen(jobRepository: repo)));
     await tester.pumpAndSettle();
     expect(find.textContaining('연결이 불안정'), findsOneWidget);
   });
 
   testWidgets('applied/hired pill always shows 0건 in M1 (U3)', (tester) async {
-    final repo =
-        _repo('{"data":[],"page":{"total":0,"page":1,"limit":20}}');
-    await tester.pumpWidget(
-        MaterialApp(home: WorkerHomeScreen(jobRepository: repo)));
+    final repo = _repo('{"data":[],"page":{"total":0,"page":1,"limit":20}}');
+    await tester
+        .pumpWidget(MaterialApp(home: WorkerHomeScreen(jobRepository: repo)));
     await tester.pumpAndSettle();
     final pill = find.byKey(const Key('status-pill-applied'));
     expect(pill, findsOneWidget);
-    expect(find.descendant(of: pill, matching: find.text('0건')),
-        findsOneWidget);
+    expect(
+        find.descendant(of: pill, matching: find.text('0건')), findsOneWidget);
   });
 }

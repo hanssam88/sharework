@@ -98,16 +98,15 @@ class _FaqScreenState extends State<FaqScreen> {
                                 fontWeight: FontWeight.w700, fontSize: 14)),
                         subtitle: Text(f.category,
                             style: const TextStyle(
-                                fontSize: 11,
-                                color: AppColors.textFaint)),
+                                fontSize: 11, color: AppColors.textFaint)),
                         children: [
                           Container(
                             color: AppColors.bg,
                             width: double.infinity,
                             padding: const EdgeInsets.all(16),
                             child: Text(f.answer,
-                                style: const TextStyle(
-                                    fontSize: 13, height: 1.5)),
+                                style:
+                                    const TextStyle(fontSize: 13, height: 1.5)),
                           ),
                         ],
                       );

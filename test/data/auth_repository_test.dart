@@ -55,7 +55,8 @@ void main() {
     test('verifyOtp returns true when api returns true', () async {
       fakeApi.setVerifyResult(true);
 
-      final result = await repo.verifyOtp(phone: '+821012345678', token: '123456');
+      final result =
+          await repo.verifyOtp(phone: '+821012345678', token: '123456');
 
       expect(result, isTrue);
       expect(fakeApi.lastToken, '123456');
@@ -64,7 +65,8 @@ void main() {
     test('verifyOtp returns false when api returns false', () async {
       fakeApi.setVerifyResult(false);
 
-      final result = await repo.verifyOtp(phone: '+821012345678', token: '000000');
+      final result =
+          await repo.verifyOtp(phone: '+821012345678', token: '000000');
 
       expect(result, isFalse);
     });

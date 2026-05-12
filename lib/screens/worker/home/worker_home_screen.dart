@@ -89,8 +89,7 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
                         const Text('연결이 불안정합니다'),
                         const SizedBox(height: 8),
                         ElevatedButton(
-                            onPressed: _retry,
-                            child: const Text('다시 시도')),
+                            onPressed: _retry, child: const Text('다시 시도')),
                       ],
                     ),
                   );
@@ -113,9 +112,8 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
                       );
                     }
                     final job = items[i - 1];
-                    final coverUrl = job.photos.isNotEmpty
-                        ? job.photos[0].signedUrl
-                        : null;
+                    final coverUrl =
+                        job.photos.isNotEmpty ? job.photos[0].signedUrl : null;
                     return _JobTile(
                       job: job,
                       coverUrl: coverUrl,
@@ -201,8 +199,7 @@ class _MapPlaceholder extends StatelessWidget {
                     right: 0,
                     top: i * 50.0,
                     child: Container(
-                        height: 1,
-                        color: Colors.white.withOpacity(0.5)),
+                        height: 1, color: Colors.white.withOpacity(0.5)),
                   )),
           ...List.generate(
               20,
@@ -211,8 +208,7 @@ class _MapPlaceholder extends StatelessWidget {
                     bottom: 0,
                     left: i * 50.0,
                     child: Container(
-                        width: 1,
-                        color: Colors.white.withOpacity(0.5)),
+                        width: 1, color: Colors.white.withOpacity(0.5)),
                   )),
           // fake markers
           const Positioned(
@@ -279,8 +275,7 @@ class _Marker extends StatelessWidget {
         color: AppColors.brandDark,
         borderRadius: BorderRadius.circular(20),
         boxShadow: const [
-          BoxShadow(
-              color: Colors.black26, blurRadius: 4, offset: Offset(0, 2))
+          BoxShadow(color: Colors.black26, blurRadius: 4, offset: Offset(0, 2))
         ],
       ),
       child: Text(
@@ -310,8 +305,7 @@ class _StatusPill extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: const [
-          BoxShadow(
-              color: Colors.black12, blurRadius: 4, offset: Offset(0, 1))
+          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 1))
         ],
       ),
       child: Row(
@@ -324,12 +318,11 @@ class _StatusPill extends StatelessWidget {
           ),
           const SizedBox(width: 6),
           Text(label,
-              style:
-                  const TextStyle(fontSize: 12, color: AppColors.textMuted)),
+              style: const TextStyle(fontSize: 12, color: AppColors.textMuted)),
           const SizedBox(width: 4),
           Text('$count건',
-              style: const TextStyle(
-                  fontSize: 12, fontWeight: FontWeight.w700)),
+              style:
+                  const TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
         ],
       ),
     );

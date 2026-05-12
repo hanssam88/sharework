@@ -21,8 +21,8 @@ class UserInfoUpdateScreen extends StatelessWidget {
                 const CircleAvatar(
                   radius: 44,
                   backgroundColor: AppColors.brandSoft,
-                  child: Icon(Icons.person,
-                      size: 48, color: AppColors.brandDark),
+                  child:
+                      Icon(Icons.person, size: 48, color: AppColors.brandDark),
                 ),
                 Positioned(
                   bottom: 0,
@@ -90,7 +90,6 @@ class _Field extends StatelessWidget {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.only(bottom: 6),
         child: Text(label,
-            style:
-                const TextStyle(fontSize: 13, color: AppColors.textMuted)),
+            style: const TextStyle(fontSize: 13, color: AppColors.textMuted)),
       );
 }

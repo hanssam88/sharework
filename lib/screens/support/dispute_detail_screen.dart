@@ -182,17 +182,14 @@ class _Timeline extends StatelessWidget {
                     child: Icon(
                       done ? Icons.check : Icons.circle_outlined,
                       size: 14,
-                      color:
-                          done ? Colors.white : AppColors.textFaint,
+                      color: done ? Colors.white : AppColors.textFaint,
                     ),
                   ),
                   if (i < _stages.length - 1)
                     Expanded(
                       child: Container(
                         width: 2,
-                        color: done
-                            ? AppColors.brandDark
-                            : AppColors.divider,
+                        color: done ? AppColors.brandDark : AppColors.divider,
                       ),
                     ),
                 ],
@@ -207,9 +204,7 @@ class _Timeline extends StatelessWidget {
                       Text(_label(stage),
                           style: TextStyle(
                             fontWeight: FontWeight.w800,
-                            color: done
-                                ? AppColors.text
-                                : AppColors.textFaint,
+                            color: done ? AppColors.text : AppColors.textFaint,
                           )),
                       if (ev.isNotEmpty) ...[
                         const SizedBox(height: 4),
@@ -221,8 +216,7 @@ class _Timeline extends StatelessWidget {
                         const SizedBox(height: 2),
                         Text(fmtRelative(ev.first.at),
                             style: const TextStyle(
-                                fontSize: 11,
-                                color: AppColors.textFaint)),
+                                fontSize: 11, color: AppColors.textFaint)),
                       ],
                     ],
                   ),

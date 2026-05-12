@@ -282,7 +282,8 @@ void main() {
       expect(adapter.lastRequest!.method, 'DELETE');
     });
 
-    test('deletePhoto throws StateError when contract violated (deleted missing)',
+    test(
+        'deletePhoto throws StateError when contract violated (deleted missing)',
         () async {
       adapter.setResponse('{"data":{}}');
 

@@ -134,7 +134,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
     if (_phase != _Phase.working) return;
     final job = Dummy.jobById(widget.jobId);
     final now = DateTime.now();
-    final isEarly = now.isBefore(job.endAt.subtract(const Duration(minutes: 5)));
+    final isEarly =
+        now.isBefore(job.endAt.subtract(const Duration(minutes: 5)));
 
     if (isEarly && _earlyLeaveReason == null) {
       _showReasonSheet(
@@ -253,8 +254,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text('근무지 QR 코드 스캔',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 16),
               Container(
                 width: double.infinity,
@@ -291,8 +291,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
               ),
               const SizedBox(height: 12),
               const Text('매장에 비치된 QR 코드를 사각형 안에 맞춰주세요.',
-                  style:
-                      TextStyle(fontSize: 12, color: AppColors.textMuted)),
+                  style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
               const SizedBox(height: 16),
               FilledButton(
                 onPressed: () {
@@ -329,13 +328,12 @@ class _CheckinScreenState extends State<CheckinScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('근무지 PIN 입력',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 4),
                 const Text(
                   '사장님이 매일 알려주는 4자리 PIN을 입력하세요. (목업: 아무 4자리)',
-                  style:
-                      TextStyle(fontSize: 12, color: AppColors.textMuted),
+                  style: TextStyle(fontSize: 12, color: AppColors.textMuted),
                 ),
                 const SizedBox(height: 16),
                 TextField(
@@ -385,8 +383,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('사장님 승인 요청',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 4),
               const Text(
                 'GPS·QR·PIN 모두 사용이 어려울 때 사장님께 직접 출근 승인을 요청해요. 채팅방에 자동으로 메시지가 전송됩니다.',
@@ -482,8 +479,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('근무지 인증샷',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 4),
               const Text(
                 '근무지 입구나 본인 사진을 1장 업로드해주세요. 분쟁 발생 시 증빙 자료로 사용돼요.',
@@ -545,13 +541,12 @@ class _CheckinScreenState extends State<CheckinScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('근무 메모·인수인계',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 4),
                 const Text(
                   '추가 업무·이슈·다음 근무자에게 전할 내용을 적어주세요.',
-                  style: TextStyle(
-                      fontSize: 12, color: AppColors.textMuted),
+                  style: TextStyle(fontSize: 12, color: AppColors.textMuted),
                 ),
                 const SizedBox(height: 12),
                 TextField(
@@ -590,8 +585,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: const Icon(Icons.phone_outlined,
-                  color: AppColors.brandDark),
+              leading:
+                  const Icon(Icons.phone_outlined, color: AppColors.brandDark),
               title: const Text('안심번호 통화'),
               subtitle: const Text(
                 '050으로 시작하는 가상번호로 연결돼요',
@@ -612,8 +607,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.emergency_outlined,
-                  color: AppColors.danger),
+              leading:
+                  const Icon(Icons.emergency_outlined, color: AppColors.danger),
               title: const Text('SOS 도움 요청'),
               subtitle: const Text(
                 '등록된 긴급연락처에 위치·상황 즉시 전송',
@@ -634,8 +629,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('근무 확인서 공유'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -687,8 +681,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
     final job = Dummy.jobById(widget.jobId);
     final worked = _workedSinceCheckin();
     final hourlyRate = job.payType == '시급' ? job.pay : (job.pay / 8).round();
-    final accruedPay =
-        (worked.inSeconds * hourlyRate / 3600).round();
+    final accruedPay = (worked.inSeconds * hourlyRate / 3600).round();
 
     return Scaffold(
       appBar: AppBar(
@@ -721,13 +714,11 @@ class _CheckinScreenState extends State<CheckinScreen> {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.work_outline,
-                        color: AppColors.brandDark),
+                    const Icon(Icons.work_outline, color: AppColors.brandDark),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(job.title,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w800)),
+                          style: const TextStyle(fontWeight: FontWeight.w800)),
                     ),
                     _PhaseBadge(phase: _phase),
                   ],
@@ -767,8 +758,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
           // Method picker (출근 전 only)
           if (_phase == _Phase.before) ...[
             const Text('체크인 방식',
-                style: TextStyle(
-                    fontSize: 13, fontWeight: FontWeight.w800)),
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800)),
             const SizedBox(height: 8),
             SizedBox(
               height: 92,
@@ -787,9 +777,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
                             color: on ? AppColors.brandSoft : Colors.white,
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                              color: on
-                                  ? AppColors.brandDark
-                                  : AppColors.divider,
+                              color:
+                                  on ? AppColors.brandDark : AppColors.divider,
                               width: on ? 1.5 : 1,
                             ),
                           ),
@@ -834,8 +823,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
           // Quick action grid (after check-in)
           if (_phase == _Phase.working || _phase == _Phase.onBreak) ...[
             const Text('빠른 작업',
-                style: TextStyle(
-                    fontSize: 13, fontWeight: FontWeight.w800)),
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800)),
             const SizedBox(height: 8),
             GridView.count(
               shrinkWrap: true,
@@ -888,8 +876,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
             label: '퇴근',
             time: _checkoutAt,
             placeholder: '퇴근 전',
-            badge:
-                _earlyLeaveReason == null ? null : '조퇴: $_earlyLeaveReason',
+            badge: _earlyLeaveReason == null ? null : '조퇴: $_earlyLeaveReason',
           ),
 
           // Done summary
@@ -959,8 +946,8 @@ class _PhaseBadge extends StatelessWidget {
       decoration:
           BoxDecoration(color: bg, borderRadius: BorderRadius.circular(6)),
       child: Text(text,
-          style: TextStyle(
-              color: fg, fontSize: 11, fontWeight: FontWeight.w800)),
+          style:
+              TextStyle(color: fg, fontSize: 11, fontWeight: FontWeight.w800)),
     );
   }
 }
@@ -1012,9 +999,7 @@ class _LiveCard extends StatelessWidget {
               const SizedBox(width: 6),
               Text(onBreak ? '휴식 중' : '근무 중',
                   style: TextStyle(
-                      fontSize: 12,
-                      color: color,
-                      fontWeight: FontWeight.w800)),
+                      fontSize: 12, color: color, fontWeight: FontWeight.w800)),
               const Spacer(),
               if (breakDur.inSeconds > 0)
                 Text('휴식 누적 ${breakDur.inMinutes}분',
@@ -1038,8 +1023,7 @@ class _LiveCard extends StatelessWidget {
               const SizedBox(width: 4),
               Text('현재까지 적립 ${fmtMoney(accruedPay)}',
                   style: const TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700)),
+                      fontSize: 13, fontWeight: FontWeight.w700)),
             ],
           ),
         ],
@@ -1079,14 +1063,10 @@ class _GpsCard extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  withinRange
-                      ? '근무지 100m 이내'
-                      : '근무지 100m 이상 떨어져 있어요',
+                  withinRange ? '근무지 100m 이내' : '근무지 100m 이상 떨어져 있어요',
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
-                    color: withinRange
-                        ? AppColors.success
-                        : AppColors.warning,
+                    color: withinRange ? AppColors.success : AppColors.warning,
                   ),
                 ),
               ),
@@ -1095,8 +1075,7 @@ class _GpsCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             '현재 위치 → 근무지: ${distanceMeters.toStringAsFixed(1)}m',
-            style: const TextStyle(
-                fontSize: 12, color: AppColors.textMuted),
+            style: const TextStyle(fontSize: 12, color: AppColors.textMuted),
           ),
           const SizedBox(height: 12),
           ClipRRect(
@@ -1156,9 +1135,7 @@ class _ActionTile extends StatelessWidget {
             const SizedBox(height: 4),
             Text(label,
                 style: TextStyle(
-                    fontSize: 11,
-                    color: color,
-                    fontWeight: FontWeight.w700)),
+                    fontSize: 11, color: color, fontWeight: FontWeight.w700)),
           ],
         ),
       ),
@@ -1242,8 +1219,7 @@ class _TimeCard extends StatelessWidget {
               ],
             ),
           ),
-          if (filled)
-            const Icon(Icons.check_circle, color: AppColors.success),
+          if (filled) const Icon(Icons.check_circle, color: AppColors.success),
         ],
       ),
     );
@@ -1281,8 +1257,7 @@ class _DoneCard extends StatelessWidget {
               SizedBox(width: 8),
               Text('근무 완료',
                   style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      color: Color(0xFF1F8E48))),
+                      fontWeight: FontWeight.w800, color: Color(0xFF1F8E48))),
             ],
           ),
           const SizedBox(height: 12),
@@ -1321,8 +1296,7 @@ class _DoneCard extends StatelessWidget {
       child: Row(
         children: [
           Text(k,
-              style: const TextStyle(
-                  fontSize: 12, color: AppColors.textMuted)),
+              style: const TextStyle(fontSize: 12, color: AppColors.textMuted)),
           const Spacer(),
           Text(v,
               style: TextStyle(

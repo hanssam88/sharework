@@ -8,8 +8,7 @@ class PermissionCenterScreen extends StatefulWidget {
   const PermissionCenterScreen({super.key});
 
   @override
-  State<PermissionCenterScreen> createState() =>
-      _PermissionCenterScreenState();
+  State<PermissionCenterScreen> createState() => _PermissionCenterScreenState();
 }
 
 class _PermissionCenterScreenState extends State<PermissionCenterScreen> {
@@ -64,8 +63,7 @@ class _PermissionCenterScreenState extends State<PermissionCenterScreen> {
         context: context,
         builder: (_) => AlertDialog(
           title: Text('${k.label} 권한 끄기'),
-          content: const Text(
-              '권한을 끄려면 시스템 설정으로 이동해야 해요. 지금 이동할까요?'),
+          content: const Text('권한을 끄려면 시스템 설정으로 이동해야 해요. 지금 이동할까요?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
@@ -106,7 +104,8 @@ class _PermissionCenterScreenState extends State<PermissionCenterScreen> {
           Row(
             children: [
               Container(
-                width: 40, height: 40,
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
                   color: AppColors.brandSoft,
                   borderRadius: BorderRadius.circular(10),
@@ -128,8 +127,7 @@ class _PermissionCenterScreenState extends State<PermissionCenterScreen> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: color.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(6),
@@ -137,9 +135,7 @@ class _PermissionCenterScreenState extends State<PermissionCenterScreen> {
                 child: Text(
                   s.label,
                   style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w800,
-                      color: color),
+                      fontSize: 11, fontWeight: FontWeight.w800, color: color),
                 ),
               ),
             ],
@@ -149,8 +145,7 @@ class _PermissionCenterScreenState extends State<PermissionCenterScreen> {
             children: [
               if (k == PermissionKind.location &&
                   PermissionStore.I.manualAddress != null) ...[
-                const Icon(Icons.place,
-                    size: 14, color: AppColors.textMuted),
+                const Icon(Icons.place, size: 14, color: AppColors.textMuted),
                 const SizedBox(width: 4),
                 Expanded(
                   child: Text(
@@ -166,8 +161,8 @@ class _PermissionCenterScreenState extends State<PermissionCenterScreen> {
                 const SizedBox(width: 4),
                 const Expanded(
                   child: Text('이메일로 대체 수신',
-                      style: TextStyle(
-                          fontSize: 11, color: AppColors.textMuted)),
+                      style:
+                          TextStyle(fontSize: 11, color: AppColors.textMuted)),
                 ),
               ] else
                 const Spacer(),
@@ -202,8 +197,7 @@ class _PermissionCenterScreenState extends State<PermissionCenterScreen> {
             ),
             child: Row(
               children: [
-                const Icon(Icons.shield,
-                    color: AppColors.brandDark),
+                const Icon(Icons.shield, color: AppColors.brandDark),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Column(
@@ -244,14 +238,12 @@ class _PermissionCenterScreenState extends State<PermissionCenterScreen> {
             ),
             child: const Row(
               children: [
-                Icon(Icons.info_outline,
-                    size: 16, color: AppColors.textMuted),
+                Icon(Icons.info_outline, size: 16, color: AppColors.textMuted),
                 SizedBox(width: 6),
                 Expanded(
                   child: Text(
                     '거부 후 다시 허용하려면 시스템 설정에서 직접 변경해야 합니다.',
-                    style: TextStyle(
-                        fontSize: 11, color: AppColors.textMuted),
+                    style: TextStyle(fontSize: 11, color: AppColors.textMuted),
                   ),
                 ),
               ],

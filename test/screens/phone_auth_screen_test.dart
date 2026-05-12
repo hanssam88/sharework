@@ -47,7 +47,8 @@ void main() {
       _buildTestApp(PhoneAuthScreen(authRepository: repo)),
     );
 
-    await tester.enterText(find.byKey(const Key('phone-field')), '+821012345678');
+    await tester.enterText(
+        find.byKey(const Key('phone-field')), '+821012345678');
     await tester.tap(find.byKey(const Key('send-otp-button')));
     await tester.pump();
 
@@ -69,7 +70,8 @@ void main() {
     );
 
     // Send OTP first
-    await tester.enterText(find.byKey(const Key('phone-field')), '+821012345678');
+    await tester.enterText(
+        find.byKey(const Key('phone-field')), '+821012345678');
     await tester.tap(find.byKey(const Key('send-otp-button')));
     await tester.pump();
 
@@ -91,7 +93,8 @@ void main() {
     );
 
     // Send OTP first
-    await tester.enterText(find.byKey(const Key('phone-field')), '+821012345678');
+    await tester.enterText(
+        find.byKey(const Key('phone-field')), '+821012345678');
     await tester.tap(find.byKey(const Key('send-otp-button')));
     await tester.pump();
 

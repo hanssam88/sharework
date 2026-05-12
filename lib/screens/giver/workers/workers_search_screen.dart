@@ -31,7 +31,8 @@ class _WorkersSearchScreenState extends State<WorkersSearchScreen> {
   ];
 
   List<AppUser> get _filtered {
-    var items = Dummy.workers.where((u) => u.appType == AppType.worker).toList();
+    var items =
+        Dummy.workers.where((u) => u.appType == AppType.worker).toList();
     if (_keyword.isNotEmpty) {
       items = items
           .where((u) =>
@@ -75,11 +76,10 @@ class _WorkersSearchScreenState extends State<WorkersSearchScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text('워커 필터',
-                    style: TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 16),
-                const Text('태그',
-                    style: TextStyle(fontWeight: FontWeight.w700)),
+                const Text('태그', style: TextStyle(fontWeight: FontWeight.w700)),
                 const SizedBox(height: 8),
                 Wrap(
                   spacing: 8,
@@ -160,8 +160,9 @@ class _WorkersSearchScreenState extends State<WorkersSearchScreen> {
   @override
   Widget build(BuildContext context) {
     final results = _filtered;
-    final filterCount =
-        _tagFilters.length + (_verifiedOnly ? 1 : 0) + (_minRating > 4.0 ? 1 : 0);
+    final filterCount = _tagFilters.length +
+        (_verifiedOnly ? 1 : 0) +
+        (_minRating > 4.0 ? 1 : 0);
     return Scaffold(
       appBar: AppBar(title: const Text('워커 찾기')),
       body: Column(
@@ -175,8 +176,8 @@ class _WorkersSearchScreenState extends State<WorkersSearchScreen> {
                   child: TextField(
                     decoration: const InputDecoration(
                       hintText: '이름·태그·소개로 검색',
-                      prefixIcon: Icon(Icons.search,
-                          color: AppColors.textMuted),
+                      prefixIcon:
+                          Icon(Icons.search, color: AppColors.textMuted),
                     ),
                     onChanged: (v) => setState(() => _keyword = v),
                   ),
@@ -199,10 +200,8 @@ class _WorkersSearchScreenState extends State<WorkersSearchScreen> {
                 : ListView.separated(
                     padding: const EdgeInsets.all(16),
                     itemCount: results.length,
-                    separatorBuilder: (_, __) =>
-                        const SizedBox(height: 10),
-                    itemBuilder: (_, i) =>
-                        _WorkerCard(u: results[i]),
+                    separatorBuilder: (_, __) => const SizedBox(height: 10),
+                    itemBuilder: (_, i) => _WorkerCard(u: results[i]),
                   ),
           ),
         ],
@@ -273,8 +272,7 @@ class _WorkerCard extends StatelessWidget {
                 const CircleAvatar(
                   radius: 24,
                   backgroundColor: AppColors.brandSoft,
-                  child:
-                      Icon(Icons.person, color: AppColors.brandDark),
+                  child: Icon(Icons.person, color: AppColors.brandDark),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -285,8 +283,7 @@ class _WorkerCard extends StatelessWidget {
                         children: [
                           Text(u.name,
                               style: const TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 15)),
+                                  fontWeight: FontWeight.w800, fontSize: 15)),
                           if (u.identityVerified) ...[
                             const SizedBox(width: 4),
                             const Icon(Icons.verified,
@@ -303,8 +300,7 @@ class _WorkerCard extends StatelessWidget {
                           Text(
                             '${u.rating} · 리뷰 ${u.reviewCount}',
                             style: const TextStyle(
-                                fontSize: 12,
-                                color: AppColors.textMuted),
+                                fontSize: 12, color: AppColors.textMuted),
                           ),
                         ],
                       ),
@@ -314,8 +310,7 @@ class _WorkerCard extends StatelessWidget {
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(
                     minimumSize: const Size(0, 36),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
                   ),
                   onPressed: () => context.push('/giver/workers/${u.id}'),
                   child: const Text('스카웃'),
@@ -327,8 +322,7 @@ class _WorkerCard extends StatelessWidget {
               Wrap(
                 spacing: 6,
                 runSpacing: 6,
-                children:
-                    u.tags.map((t) => TagChip('#$t')).toList(),
+                children: u.tags.map((t) => TagChip('#$t')).toList(),
               ),
             ],
             if (u.introduction.isNotEmpty) ...[

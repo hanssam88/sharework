@@ -46,10 +46,7 @@ extension JobRepositoryM2 on JobRepository {
       queryParameters: {if (status != null) 'status': status},
     );
     final items = ((res.data as Map)['data'] as Map)['items'] as List;
-    return items
-        .cast<Map<String, Object?>>()
-        .map(Job.fromJson)
-        .toList();
+    return items.cast<Map<String, Object?>>().map(Job.fromJson).toList();
   }
 
   Future<Job> createJob({
@@ -163,9 +160,6 @@ extension JobRepositoryM2 on JobRepository {
       data: {'order': order},
     );
     final items = (res.data as Map)['data'] as List;
-    return items
-        .cast<Map<String, Object?>>()
-        .map(JobPhoto.fromJson)
-        .toList();
+    return items.cast<Map<String, Object?>>().map(JobPhoto.fromJson).toList();
   }
 }

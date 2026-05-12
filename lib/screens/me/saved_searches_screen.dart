@@ -120,8 +120,8 @@ class _SearchCard extends StatelessWidget {
                 itemBuilder: (_) => const [
                   PopupMenuItem(
                     value: 'remove',
-                    child: Text('삭제',
-                        style: TextStyle(color: AppColors.danger)),
+                    child:
+                        Text('삭제', style: TextStyle(color: AppColors.danger)),
                   ),
                 ],
               ),
@@ -145,9 +145,7 @@ class _SearchCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            search.pushEnabled
-                ? '새 공고가 등록되면 푸시 알림으로 알려드려요'
-                : '알림이 일시정지되었어요',
+            search.pushEnabled ? '새 공고가 등록되면 푸시 알림으로 알려드려요' : '알림이 일시정지되었어요',
             style: TextStyle(
               fontSize: 11,
               color: search.pushEnabled

@@ -19,9 +19,7 @@ class IdentityStatusScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: verified
-                  ? AppColors.brandSoft
-                  : const Color(0xFFFFF6E5),
+              color: verified ? AppColors.brandSoft : const Color(0xFFFFF6E5),
               borderRadius: BorderRadius.circular(14),
             ),
             child: Column(
@@ -125,8 +123,7 @@ class _Card extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(title,
-              style: const TextStyle(
-                  fontSize: 13, color: AppColors.textMuted)),
+              style: const TextStyle(fontSize: 13, color: AppColors.textMuted)),
           const SizedBox(height: 10),
           ...children,
         ],
@@ -149,13 +146,13 @@ class _Row extends StatelessWidget {
           SizedBox(
             width: 100,
             child: Text(label,
-                style: const TextStyle(
-                    fontSize: 13, color: AppColors.textMuted)),
+                style:
+                    const TextStyle(fontSize: 13, color: AppColors.textMuted)),
           ),
           Expanded(
             child: Text(value,
-                style: const TextStyle(
-                    fontSize: 14, fontWeight: FontWeight.w700)),
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
           ),
         ],
       ),

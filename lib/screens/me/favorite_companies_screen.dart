@@ -75,8 +75,7 @@ class _FavoriteCompaniesScreenState extends State<FavoriteCompaniesScreen> {
                             const SizedBox(width: 12),
                             Expanded(
                               child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(c.name,
                                       style: const TextStyle(
@@ -106,8 +105,7 @@ class _FavoriteCompaniesScreenState extends State<FavoriteCompaniesScreen> {
                             Text(
                               '${c.rating} · 리뷰 ${c.reviewCount}',
                               style: const TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.textMuted),
+                                  fontSize: 12, color: AppColors.textMuted),
                             ),
                             const SizedBox(width: 8),
                             Container(
@@ -129,8 +127,7 @@ class _FavoriteCompaniesScreenState extends State<FavoriteCompaniesScreen> {
                             Text(
                               fmtRelative(c.addedAt),
                               style: const TextStyle(
-                                  fontSize: 11,
-                                  color: AppColors.textFaint),
+                                  fontSize: 11, color: AppColors.textFaint),
                             ),
                           ],
                         ),
@@ -139,8 +136,7 @@ class _FavoriteCompaniesScreenState extends State<FavoriteCompaniesScreen> {
                           Wrap(
                             spacing: 6,
                             runSpacing: 6,
-                            children:
-                                c.badges.map((b) => TagChip(b)).toList(),
+                            children: c.badges.map((b) => TagChip(b)).toList(),
                           ),
                         ],
                       ],

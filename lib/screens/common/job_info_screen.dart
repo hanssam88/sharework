@@ -45,8 +45,7 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                 children: [
                   const Text('연결이 불안정합니다'),
                   const SizedBox(height: 8),
-                  ElevatedButton(
-                      onPressed: _retry, child: const Text('다시 시도')),
+                  ElevatedButton(onPressed: _retry, child: const Text('다시 시도')),
                 ],
               ),
             );
@@ -65,13 +64,12 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                         style: Theme.of(context).textTheme.titleLarge),
                     const SizedBox(height: 8),
                     Text('${job.wageWon}원 · ${job.locationAddress}',
-                        style: const TextStyle(
-                            fontSize: 14, color: Colors.grey)),
+                        style:
+                            const TextStyle(fontSize: 14, color: Colors.grey)),
                     const SizedBox(height: 16),
                     if (job.giver != null)
                       Text('공고 등록자: ${job.giver!.name}',
-                          style:
-                              const TextStyle(fontWeight: FontWeight.w600)),
+                          style: const TextStyle(fontWeight: FontWeight.w600)),
                     if (job.scheduleText != null) ...[
                       const SizedBox(height: 8),
                       Text('일정: ${job.scheduleText}'),

@@ -229,13 +229,16 @@ void main() {
       expect(adapter.lastRequest?.headers['authorization'], isNull);
     });
 
-    test('plain has no custom interceptors (no AuthInterceptor, no ErrorInterceptor)',
+    test(
+        'plain has no custom interceptors (no AuthInterceptor, no ErrorInterceptor)',
         () {
       // Dio may have 1 built-in interceptor; we verify no _AuthInterceptor type
       // and no _ErrorInterceptor. The structural invariant is zero *custom* interceptors.
       final interceptors = ApiClient.instance.plain.interceptors;
-      final hasAuth = interceptors.any((i) => i.runtimeType.toString().contains('Auth'));
-      final hasError = interceptors.any((i) => i.runtimeType.toString().contains('Error'));
+      final hasAuth =
+          interceptors.any((i) => i.runtimeType.toString().contains('Auth'));
+      final hasError =
+          interceptors.any((i) => i.runtimeType.toString().contains('Error'));
       expect(hasAuth, isFalse, reason: 'plain must not have AuthInterceptor');
       expect(hasError, isFalse, reason: 'plain must not have ErrorInterceptor');
     });
@@ -251,9 +254,12 @@ void main() {
       expect(parseErrorCode('INTERNAL'), ApiErrorCode.internal);
       expect(parseErrorCode('STORAGE_FAIL'), ApiErrorCode.storageFail);
       expect(parseErrorCode('RATE_LIMITED'), ApiErrorCode.rateLimited);
-      expect(parseErrorCode('PHOTO_LIMIT_EXCEEDED'), ApiErrorCode.photoLimitExceeded);
-      expect(parseErrorCode('PHOTO_FILE_INVALID'), ApiErrorCode.photoFileInvalid);
-      expect(parseErrorCode('PHOTO_NOT_UPLOADED'), ApiErrorCode.photoNotUploaded);
+      expect(parseErrorCode('PHOTO_LIMIT_EXCEEDED'),
+          ApiErrorCode.photoLimitExceeded);
+      expect(
+          parseErrorCode('PHOTO_FILE_INVALID'), ApiErrorCode.photoFileInvalid);
+      expect(
+          parseErrorCode('PHOTO_NOT_UPLOADED'), ApiErrorCode.photoNotUploaded);
       expect(parseErrorCode('JOB_STATE_INVALID'), ApiErrorCode.jobStateInvalid);
       expect(parseErrorCode(null), ApiErrorCode.unknown);
       expect(parseErrorCode('MADE_UP'), ApiErrorCode.unknown);

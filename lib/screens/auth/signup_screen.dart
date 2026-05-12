@@ -126,8 +126,8 @@ class _SignupScreenState extends State<SignupScreen> {
             const SizedBox(height: 8),
             TextButton(
               onPressed: (_agreeTerms && _agreePrivacy)
-                  ? () => context
-                      .go(_appType == 'worker' ? '/worker' : '/giver')
+                  ? () =>
+                      context.go(_appType == 'worker' ? '/worker' : '/giver')
                   : null,
               child: const Text('나중에 인증하기'),
             ),

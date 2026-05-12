@@ -78,7 +78,9 @@ class _LocationPrimingScreenState extends State<LocationPrimingScreen> {
       ),
       builder: (sheetCtx) => Padding(
         padding: EdgeInsets.only(
-          left: 20, right: 20, top: 20,
+          left: 20,
+          right: 20,
+          top: 20,
           bottom: MediaQuery.of(sheetCtx).viewInsets.bottom + 20,
         ),
         child: Column(
@@ -88,19 +90,20 @@ class _LocationPrimingScreenState extends State<LocationPrimingScreen> {
             Row(
               children: [
                 Container(
-                  width: 40, height: 40,
+                  width: 40,
+                  height: 40,
                   decoration: const BoxDecoration(
                     color: Color(0xFFFFE5E5),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.location_off,
-                      color: AppColors.danger),
+                  child:
+                      const Icon(Icons.location_off, color: AppColors.danger),
                 ),
                 const SizedBox(width: 12),
                 const Expanded(
                   child: Text('위치 권한 없이도 사용할 수 있어요',
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w800)),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 ),
               ],
             ),
@@ -155,7 +158,8 @@ class _LocationPrimingScreenState extends State<LocationPrimingScreen> {
                       PermissionStore.I.manualAddress = ctrl.text.trim();
                       Navigator.pop(sheetCtx);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('${ctrl.text.trim()} 기준으로 보여드릴게요')),
+                        SnackBar(
+                            content: Text('${ctrl.text.trim()} 기준으로 보여드릴게요')),
                       );
                       _close(granted: false);
                     },
@@ -255,8 +259,8 @@ class _LocationPrimingScreenState extends State<LocationPrimingScreen> {
                     Expanded(
                       child: Text(
                         '위치 정보는 매칭에만 사용되고 다른 사용자에게 공개되지 않아요. 언제든 끌 수 있습니다.',
-                        style: TextStyle(
-                            fontSize: 11, color: AppColors.textMuted),
+                        style:
+                            TextStyle(fontSize: 11, color: AppColors.textMuted),
                       ),
                     ),
                   ],
@@ -270,8 +274,8 @@ class _LocationPrimingScreenState extends State<LocationPrimingScreen> {
                   minimumSize: const Size(double.infinity, 52),
                 ),
                 child: const Text('지금 허용하기',
-                    style: TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
               ),
               const SizedBox(height: 4),
               Center(
@@ -306,7 +310,8 @@ class _Benefit extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 36, height: 36,
+            width: 36,
+            height: 36,
             decoration: BoxDecoration(
               color: AppColors.brandSoft,
               borderRadius: BorderRadius.circular(10),

@@ -80,8 +80,8 @@ class _ScoutCard extends StatelessWidget {
               const SizedBox(height: 10),
               if (scout.jobTitle != null)
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10, vertical: 6),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
                     color: AppColors.chipBg,
                     borderRadius: BorderRadius.circular(6),

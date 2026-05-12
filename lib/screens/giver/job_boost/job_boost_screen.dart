@@ -66,7 +66,8 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
             children: [
               Center(
                 child: Container(
-                  width: 36, height: 4,
+                  width: 36,
+                  height: 4,
                   decoration: BoxDecoration(
                     color: AppColors.divider,
                     borderRadius: BorderRadius.circular(2),
@@ -75,8 +76,7 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
               ),
               const SizedBox(height: 12),
               const Text('적용 전·후 미리보기',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 16),
               const Text('일반 노출',
                   style: TextStyle(
@@ -165,7 +165,8 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
             children: [
               Center(
                 child: Container(
-                  width: 36, height: 4,
+                  width: 36,
+                  height: 4,
                   decoration: BoxDecoration(
                     color: AppColors.divider,
                     borderRadius: BorderRadius.circular(2),
@@ -174,8 +175,7 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
               ),
               const SizedBox(height: 12),
               const Text('상품 비교',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 12),
               Expanded(
                 child: ListView(
@@ -220,8 +220,8 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
                       ),
                       child: const Text(
                         '예상 효과는 동일 카테고리·시간대 평균 데이터를 바탕으로 산정한 추정치입니다.',
-                        style: TextStyle(
-                            fontSize: 11, color: AppColors.textMuted),
+                        style:
+                            TextStyle(fontSize: 11, color: AppColors.textMuted),
                       ),
                     ),
                   ],
@@ -264,20 +264,18 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('A/B 테스트',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 4),
               const Text('두 상품을 동시에 진행해 더 효과적인 쪽에 자동으로 예산을 몰아드려요',
-                  style: TextStyle(
-                      fontSize: 12, color: AppColors.textMuted)),
+                  style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
               const SizedBox(height: 16),
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
                 value: _abTest,
                 activeColor: AppColors.brandDark,
                 title: const Text('A/B 테스트 사용',
-                    style: TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w700)),
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
                 onChanged: (v) {
                   innerSet(() => _abTest = v);
                   setState(() => _abTest = v);
@@ -296,8 +294,7 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
                     children: [
                       Text('A안: ${_kindLabel(_selected ?? BoostKind.topPin)}',
                           style: const TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w800)),
+                              fontSize: 13, fontWeight: FontWeight.w800)),
                       const SizedBox(height: 8),
                       const Text('B안 선택',
                           style: TextStyle(
@@ -329,8 +326,7 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
                             child: Text(
                               '24시간 후 자동으로 우승안에 잔여 예산이 집중됩니다.',
                               style: TextStyle(
-                                  fontSize: 11,
-                                  color: AppColors.textMuted),
+                                  fontSize: 11, color: AppColors.textMuted),
                             ),
                           ),
                         ],
@@ -369,8 +365,7 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('환불·취소 정책',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 12),
               for (final p in const [
                 ['적용 전', '결제 후 24시간 이내 적용 전이라면 100% 환불'],
@@ -399,8 +394,7 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(p[1],
-                            style: const TextStyle(
-                                fontSize: 13, height: 1.5)),
+                            style: const TextStyle(fontSize: 13, height: 1.5)),
                       ),
                     ],
                   ),
@@ -424,8 +418,8 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
   void _showPaymentSheet() {
     final methods = Dummy.paymentMethods;
     if (_payMethod == null && methods.isNotEmpty) {
-      _payMethod = methods.firstWhere((m) => m.isDefault,
-          orElse: () => methods.first);
+      _payMethod =
+          methods.firstWhere((m) => m.isDefault, orElse: () => methods.first);
     }
     showModalBottomSheet(
       context: context,
@@ -442,19 +436,17 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('결제수단 선택',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 12),
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
                 value: _useEscrow,
                 activeColor: AppColors.brandDark,
                 title: const Text('에스크로 잔액 사용',
-                    style: TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w700)),
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
                 subtitle: const Text('현재 잔액 320,000원',
-                    style: TextStyle(
-                        fontSize: 12, color: AppColors.textMuted)),
+                    style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
                 onChanged: (v) {
                   innerSet(() => _useEscrow = v);
                   setState(() => _useEscrow = v);
@@ -509,8 +501,8 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
 
   void _purchase() {
     final p = Dummy.boostProducts.firstWhere((b) => b.kind == _selected);
-    final total = p.price * _durationMultiplier *
-        (_abTest && _abVariant != null ? 2 : 1);
+    final total =
+        p.price * _durationMultiplier * (_abTest && _abVariant != null ? 2 : 1);
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
@@ -519,12 +511,11 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(p.name,
-                style: const TextStyle(fontWeight: FontWeight.w800)),
+            Text(p.name, style: const TextStyle(fontWeight: FontWeight.w800)),
             const SizedBox(height: 4),
             Text(p.desc,
-                style: const TextStyle(
-                    fontSize: 12, color: AppColors.textMuted)),
+                style:
+                    const TextStyle(fontSize: 12, color: AppColors.textMuted)),
             const SizedBox(height: 12),
             _PayRow(label: '단가', value: fmtMoney(p.price)),
             _PayRow(label: '회차', value: '× $_durationMultiplier'),
@@ -534,11 +525,12 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
             _PayRow(label: '결제 금액', value: fmtMoney(total), big: true),
             const SizedBox(height: 8),
             Text(
-              _useEscrow ? '에스크로 잔액에서 차감' :
-              _payMethod != null ? '${_payMethod!.label} (${_payMethod!.maskedNumber})' :
-              '결제수단 미선택',
-              style: const TextStyle(
-                  fontSize: 11, color: AppColors.textMuted),
+              _useEscrow
+                  ? '에스크로 잔액에서 차감'
+                  : _payMethod != null
+                      ? '${_payMethod!.label} (${_payMethod!.maskedNumber})'
+                      : '결제수단 미선택',
+              style: const TextStyle(fontSize: 11, color: AppColors.textMuted),
             ),
           ],
         ),
@@ -604,16 +596,14 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.rocket_launch,
-                        color: AppColors.brandDark),
+                    const Icon(Icons.rocket_launch, color: AppColors.brandDark),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         job.title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w800),
+                        style: const TextStyle(fontWeight: FontWeight.w800),
                       ),
                     ),
                     TextButton.icon(
@@ -626,16 +616,14 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
                 const SizedBox(height: 6),
                 const Text(
                   '노출을 빠르게 끌어올려 매칭 시간을 단축할 수 있어요.',
-                  style: TextStyle(
-                      fontSize: 12, color: AppColors.textMuted),
+                  style: TextStyle(fontSize: 12, color: AppColors.textMuted),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 16),
           const Text('1. 상품 선택',
-              style: TextStyle(
-                  fontSize: 14, fontWeight: FontWeight.w800)),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
           const SizedBox(height: 8),
           ...products.map((p) {
             final on = _selected == p.kind;
@@ -660,13 +648,14 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
                   child: Row(
                     children: [
                       Container(
-                        width: 44, height: 44,
+                        width: 44,
+                        height: 44,
                         decoration: BoxDecoration(
                           color: AppColors.brandSoft,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Icon(_iconFor(p.kind),
-                            color: AppColors.brandDark),
+                        child:
+                            Icon(_iconFor(p.kind), color: AppColors.brandDark),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
@@ -698,8 +687,7 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
                             const SizedBox(height: 2),
                             Text(p.desc,
                                 style: const TextStyle(
-                                    fontSize: 12,
-                                    color: AppColors.textMuted)),
+                                    fontSize: 12, color: AppColors.textMuted)),
                             const SizedBox(height: 4),
                             Text(
                               '예상 노출 ${_expectedImpressions(p.kind)}',
@@ -722,9 +710,7 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
                         on
                             ? Icons.radio_button_checked
                             : Icons.radio_button_unchecked,
-                        color: on
-                            ? AppColors.brandDark
-                            : AppColors.textFaint,
+                        color: on ? AppColors.brandDark : AppColors.textFaint,
                       ),
                     ],
                   ),
@@ -734,8 +720,7 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
           }),
           const SizedBox(height: 16),
           const Text('2. 회차 (반복)',
-              style: TextStyle(
-                  fontSize: 14, fontWeight: FontWeight.w800)),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
           const SizedBox(height: 8),
           Wrap(
             spacing: 6,
@@ -756,8 +741,7 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
             const SizedBox(height: 6),
             Text(
               '총 ${_durationLabel(selectedProduct.duration * _durationMultiplier)} 동안 적용',
-              style: const TextStyle(
-                  fontSize: 12, color: AppColors.textMuted),
+              style: const TextStyle(fontSize: 12, color: AppColors.textMuted),
             ),
           ],
           const SizedBox(height: 16),
@@ -771,17 +755,14 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
                 color: _abTest ? AppColors.brandSoft : AppColors.bg,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: _abTest
-                      ? AppColors.brandDark
-                      : AppColors.divider,
+                  color: _abTest ? AppColors.brandDark : AppColors.divider,
                 ),
               ),
               child: Row(
                 children: [
                   Icon(Icons.science_outlined,
-                      color: _abTest
-                          ? AppColors.brandDark
-                          : AppColors.textMuted),
+                      color:
+                          _abTest ? AppColors.brandDark : AppColors.textMuted),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -789,8 +770,7 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
                       children: [
                         Text(_abTest ? 'A/B 테스트 ON' : 'A/B 테스트 (선택)',
                             style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w800)),
+                                fontSize: 14, fontWeight: FontWeight.w800)),
                         Text(
                           _abTest && _abVariant != null
                               ? 'A: ${_kindLabel(_selected ?? BoostKind.topPin)} vs B: ${_kindLabel(_abVariant!)}'
@@ -801,8 +781,7 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
                       ],
                     ),
                   ),
-                  const Icon(Icons.chevron_right,
-                      color: AppColors.textMuted),
+                  const Icon(Icons.chevron_right, color: AppColors.textMuted),
                 ],
               ),
             ),
@@ -821,8 +800,7 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.payment,
-                      color: AppColors.brandDark),
+                  const Icon(Icons.payment, color: AppColors.brandDark),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -830,8 +808,7 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
                       children: [
                         const Text('결제수단',
                             style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w800)),
+                                fontSize: 14, fontWeight: FontWeight.w800)),
                         Text(
                           _useEscrow
                               ? '에스크로 잔액 (320,000원)'
@@ -844,8 +821,7 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
                       ],
                     ),
                   ),
-                  const Icon(Icons.chevron_right,
-                      color: AppColors.textMuted),
+                  const Icon(Icons.chevron_right, color: AppColors.textMuted),
                 ],
               ),
             ),
@@ -865,8 +841,7 @@ class _JobBoostScreenState extends State<JobBoostScreen> {
                 const Expanded(
                   child: Text(
                     '결제는 등록된 결제수단(또는 에스크로 잔액)에서 차감됩니다.',
-                    style: TextStyle(
-                        fontSize: 11, color: AppColors.textMuted),
+                    style: TextStyle(fontSize: 11, color: AppColors.textMuted),
                   ),
                 ),
                 TextButton(
@@ -907,9 +882,7 @@ class _StepIndicator extends StatelessWidget {
           return Expanded(
             child: Container(
               height: 2,
-              color: i ~/ 2 < active
-                  ? AppColors.brandDark
-                  : AppColors.divider,
+              color: i ~/ 2 < active ? AppColors.brandDark : AppColors.divider,
             ),
           );
         }
@@ -918,7 +891,8 @@ class _StepIndicator extends StatelessWidget {
         return Column(
           children: [
             Container(
-              width: 24, height: 24,
+              width: 24,
+              height: 24,
               decoration: BoxDecoration(
                 color: idx < active
                     ? AppColors.success
@@ -927,8 +901,7 @@ class _StepIndicator extends StatelessWidget {
               ),
               alignment: Alignment.center,
               child: idx < active
-                  ? const Icon(Icons.check,
-                      color: Colors.white, size: 14)
+                  ? const Icon(Icons.check, color: Colors.white, size: 14)
                   : Text('${idx + 1}',
                       style: TextStyle(
                           color: on ? Colors.white : AppColors.textFaint,
@@ -990,8 +963,7 @@ class _CompareTableRow extends StatelessWidget {
               child: Row(
                 children: [
                   if (icon != null) ...[
-                    Icon(icon,
-                        size: 14, color: AppColors.brandDark),
+                    Icon(icon, size: 14, color: AppColors.brandDark),
                     const SizedBox(width: 4),
                   ],
                   Expanded(child: Text(cells[0], style: style)),
@@ -1036,9 +1008,8 @@ class _MockJobCard extends StatelessWidget {
         color: pinned ? AppColors.brandSoft : Colors.white,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: highlighted || pinned
-              ? AppColors.brandDark
-              : AppColors.divider,
+          color:
+              highlighted || pinned ? AppColors.brandDark : AppColors.divider,
           width: highlighted || pinned ? 1.5 : 1,
         ),
       ),
@@ -1047,11 +1018,11 @@ class _MockJobCard extends StatelessWidget {
           if (pinned)
             const Padding(
               padding: EdgeInsets.only(right: 6),
-              child: Icon(Icons.push_pin,
-                  size: 14, color: AppColors.brandDark),
+              child: Icon(Icons.push_pin, size: 14, color: AppColors.brandDark),
             ),
           Container(
-            width: 36, height: 36,
+            width: 36,
+            height: 36,
             decoration: BoxDecoration(
               color: AppColors.chipBg,
               borderRadius: BorderRadius.circular(8),
@@ -1079,8 +1050,7 @@ class _MockJobCard extends StatelessWidget {
           ),
           if (highlighted)
             Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 6, vertical: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
                 color: AppColors.brandDark,
                 borderRadius: BorderRadius.circular(4),

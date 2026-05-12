@@ -23,10 +23,8 @@ class _StubAdapter implements HttpClientAdapter {
   void close({bool force = false}) {}
 }
 
-const _sampleCategory =
-    '{"id":"c1","slug":"cafe","name":"카페","emoji":"☕"}';
-const _sampleCategoryNoEmoji =
-    '{"id":"c2","slug":"retail","name":"마트"}';
+const _sampleCategory = '{"id":"c1","slug":"cafe","name":"카페","emoji":"☕"}';
+const _sampleCategoryNoEmoji = '{"id":"c2","slug":"retail","name":"마트"}';
 
 void main() {
   group('CategoryRepository', () {

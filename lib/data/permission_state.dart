@@ -21,8 +21,7 @@ extension PermissionStatusX on PermissionStatus {
   }
 
   bool get isGranted =>
-      this == PermissionStatus.granted ||
-      this == PermissionStatus.partial;
+      this == PermissionStatus.granted || this == PermissionStatus.partial;
 
   bool get isDenied =>
       this == PermissionStatus.denied || this == PermissionStatus.denied2;

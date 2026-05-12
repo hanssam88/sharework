@@ -10,8 +10,7 @@ class NoticeListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = [...Dummy.notices]
-      ..sort((a, b) {
+    final items = [...Dummy.notices]..sort((a, b) {
         if (a.pinned != b.pinned) return a.pinned ? -1 : 1;
         return b.createdAt.compareTo(a.createdAt);
       });
@@ -29,22 +28,19 @@ class NoticeListScreen extends StatelessWidget {
               itemBuilder: (_, i) {
                 final n = items[i];
                 return ListTile(
-                  contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 6),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                   leading: Container(
                     width: 36,
                     height: 36,
                     decoration: BoxDecoration(
-                      color: n.pinned
-                          ? AppColors.brandSoft
-                          : AppColors.chipBg,
+                      color: n.pinned ? AppColors.brandSoft : AppColors.chipBg,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Icon(
                       n.pinned ? Icons.push_pin : Icons.campaign_outlined,
-                      color: n.pinned
-                          ? AppColors.brandDark
-                          : AppColors.textMuted,
+                      color:
+                          n.pinned ? AppColors.brandDark : AppColors.textMuted,
                       size: 20,
                     ),
                   ),

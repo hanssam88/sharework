@@ -147,9 +147,7 @@ class _CouponCard extends StatelessWidget {
               width: 96,
               padding: const EdgeInsets.symmetric(vertical: 18),
               decoration: BoxDecoration(
-                color: _isAvailable
-                    ? AppColors.brandSoft
-                    : AppColors.chipBg,
+                color: _isAvailable ? AppColors.brandSoft : AppColors.chipBg,
               ),
               alignment: Alignment.center,
               child: Column(
@@ -164,9 +162,7 @@ class _CouponCard extends StatelessWidget {
                       )),
                   const SizedBox(height: 2),
                   Text(
-                    c.minOrder == 0
-                        ? '최소 주문 없음'
-                        : '${fmtMoney(c.minOrder)} 이상',
+                    c.minOrder == 0 ? '최소 주문 없음' : '${fmtMoney(c.minOrder)} 이상',
                     style: const TextStyle(
                         fontSize: 10, color: AppColors.textMuted),
                   ),

@@ -67,16 +67,16 @@ class _ContractScreenState extends State<ContractScreen> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text('계약서 공유',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.email_outlined,
-                  color: AppColors.brandDark),
+              leading:
+                  const Icon(Icons.email_outlined, color: AppColors.brandDark),
               title: const Text('이메일로 받기'),
-              subtitle: const Text('가입 이메일로 PDF 발송',
-                  style: TextStyle(fontSize: 11)),
+              subtitle:
+                  const Text('가입 이메일로 PDF 발송', style: TextStyle(fontSize: 11)),
               onTap: () {
                 Navigator.pop(sheetCtx);
                 _snack('PDF가 이메일로 발송되었어요 (목업)');
@@ -128,8 +128,7 @@ class _ContractScreenState extends State<ContractScreen> {
             ListTile(
               leading: const Icon(Icons.edit_calendar_outlined),
               title: const Text('변경 요청 보내기'),
-              subtitle: const Text(
-                  '일정·임금·식대·교통비 등 협의가 필요한 항목 요청',
+              subtitle: const Text('일정·임금·식대·교통비 등 협의가 필요한 항목 요청',
                   style: TextStyle(fontSize: 11)),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -139,8 +138,8 @@ class _ContractScreenState extends State<ContractScreen> {
             ListTile(
               leading: const Icon(Icons.fingerprint),
               title: const Text('본인인증 다시 받기'),
-              subtitle: const Text('PASS / 카카오 / 지문',
-                  style: TextStyle(fontSize: 11)),
+              subtitle:
+                  const Text('PASS / 카카오 / 지문', style: TextStyle(fontSize: 11)),
               onTap: () {
                 Navigator.pop(sheetCtx);
                 _snack('본인인증 흐름 (목업)');
@@ -184,13 +183,12 @@ class _ContractScreenState extends State<ContractScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('계약 변경 요청',
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w800)),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                   const SizedBox(height: 4),
                   const Text(
                     '사장님께 변경 의견을 전달해요. 합의되면 새 계약서가 다시 발송돼요.',
-                    style: TextStyle(
-                        fontSize: 12, color: AppColors.textMuted),
+                    style: TextStyle(fontSize: 12, color: AppColors.textMuted),
                   ),
                   const SizedBox(height: 12),
                   Wrap(
@@ -222,8 +220,7 @@ class _ContractScreenState extends State<ContractScreen> {
                     controller: ctrl,
                     maxLines: 4,
                     decoration: InputDecoration(
-                      hintText:
-                          '예) "$topic"에 대해 어떤 조건으로 변경되면 좋을지 적어주세요',
+                      hintText: '예) "$topic"에 대해 어떤 조건으로 변경되면 좋을지 적어주세요',
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -310,9 +307,7 @@ class _ContractScreenState extends State<ContractScreen> {
                   ],
                 ),
                 const SizedBox(height: 10),
-                _highlight(
-                    Icons.payments_outlined,
-                    '임금',
+                _highlight(Icons.payments_outlined, '임금',
                     '${job.payType} ${fmtMoney(job.pay)} · ${job.sameDayPayment ? "당일지급" : "익일 정산"}'),
                 _highlight(
                   Icons.access_time,
@@ -406,15 +401,13 @@ class _ContractScreenState extends State<ContractScreen> {
                         '${i + 1}. ${c.title}',
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
-                          color: understood
-                              ? AppColors.brandDark
-                              : AppColors.text,
+                          color:
+                              understood ? AppColors.brandDark : AppColors.text,
                         ),
                       ),
                       children: [
                         Text(c.body,
-                            style:
-                                const TextStyle(fontSize: 13, height: 1.6)),
+                            style: const TextStyle(fontSize: 13, height: 1.6)),
                         const SizedBox(height: 8),
                         Align(
                           alignment: Alignment.centerRight,
@@ -470,8 +463,7 @@ class _ContractScreenState extends State<ContractScreen> {
                             const SizedBox(height: 2),
                             const Text('전자서명: ✓ 인증됨',
                                 style: TextStyle(
-                                    fontSize: 12,
-                                    color: AppColors.textMuted)),
+                                    fontSize: 12, color: AppColors.textMuted)),
                           ],
                         ),
                       ),
@@ -525,7 +517,8 @@ class _ContractScreenState extends State<ContractScreen> {
                       flex: 2,
                       child: FilledButton.icon(
                         onPressed: _allUnderstood
-                            ? () => context.push('/job/${widget.jobId}/contract/sign')
+                            ? () => context
+                                .push('/job/${widget.jobId}/contract/sign')
                             : null,
                         icon: const Icon(Icons.draw),
                         label: Text(_allUnderstood
@@ -558,8 +551,8 @@ class _ContractScreenState extends State<ContractScreen> {
           ),
           Expanded(
             child: Text(value,
-                style: const TextStyle(
-                    fontSize: 13, fontWeight: FontWeight.w800)),
+                style:
+                    const TextStyle(fontSize: 13, fontWeight: FontWeight.w800)),
           ),
         ],
       ),
@@ -649,13 +642,13 @@ class _Row extends StatelessWidget {
           SizedBox(
             width: 72,
             child: Text(label,
-                style: const TextStyle(
-                    fontSize: 13, color: AppColors.textMuted)),
+                style:
+                    const TextStyle(fontSize: 13, color: AppColors.textMuted)),
           ),
           Expanded(
             child: Text(value,
-                style: const TextStyle(
-                    fontSize: 14, fontWeight: FontWeight.w600)),
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
           ),
         ],
       ),

@@ -65,8 +65,7 @@ class PaymentHistoryScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(fmtMoney(p.amount),
-                          style:
-                              const TextStyle(fontWeight: FontWeight.w700)),
+                          style: const TextStyle(fontWeight: FontWeight.w700)),
                       const SizedBox(height: 4),
                       Container(
                         padding: const EdgeInsets.symmetric(

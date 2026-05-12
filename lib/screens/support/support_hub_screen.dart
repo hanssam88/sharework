@@ -106,22 +106,22 @@ class SupportHubScreen extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.book_outlined),
             title: const Text('이용가이드'),
-            trailing: const Icon(Icons.chevron_right,
-                color: AppColors.textFaint),
+            trailing:
+                const Icon(Icons.chevron_right, color: AppColors.textFaint),
             onTap: () => context.push('/guide'),
           ),
           ListTile(
             leading: const Icon(Icons.gavel_outlined),
             title: const Text('이용약관'),
-            trailing: const Icon(Icons.chevron_right,
-                color: AppColors.textFaint),
+            trailing:
+                const Icon(Icons.chevron_right, color: AppColors.textFaint),
             onTap: () => context.push('/terms'),
           ),
           ListTile(
             leading: const Icon(Icons.privacy_tip_outlined),
             title: const Text('개인정보 처리방침'),
-            trailing: const Icon(Icons.chevron_right,
-                color: AppColors.textFaint),
+            trailing:
+                const Icon(Icons.chevron_right, color: AppColors.textFaint),
             onTap: () => context.push('/privacy'),
           ),
         ],
@@ -168,13 +168,12 @@ class _ActionCard extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(label,
-                style: const TextStyle(
-                    fontSize: 14, fontWeight: FontWeight.w800)),
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
             const SizedBox(height: 2),
             Text(
               desc,
-              style: const TextStyle(
-                  fontSize: 12, color: AppColors.textMuted),
+              style: const TextStyle(fontSize: 12, color: AppColors.textMuted),
             ),
           ],
         ),

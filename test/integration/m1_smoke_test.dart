@@ -106,8 +106,7 @@ void main() {
 
       final dio = Dio()
         ..httpClientAdapter = _RouteMockAdapter({
-          '/api/jobs/j1':
-              '{"data":$_jobJson}',
+          '/api/jobs/j1': '{"data":$_jobJson}',
           '/api/jobs':
               '{"data":[$_jobJson],"page":{"total":1,"page":1,"limit":20}}',
           '/api/me': '{"data":$_profileJson}',
@@ -177,7 +176,8 @@ void main() {
       expect(
         find.byType(PageView),
         findsOneWidget,
-        reason: 'JobInfo must show PageView photo carousel when photos non-empty',
+        reason:
+            'JobInfo must show PageView photo carousel when photos non-empty',
       );
 
       // ------------------------------------------------------------------

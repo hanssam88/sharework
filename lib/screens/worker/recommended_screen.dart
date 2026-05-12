@@ -23,9 +23,7 @@ class RecommendedScreen extends StatelessWidget {
             prefs.preferredCategories.contains(j.category) ||
             prefs.preferredWorkTypes.contains(j.workType))
         .toList();
-    final nearby = allOpen
-        .where((j) => !byPreferred.contains(j))
-        .toList();
+    final nearby = allOpen.where((j) => !byPreferred.contains(j)).toList();
 
     return Scaffold(
       appBar: AppBar(title: const Text('추천 알바')),
@@ -128,8 +126,7 @@ class _Hero extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(20),
@@ -140,8 +137,7 @@ class _Hero extends StatelessWidget {
                   Icon(Icons.flash_on, color: Colors.white, size: 14),
                   SizedBox(width: 4),
                   Text('AI 매칭 v2.1',
-                      style:
-                          TextStyle(color: Colors.white, fontSize: 11)),
+                      style: TextStyle(color: Colors.white, fontSize: 11)),
                 ],
               ),
             ),
@@ -165,13 +161,13 @@ class _SectionHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(title,
-              style: const TextStyle(
-                  fontSize: 16, fontWeight: FontWeight.w800)),
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
           if (subtitle != null) ...[
             const SizedBox(height: 2),
             Text(subtitle!,
-                style: const TextStyle(
-                    fontSize: 11, color: AppColors.textMuted)),
+                style:
+                    const TextStyle(fontSize: 11, color: AppColors.textMuted)),
           ],
         ],
       ),
@@ -261,7 +257,8 @@ class _ScoutCard extends StatelessWidget {
                   child: FilledButton(
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('수락했습니다. 채팅으로 연결돼요. (목업)')),
+                        const SnackBar(
+                            content: Text('수락했습니다. 채팅으로 연결돼요. (목업)')),
                       );
                     },
                     child: const Text('수락하고 채팅'),

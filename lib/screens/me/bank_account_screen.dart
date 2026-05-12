@@ -102,13 +102,12 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('정산 계좌 등록',
-                      style: TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w800)),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
                   const SizedBox(height: 4),
                   const Text(
                     '본인 명의 계좌만 등록할 수 있어요. 등록 후 1원 송금으로 인증돼요.',
-                    style: TextStyle(
-                        fontSize: 12, color: AppColors.textMuted),
+                    style: TextStyle(fontSize: 12, color: AppColors.textMuted),
                   ),
                   const SizedBox(height: 16),
                   DropdownButtonFormField<String>(
@@ -116,8 +115,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
                     isExpanded: true,
                     decoration: const InputDecoration(hintText: '은행 선택'),
                     items: banks
-                        .map((b) =>
-                            DropdownMenuItem(value: b, child: Text(b)))
+                        .map((b) => DropdownMenuItem(value: b, child: Text(b)))
                         .toList(),
                     onChanged: (v) {
                       setSheet(() => selectedBank = v);
@@ -218,13 +216,12 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('인증코드 입력',
-                    style: TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 4),
                 const Text(
                   '입금자명에 표시된 4자리 코드를 입력해 주세요. (목업: 아무 4자리)',
-                  style:
-                      TextStyle(fontSize: 12, color: AppColors.textMuted),
+                  style: TextStyle(fontSize: 12, color: AppColors.textMuted),
                 ),
                 const SizedBox(height: 16),
                 TextField(
@@ -322,9 +319,7 @@ class _AccountCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: account.isDefault
-              ? AppColors.brandDark
-              : AppColors.divider,
+          color: account.isDefault ? AppColors.brandDark : AppColors.divider,
           width: account.isDefault ? 1.5 : 1,
         ),
       ),
@@ -352,8 +347,7 @@ class _AccountCard extends StatelessWidget {
                       children: [
                         Text(account.bank,
                             style: const TextStyle(
-                                fontWeight: FontWeight.w800,
-                                fontSize: 15)),
+                                fontWeight: FontWeight.w800, fontSize: 15)),
                         if (account.isDefault) ...[
                           const SizedBox(width: 6),
                           const TagChip('기본', primary: true),
@@ -365,8 +359,7 @@ class _AccountCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text('${account.holder} · ${account.maskedNumber}',
                         style: const TextStyle(
-                            fontSize: 12,
-                            color: AppColors.textMuted)),
+                            fontSize: 12, color: AppColors.textMuted)),
                   ],
                 ),
               ),
@@ -382,8 +375,8 @@ class _AccountCard extends StatelessWidget {
                         value: 'default', child: Text('기본으로 설정')),
                   const PopupMenuItem(
                     value: 'remove',
-                    child: Text('삭제',
-                        style: TextStyle(color: AppColors.danger)),
+                    child:
+                        Text('삭제', style: TextStyle(color: AppColors.danger)),
                   ),
                 ],
               ),
@@ -426,8 +419,8 @@ class _StatusBadge extends StatelessWidget {
       decoration:
           BoxDecoration(color: bg, borderRadius: BorderRadius.circular(4)),
       child: Text(text,
-          style: TextStyle(
-              color: fg, fontSize: 10, fontWeight: FontWeight.w800)),
+          style:
+              TextStyle(color: fg, fontSize: 10, fontWeight: FontWeight.w800)),
     );
   }
 }

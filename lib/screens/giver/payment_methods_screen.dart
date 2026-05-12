@@ -29,8 +29,7 @@ class _MethodMeta {
         phase: phase ?? this.phase,
         autoCharge: autoCharge ?? this.autoCharge,
         autoChargeAmount: autoChargeAmount ?? this.autoChargeAmount,
-        autoChargeThreshold:
-            autoChargeThreshold ?? this.autoChargeThreshold,
+        autoChargeThreshold: autoChargeThreshold ?? this.autoChargeThreshold,
       );
 }
 
@@ -61,8 +60,15 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
   ];
 
   static const _banks = [
-    '카카오뱅크', '토스뱅크', '신한은행', '국민은행', '우리은행',
-    '하나은행', '농협은행', '기업은행', '새마을금고',
+    '카카오뱅크',
+    '토스뱅크',
+    '신한은행',
+    '국민은행',
+    '우리은행',
+    '하나은행',
+    '농협은행',
+    '기업은행',
+    '새마을금고',
   ];
 
   @override
@@ -74,8 +80,9 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
     }
   }
 
-  int get _nextId =>
-      _items.isEmpty ? 1 : _items.map((m) => m.id).reduce((a, b) => a > b ? a : b) + 1;
+  int get _nextId => _items.isEmpty
+      ? 1
+      : _items.map((m) => m.id).reduce((a, b) => a > b ? a : b) + 1;
 
   void _setDefault(int id) {
     setState(() {
@@ -136,8 +143,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('결제수단 추가',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 12),
               GridView.count(
                 crossAxisCount: 4,
@@ -152,18 +158,17 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                     Navigator.pop(sheetCtx);
                     _showBankForm();
                   }),
-                  _addTile(Icons.account_balance_wallet,
-                      '간편결제', () {
+                  _addTile(Icons.account_balance_wallet, '간편결제', () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('카카오페이·네이버페이 (목업)')),
                     );
                   }),
-                  _addTile(Icons.business_center,
-                      '법인', () {
+                  _addTile(Icons.business_center, '법인', () {
                     Navigator.pop(sheetCtx);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('법인카드 등록은 별도 인증이 필요해요 (목업)')),
+                      const SnackBar(
+                          content: Text('법인카드 등록은 별도 인증이 필요해요 (목업)')),
                     );
                   }),
                 ],
@@ -177,14 +182,13 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                 ),
                 child: const Row(
                   children: [
-                    Icon(Icons.security,
-                        size: 16, color: AppColors.brandDark),
+                    Icon(Icons.security, size: 16, color: AppColors.brandDark),
                     SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         '카드 정보는 PG사(토스페이먼츠)를 통해 안전하게 보관돼요. 우리 서버에는 저장되지 않아요.',
-                        style: TextStyle(
-                            fontSize: 12, color: AppColors.brandDark),
+                        style:
+                            TextStyle(fontSize: 12, color: AppColors.brandDark),
                       ),
                     ),
                   ],
@@ -205,7 +209,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 52, height: 52,
+            width: 52,
+            height: 52,
             decoration: BoxDecoration(
               color: AppColors.brandSoft,
               borderRadius: BorderRadius.circular(14),
@@ -214,8 +219,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
           ),
           const SizedBox(height: 6),
           Text(label,
-              style: const TextStyle(
-                  fontSize: 11, fontWeight: FontWeight.w600)),
+              style:
+                  const TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
         ],
       ),
     );
@@ -238,7 +243,9 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
       ),
       builder: (sheetCtx) => Padding(
         padding: EdgeInsets.only(
-          left: 20, right: 20, top: 20,
+          left: 20,
+          right: 20,
+          top: 20,
           bottom: MediaQuery.of(sheetCtx).viewInsets.bottom + 20,
         ),
         child: StatefulBuilder(
@@ -248,8 +255,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('카드 등록',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 12),
                 const Text('카드사 선택',
                     style: TextStyle(
@@ -260,8 +267,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                 GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
                     crossAxisSpacing: 8,
                     mainAxisSpacing: 8,
@@ -281,9 +287,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                               : AppColors.bg,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: on
-                                ? (brand[2] as Color)
-                                : AppColors.divider,
+                            color: on ? (brand[2] as Color) : AppColors.divider,
                             width: on ? 1.5 : 1,
                           ),
                         ),
@@ -293,9 +297,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                             style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w800,
-                                color: on
-                                    ? (brand[2] as Color)
-                                    : AppColors.text)),
+                                color:
+                                    on ? (brand[2] as Color) : AppColors.text)),
                       ),
                     );
                   },
@@ -350,24 +353,20 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                   contentPadding: EdgeInsets.zero,
                   dense: true,
                   controlAffinity: ListTileControlAffinity.leading,
-                  title: const Text(
-                      '(필수) 자동결제·정기결제 동의',
+                  title: const Text('(필수) 자동결제·정기결제 동의',
                       style: TextStyle(fontSize: 13)),
                   value: agreeRecurring,
                   activeColor: AppColors.brandDark,
-                  onChanged: (v) =>
-                      innerSet(() => agreeRecurring = v ?? false),
+                  onChanged: (v) => innerSet(() => agreeRecurring = v ?? false),
                 ),
                 const SizedBox(height: 8),
                 FilledButton(
-                  onPressed: !agreeRecurring ||
-                          numCtrl.text.length < 12
+                  onPressed: !agreeRecurring || numCtrl.text.length < 12
                       ? null
                       : () {
                           final brand = _cardBrands[brandIdx];
                           final last4 = numCtrl.text.length >= 4
-                              ? numCtrl.text
-                                  .substring(numCtrl.text.length - 4)
+                              ? numCtrl.text.substring(numCtrl.text.length - 4)
                               : '0000';
                           final id = _nextId;
                           setState(() {
@@ -411,7 +410,9 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
       ),
       builder: (sheetCtx) => Padding(
         padding: EdgeInsets.only(
-          left: 20, right: 20, top: 20,
+          left: 20,
+          right: 20,
+          top: 20,
           bottom: MediaQuery.of(sheetCtx).viewInsets.bottom + 20,
         ),
         child: StatefulBuilder(
@@ -421,8 +422,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('계좌 등록',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 12),
                 InkWell(
                   onTap: () {
@@ -440,8 +441,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                             const SizedBox(height: 16),
                             const Text('은행 선택',
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w800)),
+                                    fontSize: 16, fontWeight: FontWeight.w800)),
                             const SizedBox(height: 8),
                             for (final b in _banks)
                               ListTile(
@@ -475,8 +475,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                         const SizedBox(width: 10),
                         Text(bank,
                             style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700)),
+                                fontSize: 14, fontWeight: FontWeight.w700)),
                         const Spacer(),
                         const Icon(Icons.arrow_drop_down,
                             color: AppColors.textMuted),
@@ -535,8 +534,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                       SizedBox(height: 4),
                       Text(
                         '등록 후 1원이 입금되며, 입금자명에 포함된 4자리 숫자를 다음 화면에서 입력해주세요.',
-                        style: TextStyle(
-                            fontSize: 12, color: AppColors.brandDark),
+                        style:
+                            TextStyle(fontSize: 12, color: AppColors.brandDark),
                       ),
                     ],
                   ),
@@ -547,8 +546,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                       ? null
                       : () {
                           final last4 = accCtrl.text.length >= 4
-                              ? accCtrl.text
-                                  .substring(accCtrl.text.length - 4)
+                              ? accCtrl.text.substring(accCtrl.text.length - 4)
                               : '0000';
                           final id = _nextId;
                           setState(() {
@@ -588,7 +586,9 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
       ),
       builder: (sheetCtx) => Padding(
         padding: EdgeInsets.only(
-          left: 20, right: 20, top: 20,
+          left: 20,
+          right: 20,
+          top: 20,
           bottom: MediaQuery.of(sheetCtx).viewInsets.bottom + 20,
         ),
         child: Column(
@@ -596,8 +596,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text('1원 입금자명 인증',
-                style:
-                    TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
             const SizedBox(height: 8),
             const Text(
               '계좌에 1원이 입금되었어요. 입금자명에 표시된 4자리 숫자를 입력해주세요.',
@@ -647,8 +646,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                     onPressed: () {
                       Navigator.pop(sheetCtx);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('나중에 마이페이지에서 인증할 수 있어요')),
+                        const SnackBar(content: Text('나중에 마이페이지에서 인증할 수 있어요')),
                       );
                     },
                     child: const Text('나중에'),
@@ -701,13 +699,12 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('에스크로 자동충전',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 4),
               Text(
                 '${m.label} (${m.maskedNumber}) 사용',
-                style: const TextStyle(
-                    fontSize: 12, color: AppColors.textMuted),
+                style:
+                    const TextStyle(fontSize: 12, color: AppColors.textMuted),
               ),
               const SizedBox(height: 12),
               SwitchListTile(
@@ -715,8 +712,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                 value: on,
                 activeColor: AppColors.brandDark,
                 title: const Text('자동충전 사용',
-                    style: TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w700)),
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
                 onChanged: (v) => innerSet(() => on = v),
               ),
               if (on) ...[
@@ -733,8 +730,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                       .map((v) => ChoiceChip(
                             label: Text(fmtMoney(v)),
                             selected: amount == v,
-                            onSelected: (_) =>
-                                innerSet(() => amount = v),
+                            onSelected: (_) => innerSet(() => amount = v),
                           ))
                       .toList(),
                 ),
@@ -751,8 +747,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                       .map((v) => ChoiceChip(
                             label: Text('${fmtMoney(v)} 이하'),
                             selected: threshold == v,
-                            onSelected: (_) =>
-                                innerSet(() => threshold = v),
+                            onSelected: (_) => innerSet(() => threshold = v),
                           ))
                       .toList(),
                 ),
@@ -783,8 +778,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
               FilledButton(
                 onPressed: () {
                   setState(() {
-                    _meta[m.id] = (_meta[m.id] ?? const _MethodMeta())
-                        .copyWith(
+                    _meta[m.id] = (_meta[m.id] ?? const _MethodMeta()).copyWith(
                       autoCharge: on,
                       autoChargeAmount: amount,
                       autoChargeThreshold: threshold,
@@ -819,33 +813,33 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('결제 한도',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
               const SizedBox(height: 4),
               const Text('과도한 결제를 막기 위한 보호 한도예요',
-                  style: TextStyle(
-                      fontSize: 12, color: AppColors.textMuted)),
+                  style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
               const SizedBox(height: 16),
               Text('일 한도 — ${fmtMoney(d)}',
                   style: const TextStyle(
                       fontSize: 13, fontWeight: FontWeight.w700)),
               Slider(
-                min: 100000, max: 5000000, divisions: 49,
+                min: 100000,
+                max: 5000000,
+                divisions: 49,
                 value: d.toDouble(),
                 activeColor: AppColors.brandDark,
-                onChanged: (v) =>
-                    innerSet(() => d = (v ~/ 100000) * 100000),
+                onChanged: (v) => innerSet(() => d = (v ~/ 100000) * 100000),
               ),
               const SizedBox(height: 8),
               Text('월 한도 — ${fmtMoney(mo)}',
                   style: const TextStyle(
                       fontSize: 13, fontWeight: FontWeight.w700)),
               Slider(
-                min: 500000, max: 30000000, divisions: 59,
+                min: 500000,
+                max: 30000000,
+                divisions: 59,
                 value: mo.toDouble(),
                 activeColor: AppColors.brandDark,
-                onChanged: (v) =>
-                    innerSet(() => mo = (v ~/ 500000) * 500000),
+                onChanged: (v) => innerSet(() => mo = (v ~/ 500000) * 500000),
               ),
               const SizedBox(height: 8),
               Container(
@@ -862,8 +856,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                     Expanded(
                       child: Text(
                         '한도 변경은 본인인증 후 즉시 적용됩니다. 카드사 한도와 별개예요.',
-                        style: TextStyle(
-                            fontSize: 11, color: AppColors.textMuted),
+                        style:
+                            TextStyle(fontSize: 11, color: AppColors.textMuted),
                       ),
                     ),
                   ],
@@ -904,7 +898,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
           children: [
             const SizedBox(height: 8),
             Container(
-              width: 36, height: 4,
+              width: 36,
+              height: 4,
               decoration: BoxDecoration(
                 color: AppColors.divider,
                 borderRadius: BorderRadius.circular(2),
@@ -927,8 +922,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.edit_outlined,
-                  color: AppColors.brandDark),
+              leading:
+                  const Icon(Icons.edit_outlined, color: AppColors.brandDark),
               title: const Text('별칭 변경'),
               onTap: () {
                 Navigator.pop(sheetCtx);
@@ -937,8 +932,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
             ),
             if (!m.isDefault)
               ListTile(
-                leading: const Icon(Icons.star_outline,
-                    color: AppColors.brandDark),
+                leading:
+                    const Icon(Icons.star_outline, color: AppColors.brandDark),
                 title: const Text('기본 결제수단으로 설정'),
                 onTap: () {
                   Navigator.pop(sheetCtx);
@@ -952,9 +947,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                     : Icons.pause_circle_outline,
                 color: AppColors.brandDark,
               ),
-              title: Text(meta.phase == _MethodPhase.suspended
-                  ? '사용 재개'
-                  : '일시 정지'),
+              title: Text(
+                  meta.phase == _MethodPhase.suspended ? '사용 재개' : '일시 정지'),
               onTap: () {
                 setState(() {
                   _meta[m.id] = meta.copyWith(
@@ -967,10 +961,10 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.delete_outline,
-                  color: AppColors.danger),
-              title: const Text('삭제',
-                  style: TextStyle(color: AppColors.danger)),
+              leading:
+                  const Icon(Icons.delete_outline, color: AppColors.danger),
+              title:
+                  const Text('삭제', style: TextStyle(color: AppColors.danger)),
               onTap: () {
                 Navigator.pop(sheetCtx);
                 _remove(m.id);
@@ -1072,7 +1066,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                           style: TextStyle(
                               fontSize: 13, fontWeight: FontWeight.w800)),
                       const SizedBox(height: 6),
-                      Text('일 ${fmtMoney(_dailyLimit)} · 월 ${fmtMoney(_monthlyLimit)}',
+                      Text(
+                          '일 ${fmtMoney(_dailyLimit)} · 월 ${fmtMoney(_monthlyLimit)}',
                           style: const TextStyle(
                               fontSize: 12, color: AppColors.textMuted)),
                       const SizedBox(height: 8),
@@ -1105,8 +1100,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color:
-              m.isDefault ? AppColors.brandDark : AppColors.divider,
+          color: m.isDefault ? AppColors.brandDark : AppColors.divider,
           width: m.isDefault ? 1.5 : 1,
         ),
       ),
@@ -1116,7 +1110,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
           Row(
             children: [
               Container(
-                width: 40, height: 40,
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
                   color: AppColors.brandSoft,
                   borderRadius: BorderRadius.circular(10),
@@ -1137,8 +1132,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                       children: [
                         Text(m.label,
                             style: const TextStyle(
-                                fontWeight: FontWeight.w800,
-                                fontSize: 15)),
+                                fontWeight: FontWeight.w800, fontSize: 15)),
                         if (m.isDefault) ...[
                           const SizedBox(width: 6),
                           const TagChip('기본', primary: true),
@@ -1172,8 +1166,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                     const SizedBox(height: 2),
                     Text(m.maskedNumber,
                         style: const TextStyle(
-                            fontSize: 12,
-                            color: AppColors.textMuted)),
+                            fontSize: 12, color: AppColors.textMuted)),
                   ],
                 ),
               ),
@@ -1187,7 +1180,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
           Row(
             children: [
               Container(
-                width: 8, height: 8,
+                width: 8,
+                height: 8,
                 decoration: BoxDecoration(
                   color: _phaseColor(meta.phase),
                   shape: BoxShape.circle,
@@ -1227,9 +1221,8 @@ class _StepperRow extends StatelessWidget {
           return Expanded(
             child: Container(
               height: 2,
-              color: stepBefore < active
-                  ? AppColors.brandDark
-                  : AppColors.divider,
+              color:
+                  stepBefore < active ? AppColors.brandDark : AppColors.divider,
             ),
           );
         }
@@ -1238,7 +1231,8 @@ class _StepperRow extends StatelessWidget {
         return Column(
           children: [
             Container(
-              width: 28, height: 28,
+              width: 28,
+              height: 28,
               decoration: BoxDecoration(
                 color: idx < active
                     ? AppColors.success
@@ -1247,8 +1241,7 @@ class _StepperRow extends StatelessWidget {
               ),
               alignment: Alignment.center,
               child: idx < active
-                  ? const Icon(Icons.check,
-                      color: Colors.white, size: 16)
+                  ? const Icon(Icons.check, color: Colors.white, size: 16)
                   : Text('${idx + 1}',
                       style: TextStyle(
                           color: on ? Colors.white : AppColors.textFaint,

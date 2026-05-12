@@ -131,8 +131,7 @@ class _SavedSearchNewScreenState extends State<SavedSearchNewScreen> {
             contentPadding: EdgeInsets.zero,
             title: const Text('당일지급만'),
             subtitle: const Text('근무 즉시 자동 송금되는 공고만',
-                style:
-                    TextStyle(fontSize: 11, color: AppColors.textMuted)),
+                style: TextStyle(fontSize: 11, color: AppColors.textMuted)),
             onChanged: (v) => setState(() => _sameDayOnly = v),
           ),
           SwitchListTile(
@@ -141,8 +140,7 @@ class _SavedSearchNewScreenState extends State<SavedSearchNewScreen> {
             contentPadding: EdgeInsets.zero,
             title: const Text('야간 근무 포함'),
             subtitle: const Text('22시 이후 시작 공고도 받기',
-                style:
-                    TextStyle(fontSize: 11, color: AppColors.textMuted)),
+                style: TextStyle(fontSize: 11, color: AppColors.textMuted)),
             onChanged: (v) => setState(() => _nightOk = v),
           ),
           const Divider(height: 32, color: AppColors.divider),
@@ -152,10 +150,8 @@ class _SavedSearchNewScreenState extends State<SavedSearchNewScreen> {
             contentPadding: EdgeInsets.zero,
             title: const Text('푸시 알림 받기',
                 style: TextStyle(fontWeight: FontWeight.w700)),
-            subtitle: const Text(
-                '조건에 맞는 새 공고가 등록되면 즉시 알려드려요',
-                style:
-                    TextStyle(fontSize: 11, color: AppColors.textMuted)),
+            subtitle: const Text('조건에 맞는 새 공고가 등록되면 즉시 알려드려요',
+                style: TextStyle(fontSize: 11, color: AppColors.textMuted)),
             onChanged: (v) => setState(() => _pushEnabled = v),
           ),
         ],
@@ -180,7 +176,6 @@ class _Label extends StatelessWidget {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.only(bottom: 6, top: 4),
         child: Text(text,
-            style:
-                const TextStyle(fontSize: 13, color: AppColors.textMuted)),
+            style: const TextStyle(fontSize: 13, color: AppColors.textMuted)),
       );
 }

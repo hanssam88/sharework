@@ -131,7 +131,8 @@ class _PrimingSheet extends StatelessWidget {
           children: [
             Center(
               child: Container(
-                width: 36, height: 4,
+                width: 36,
+                height: 4,
                 decoration: BoxDecoration(
                   color: AppColors.divider,
                   borderRadius: BorderRadius.circular(2),
@@ -141,13 +142,13 @@ class _PrimingSheet extends StatelessWidget {
             const SizedBox(height: 16),
             Center(
               child: Container(
-                width: 64, height: 64,
+                width: 64,
+                height: 64,
                 decoration: BoxDecoration(
                   color: AppColors.brandSoft,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Icon(_icon,
-                    color: AppColors.brandDark, size: 36),
+                child: Icon(_icon, color: AppColors.brandDark, size: 36),
               ),
             ),
             const SizedBox(height: 16),
@@ -155,8 +156,8 @@ class _PrimingSheet extends StatelessWidget {
               child: Text(
                 customWhy ?? '${kind.label} 권한이 필요해요',
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 18, fontWeight: FontWeight.w800),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
               ),
             ),
             const SizedBox(height: 8),
@@ -164,8 +165,8 @@ class _PrimingSheet extends StatelessWidget {
               child: Text(
                 kind.oneLineWhy,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 13, color: AppColors.textMuted),
+                style:
+                    const TextStyle(fontSize: 13, color: AppColors.textMuted),
               ),
             ),
             const SizedBox(height: 20),
@@ -184,12 +185,10 @@ class _PrimingSheet extends StatelessWidget {
                         children: [
                           Text(b[0],
                               style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w800)),
+                                  fontSize: 14, fontWeight: FontWeight.w800)),
                           Text(b[1],
                               style: const TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.textMuted)),
+                                  fontSize: 12, color: AppColors.textMuted)),
                         ],
                       ),
                     ),
@@ -211,8 +210,8 @@ class _PrimingSheet extends StatelessWidget {
                   Expanded(
                     child: Text(
                       '필요한 순간에만 사용하고, 정보는 외부에 공유되지 않아요.',
-                      style: TextStyle(
-                          fontSize: 11, color: AppColors.textMuted),
+                      style:
+                          TextStyle(fontSize: 11, color: AppColors.textMuted),
                     ),
                   ),
                 ],
@@ -225,8 +224,7 @@ class _PrimingSheet extends StatelessWidget {
                 minimumSize: const Size(double.infinity, 48),
               ),
               child: const Text('지금 허용하기',
-                  style: TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w800)),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
             ),
             const SizedBox(height: 4),
             Center(
@@ -261,13 +259,14 @@ Future<bool> _showOpenSettingsSheet(
                 Row(
                   children: [
                     Container(
-                      width: 40, height: 40,
+                      width: 40,
+                      height: 40,
                       decoration: const BoxDecoration(
                         color: Color(0xFFFFF6E5),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.settings,
-                          color: AppColors.warning),
+                      child:
+                          const Icon(Icons.settings, color: AppColors.warning),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
@@ -280,8 +279,7 @@ Future<bool> _showOpenSettingsSheet(
                 const SizedBox(height: 12),
                 const Text(
                   '앱 내에서는 권한을 다시 켤 수 없어요. 시스템 설정에서 직접 변경해주세요.',
-                  style: TextStyle(
-                      fontSize: 13, color: AppColors.textMuted),
+                  style: TextStyle(fontSize: 13, color: AppColors.textMuted),
                 ),
                 const SizedBox(height: 16),
                 Container(
@@ -296,11 +294,9 @@ Future<bool> _showOpenSettingsSheet(
                       Text('1. 시스템 설정 → 앱 → Sharework',
                           style: TextStyle(fontSize: 13)),
                       SizedBox(height: 4),
-                      Text('2. 권한 → 원하는 권한 선택',
-                          style: TextStyle(fontSize: 13)),
+                      Text('2. 권한 → 원하는 권한 선택', style: TextStyle(fontSize: 13)),
                       SizedBox(height: 4),
-                      Text('3. "허용" 으로 변경',
-                          style: TextStyle(fontSize: 13)),
+                      Text('3. "허용" 으로 변경', style: TextStyle(fontSize: 13)),
                     ],
                   ),
                 ),
@@ -319,8 +315,7 @@ Future<bool> _showOpenSettingsSheet(
                         onPressed: () {
                           Navigator.pop(sheetCtx, false);
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('시스템 설정으로 이동 (목업)')),
+                            const SnackBar(content: Text('시스템 설정으로 이동 (목업)')),
                           );
                         },
                         icon: const Icon(Icons.open_in_new, size: 16),
