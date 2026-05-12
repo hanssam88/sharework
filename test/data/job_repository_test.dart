@@ -198,6 +198,20 @@ void main() {
       expect(body.containsKey('wage_won'), isFalse);
     });
 
+    // Sprint 3 CR-M3: clearScheduleText=true는 명시 null 전송.
+    test('updateJob(clearScheduleText: true) sends schedule_text: null',
+        () async {
+      const cleared =
+          '{"id":"j-1","title":"t","description":"d","wage_won":12000,"schedule_text":null,"status":"active","category_id":"c1","location_address":"서울시","giver":{"public_id":"GVR001","name":"Hong"},"photos":[],"created_at":"2026-05-11T00:00:00Z","updated_at":"2026-05-11T00:00:00Z"}';
+      adapter.setResponse('{"data":$cleared}');
+
+      await repo.updateJob('j-1', clearScheduleText: true);
+
+      final body = adapter.lastRequest!.data as Map;
+      expect(body.containsKey('schedule_text'), isTrue);
+      expect(body['schedule_text'], isNull);
+    });
+
     test('updateJob() with multiple fields includes only set fields', () async {
       const editedJob =
           '{"id":"j-1","title":"t","description":"d","wage_won":5000,"schedule_text":null,"status":"active","category_id":"c1","location_address":"서울시","location_lat":37.5,"giver":{"public_id":"GVR001","name":"Hong"},"photos":[],"created_at":"2026-05-11T00:00:00Z","updated_at":"2026-05-11T00:00:00Z"}';

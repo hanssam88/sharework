@@ -80,6 +80,7 @@ extension JobRepositoryM2 on JobRepository {
     String? description,
     int? wageWon,
     String? scheduleText,
+    bool clearScheduleText = false,
     String? categoryId,
     String? locationAddress,
     double? locationLat,
@@ -90,7 +91,12 @@ extension JobRepositoryM2 on JobRepository {
       if (title != null) 'title': title,
       if (description != null) 'description': description,
       if (wageWon != null) 'wage_won': wageWon,
-      if (scheduleText != null) 'schedule_text': scheduleText,
+      // Sprint 3 CR-M3: clearScheduleText=true면 명시 null 전송 (BFF가 NULL UPDATE).
+      // 그렇지 않으면 scheduleText null 시 patch에 안 넣음(=변경 없음).
+      if (clearScheduleText)
+        'schedule_text': null
+      else if (scheduleText != null)
+        'schedule_text': scheduleText,
       if (categoryId != null) 'category_id': categoryId,
       if (locationAddress != null) 'location_address': locationAddress,
       if (locationLat != null) 'location_lat': locationLat,

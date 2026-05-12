@@ -130,18 +130,28 @@ class _JobEditScreenState extends State<JobEditScreen> {
     }
     setState(() => _busy = true);
     try {
-      // F R6 CR-S2: scheduleText 빈 문자열 → null 보장 (BFF에 '' 저장 회피).
+      // Sprint 3 CR-M1: trim 일관성 — Create와 동일하게 전송 전 모든 텍스트 필드 trim.
+      final titleTrimmed = _titleC.text.trim();
+      final descTrimmed = _descC.text.trim();
+      final addrTrimmed = _addrC.text.trim();
       final scheduleTrimmed = _scheduleC.text.trim();
+      // Sprint 3 CR-M3: schedule_text 클리어 흐름 — 기존 값 존재 + 입력 비움이면 clearScheduleText=true.
+      final hadSchedule =
+          (_job!.scheduleText ?? '').isNotEmpty;
+      final scheduleChanged =
+          scheduleTrimmed != (_job!.scheduleText ?? '');
+      final clearSchedule = scheduleChanged && scheduleTrimmed.isEmpty && hadSchedule;
       final updated = await _repo.updateJob(
         widget.jobId,
-        title: _titleC.text != _job!.title ? _titleC.text : null,
-        description: _descC.text != _job!.description ? _descC.text : null,
+        title: titleTrimmed != _job!.title ? titleTrimmed : null,
+        description: descTrimmed != _job!.description ? descTrimmed : null,
         wageWon: wageInt != _job!.wageWon ? wageInt : null,
-        scheduleText: _scheduleC.text != (_job!.scheduleText ?? '')
-            ? (scheduleTrimmed.isEmpty ? null : scheduleTrimmed)
+        scheduleText: scheduleChanged && scheduleTrimmed.isNotEmpty
+            ? scheduleTrimmed
             : null,
+        clearScheduleText: clearSchedule,
         locationAddress:
-            _addrC.text != _job!.locationAddress ? _addrC.text : null,
+            addrTrimmed != _job!.locationAddress ? addrTrimmed : null,
       );
       if (!mounted) return;
       setState(() => _job = updated);
