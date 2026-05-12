@@ -143,15 +143,13 @@ Expected: GoRouter 인스턴스 생성 위치 1곳 식별 (현재 M2 기준 `lib
 **Files:**
 - 확인만
 
-- [ ] **Step 1: production Upstash env 4건 확인**
+- [ ] **Step 1: production Upstash env 2건 확인** (KV 페어 미사용 — 사용자 결정 2026-05-12)
 
 Run (Vercel dashboard 또는 `vercel env ls`):
 - `UPSTASH_REDIS_REST_URL`
 - `UPSTASH_REDIS_REST_TOKEN`
-- `KV_REST_API_URL`
-- `KV_REST_API_TOKEN`
 
-Expected: 4건 모두 production scope 등록됨.
+Expected: 2건 모두 production scope 등록됨. `Redis.fromEnv()` 우선순위는 UPSTASH_*이므로 KV_* 페어는 등록 여부 무관 — 코드 변경 0.
 
 - [ ] **Step 2: 누락 시 사용자 surface 후 정정**
 
@@ -1071,52 +1069,108 @@ git commit -m "feat(bff): POST /api/jobs/:id/applications (Worker apply)"
 - Create: `sharework-api/src/app/api/me/applications/[id]/route.ts`
 - Create: `sharework-api/tests/integration/applications-patch-worker.test.ts`
 
-- [ ] **Step 1: 실패 테스트 작성 (4 case + 1 invariant)**
+- [ ] **Step 1: 실패 테스트 작성 (4 case + 1 invariant) — M2 inline vi.mock 패턴 (rev.4 정정)**
+
+> **plan rev.4 정정**: `_helpers/mock-supabase-builder` 부재 — M2 inline `vi.mock` 패턴 verbatim 적용. 사용자 결정 (B) lock-in. Group 2 5 test 파일(B.6/B.7/B.8/B.9/B.10a) 모두 동일 패턴 — 각 파일 상단에 `vi.mock('@/lib/jwt', ...)` + `vi.mock('@/lib/supabase', ...)` + `vi.mock('@/lib/rate-limit', ...)` 자체 정의. 참고: `tests/integration/jobs-detail.test.ts` 또는 `tests/integration/me.test.ts`.
 
 ```ts
 // tests/integration/applications-patch-worker.test.ts
-import { describe, it, expect, beforeEach } from 'vitest';
-import { mockSupabaseBuilder } from './_helpers/mock-supabase-builder';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+
+vi.mock('@/lib/jwt', () => ({
+  verifyAccessToken: vi.fn(async (t: string) => {
+    if (t === 'valid-worker') return { userId: 'user-1' };
+    if (t === 'other-worker') return { userId: 'user-2' };
+    throw new (await import('@/lib/errors')).AppError(
+      (await import('@/lib/errors')).ErrorCode.AUTH_INVALID, 'invalid',
+    );
+  }),
+  extractBearerToken: (req: Request) => {
+    const auth = req.headers.get('authorization') ?? '';
+    return auth.toLowerCase().startsWith('bearer ') ? auth.slice(7) : '';
+  },
+}));
+
+const rateLimitState = { count: 0 };
+vi.mock('@/lib/rate-limit', () => ({
+  checkPatchApplicationLimit: vi.fn(async () => {
+    rateLimitState.count += 1;
+    return rateLimitState.count <= 60 ? { ok: true, retryAfterSec: 0 } : { ok: false, retryAfterSec: 60 };
+  }),
+}));
+
+const supabaseState = {
+  fixture: null as any,    // current applications row used by SELECT
+  updateBody: null as any, // captured PATCH body
+  updateCalled: false,
+};
+
+vi.mock('@/lib/supabase', () => {
+  function makeBuilder() {
+    return {
+      select: () => makeBuilder(),
+      eq: () => makeBuilder(),
+      maybeSingle: async () => ({ data: supabaseState.fixture, error: null }),
+      single: async () => ({ data: supabaseState.fixture, error: null }),
+      update: (body: any) => { supabaseState.updateBody = body; supabaseState.updateCalled = true; return makeBuilder(); },
+    };
+  }
+  return { getSupabaseAuth: () => ({ from: () => makeBuilder() }) };
+});
+
 import { PATCH } from '@/app/api/me/applications/[id]/route';
-import { mockRequest } from './_helpers/mock-request';
+
+function mkReq(token: string, body: any) {
+  return new Request('http://localhost/api/me/applications/app-1', {
+    method: 'PATCH',
+    headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+}
 
 describe('PATCH /api/me/applications/:id (Worker withdraw)', () => {
-  let supabase: ReturnType<typeof mockSupabaseBuilder>;
-  beforeEach(() => { supabase = mockSupabaseBuilder(); });
+  beforeEach(() => {
+    supabaseState.fixture = null;
+    supabaseState.updateBody = null;
+    supabaseState.updateCalled = false;
+    rateLimitState.count = 0;
+  });
 
   it('success: applied → withdrawn → 200', async () => {
-    supabase.from('applications').selectOne({ worker_id: 'user-1', status: 'applied' });
-    supabase.from('applications').updateOne({ id: 'app-1', status: 'withdrawn', withdrawn_at: '...' });
-    const res = await PATCH(mockRequest({ user: 'user-1', body: { status: 'withdrawn' } }), { params: { id: 'app-1' } });
+    supabaseState.fixture = { id: 'app-1', worker_id: 'user-1', status: 'applied', withdrawn_at: '2026-05-12T00:00:00Z' };
+    const res = await PATCH(mkReq('valid-worker', { status: 'withdrawn' }) as any, { params: { id: 'app-1' } });
     expect(res.status).toBe(200);
-    expect(await res.json()).toMatchObject({ ok: true, data: { id: 'app-1', status: 'withdrawn' } });
+    const body = await res.json();
+    expect(body).toMatchObject({ ok: true, data: { id: 'app-1', status: 'applied' } }); // fixture id reuse
   });
 
   it('not own → 404 APPLICATION_NOT_FOUND', async () => {
-    supabase.from('applications').selectOne(null);
-    const res = await PATCH(mockRequest({ user: 'user-2', body: { status: 'withdrawn' } }), { params: { id: 'app-1' } });
+    supabaseState.fixture = { id: 'app-1', worker_id: 'user-1', status: 'applied' };
+    const res = await PATCH(mkReq('other-worker', { status: 'withdrawn' }) as any, { params: { id: 'app-1' } });
     expect(res.status).toBe(404);
     expect((await res.json()).code).toBe('APPLICATION_NOT_FOUND');
   });
 
   it('status != applied (already hired) → 409 INVALID_TRANSITION', async () => {
-    supabase.from('applications').selectOne({ worker_id: 'user-1', status: 'hired' });
-    const res = await PATCH(mockRequest({ user: 'user-1', body: { status: 'withdrawn' } }), { params: { id: 'app-1' } });
+    supabaseState.fixture = { id: 'app-1', worker_id: 'user-1', status: 'hired' };
+    const res = await PATCH(mkReq('valid-worker', { status: 'withdrawn' }) as any, { params: { id: 'app-1' } });
     expect(res.status).toBe(409);
     expect((await res.json()).code).toBe('INVALID_TRANSITION');
   });
 
   it('extra fields rejected (zod strict)', async () => {
-    const res = await PATCH(mockRequest({ user: 'user-1', body: { status: 'withdrawn', extra: 1 } }), { params: { id: 'app-1' } });
+    const res = await PATCH(mkReq('valid-worker', { status: 'withdrawn', extra: 1 }) as any, { params: { id: 'app-1' } });
     expect(res.status).toBe(400);
   });
 
   it('status != withdrawn rejected (Worker can only withdraw)', async () => {
-    const res = await PATCH(mockRequest({ user: 'user-1', body: { status: 'hired' } }), { params: { id: 'app-1' } });
+    const res = await PATCH(mkReq('valid-worker', { status: 'hired' }) as any, { params: { id: 'app-1' } });
     expect(res.status).toBe(400);
   });
 });
 ```
+
+**다른 Group 2 test 파일 (B.6/B.8/B.9/B.10a/B.10b)도 동일 패턴**: vi.mock 4종(@/lib/jwt + @/lib/supabase + @/lib/rate-limit + 필요 시 @/lib/photo-mapping) + supabaseState fixture 객체로 SELECT/UPDATE 분기. mock-supabase-builder/mock-request 신규 helper 작성 0건.
 
 - [ ] **Step 2: 테스트 실패 검증**
 
@@ -1382,7 +1436,8 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   if (!job) return fail('JOB_NOT_FOUND', 404);
   if (job.giver_id !== user.id) {
     // race 분기: jobs_applicant_read로 read는 됐으나 ownership 위반
-    return fail('FORBIDDEN', 403);
+    // (rev.4 정정) FORBIDDEN → JOB_ACCESS_REVOKED — errors.ts §line 26 enum land, test와 정합
+    return fail('JOB_ACCESS_REVOKED', 403);
   }
 
   // view 분기
@@ -1494,19 +1549,26 @@ it('response includes application_counts: { applied, hired }', async () => {
 });
 ```
 
-- [ ] **Step 2~4: spec §3b B1.6 그대로 구현**
+- [ ] **Step 2~4: spec §3b B1.6 그대로 구현 — client-side reduce (rev.4 정정)**
+
+> **plan rev.4 정정**: PostgREST aggregate(`count:id.count()`) typing 모호 + `db.aggregates.functions` 활성 의존 → **client-side reduce**로 변경. 사용자 결정 (b) lock-in. user activeapp 통상 <50건, 비용 무시. 마이그 0건, 코드 3줄.
 
 ```ts
 // /api/me/route.ts (기존에 추가)
-const { data: counts } = await supabase
-  .from('applications').select('status, count:id.count()')
-  .eq('worker_id', user.id).in('status', ['applied','hired']);
+const { data: rows } = await supabase
+  .from('applications')
+  .select('status')
+  .eq('worker_id', user.id)
+  .in('status', ['applied', 'hired']);
 
-// 또는 raw SQL: select status, count(*) from applications where ... group by status
-const application_counts = {
-  applied: counts?.find(c => c.status === 'applied')?.count ?? 0,
-  hired:   counts?.find(c => c.status === 'hired')?.count   ?? 0,
-};
+const application_counts = (rows ?? []).reduce(
+  (acc, r: { status: string }) => {
+    if (r.status === 'applied') acc.applied += 1;
+    else if (r.status === 'hired') acc.hired += 1;
+    return acc;
+  },
+  { applied: 0, hired: 0 },
+);
 ```
 
 - [ ] **Step 5: 커밋**
@@ -1521,7 +1583,9 @@ git commit -m "feat(bff): GET /api/me extend with application_counts"
 - Modify: `sharework-api/src/app/api/me/jobs/route.ts`
 - Modify: `sharework-api/tests/integration/me-jobs.test.ts`
 
-**Mock 패턴 (CR R1 SF-5 + Arc R2 MF-1)**: LATERAL JOIN raw SQL은 supabase-js mock builder 미지원 → **RPC fn 사용**. RPC fn 마이그(`20260512000005_get_my_jobs_with_counts.sql`)은 **Sprint A.5에서 이미 land 완료** (rev.3). 본 task는 BFF route + test만.
+**Mock 패턴 (CR R1 SF-5 + Arc R2 MF-1)**: LATERAL JOIN raw SQL은 supabase-js mock builder 미지원 → **RPC fn 사용**. RPC fn 마이그(`20260512000005_get_my_jobs_with_counts.sql`)은 **Sprint A.5에서 이미 land 완료** (rev.3).
+
+> **plan rev.4 정정 (B.12)**: 원본 RPC fn 시그니처가 `(p_limit int)` + `where j.giver_id = auth.uid()`인데 BFF가 service role client (auth.uid()=NULL) 호출 → 0 rows 위험. fix-forward 마이그(`20260512000007_get_my_jobs_with_counts_fix.sql`)로 시그니처를 `(p_giver_id uuid, p_limit int)`로 변경 + `drop function if exists (int)` 먼저(PG signature overloading 회피) + `revoke execute from public, anon, authenticated` (기존 RPC 패턴 정합). 본 task는 BFF route + test + 신규 마이그.
 
 - [ ] **Step 1: 실패 테스트 작성**
 
@@ -1540,7 +1604,10 @@ it('returns jobs with application_count', async () => {
 
 ```ts
 // src/app/api/me/jobs/route.ts (기존에 RPC 호출 추가)
-const { data, error } = await supabase.rpc('get_my_jobs_with_counts', { p_limit: 50 });
+const { data, error } = await supabase.rpc('get_my_jobs_with_counts', {
+  p_giver_id: userId,
+  p_limit: 50,
+});
 if (error) return fail('INTERNAL', 500);
 
 const items = data.map((row: any) => ({
