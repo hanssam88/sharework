@@ -168,4 +168,17 @@ extension JobRepositoryM2 on JobRepository {
     final items = (res.data as Map)['data'] as List;
     return items.cast<Map<String, Object?>>().map(JobPhoto.fromJson).toList();
   }
+
+  /// POST /api/jobs/:id/applications — Worker apply.
+  /// Returns the new application id. BFF response is `{id, status, applied_at}`.
+  /// Failures surface as DioException(error: ApiError) — caller maps:
+  ///   JOB_NOT_ACCEPTING / LIFETIME_CAP_EXCEEDED / REAPPLY_REJECTED → friendly text.
+  Future<String> applyToJob(String jobId, {String? coverNote}) async {
+    final res = await _dio.post(
+      '/api/jobs/$jobId/applications',
+      data: {if (coverNote != null && coverNote.isNotEmpty) 'cover_note': coverNote},
+    );
+    final data = ((res.data as Map)['data'] as Map).cast<String, dynamic>();
+    return data['id'] as String;
+  }
 }

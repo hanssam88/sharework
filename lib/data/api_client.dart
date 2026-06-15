@@ -66,6 +66,7 @@ class _ErrorInterceptor extends Interceptor {
       throw ApiError(
         statusCode: res.statusCode ?? 0,
         code: parseErrorCode(rawCode),
+        rawCode: rawCode,
         message: message,
         retryAfterSec: retryAfter,
       );

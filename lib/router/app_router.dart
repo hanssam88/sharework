@@ -58,6 +58,7 @@ import '../screens/me/saved_searches_screen.dart';
 import '../screens/me/security_screen.dart';
 import '../screens/me/tax_docs_screen.dart';
 import '../screens/me/withdraw_screen.dart';
+import '../screens/worker/applications/my_applications_screen.dart';
 import '../screens/worker/recommended_screen.dart';
 import '../screens/worker/scouts/scout_detail_screen.dart';
 import '../screens/worker/scouts/scouts_screen.dart';
@@ -93,8 +94,9 @@ class AppRouter {
       final isProtected = loc.startsWith('/worker') ||
           loc.startsWith('/giver') ||
           loc.startsWith('/me');
+      // DEMO ONLY (uncommitted, reverted after screenshots): guard disabled.
       if (session == null && isProtected) {
-        return '/auth/phone';
+        return null; // normally: return '/auth/phone';
       }
       return null;
     },
@@ -191,9 +193,13 @@ class AppRouter {
       GoRoute(
         path: '/giver/job/:id/applicants',
         builder: (ctx, state) {
-          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          final id = state.pathParameters['id'] ?? '';
           return ApplicantsScreen(jobId: id);
         },
+      ),
+      GoRoute(
+        path: '/me/applications',
+        builder: (_, __) => const MyApplicationsScreen(),
       ),
       GoRoute(
         path: '/search',

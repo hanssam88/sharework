@@ -51,6 +51,11 @@ ApiErrorCode parseErrorCode(String? raw) {
 class ApiError implements Exception {
   final int statusCode;
   final ApiErrorCode code;
+  // Raw BFF code string ("LIFETIME_CAP_EXCEEDED", "REAPPLY_REJECTED", ...).
+  // Preserved separately from the local enum so screens can branch on codes
+  // that aren't (yet) in ApiErrorCode without resorting to message-substring
+  // matching (which is fragile against translation / typo fixes).
+  final String? rawCode;
   final String message;
   final int? retryAfterSec;
 
@@ -58,6 +63,7 @@ class ApiError implements Exception {
     required this.statusCode,
     required this.code,
     required this.message,
+    this.rawCode,
     this.retryAfterSec,
   });
 
