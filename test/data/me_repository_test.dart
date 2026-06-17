@@ -30,6 +30,29 @@ class _StubAdapter implements HttpClientAdapter {
   void close({bool force = false}) {}
 }
 
+/// Captures the outgoing request so tests can assert method/path/body.
+class _CapturingAdapter implements HttpClientAdapter {
+  final String body;
+  RequestOptions? captured;
+
+  _CapturingAdapter({required this.body});
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    captured = options;
+    return ResponseBody.fromString(body, 200, headers: {
+      'content-type': ['application/json'],
+    });
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
 const _meBody =
     '{"data":{"id":"u1","phone":"+821012345678","name":"5678","role":"worker","public_id":"PUB001","created_at":"2026-05-11T00:00:00Z","updated_at":"2026-05-11T00:00:00Z"}}';
 
@@ -77,6 +100,23 @@ void main() {
       expect(profile.phone, '+821012345678');
       expect(profile.role, 'worker');
       expect(profile.publicId, 'PUB001');
+    });
+
+    test('setRole PATCHes /api/me with {role} and parses Profile', () async {
+      const giverBody =
+          '{"data":{"id":"u1","phone":"+821012345678","name":"5678","role":"giver","public_id":"PUB001","created_at":"2026-05-11T00:00:00Z","updated_at":"2026-05-11T00:00:00Z"}}';
+      final adapter = _CapturingAdapter(body: giverBody);
+      final dio = Dio(BaseOptions(baseUrl: 'http://test'));
+      dio.httpClientAdapter = adapter;
+      final repo = MeRepository(dio);
+
+      final profile = await repo.setRole('giver');
+
+      expect(adapter.captured!.method, 'PATCH');
+      expect(adapter.captured!.path, '/api/me');
+      expect(adapter.captured!.data, {'role': 'giver'});
+      expect(profile.role, 'giver');
+      expect(profile.id, 'u1');
     });
 
     test('getMe surfaces ApiError when 401 AUTH_REQUIRED', () async {

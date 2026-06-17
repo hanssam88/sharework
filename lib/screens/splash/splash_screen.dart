@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../data/repositories/me_repository.dart';
+import '../../data/role_routing.dart';
 import '../../theme/app_theme.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 1200), () {
+    Future.delayed(const Duration(milliseconds: 1200), () async {
       if (!mounted) return;
       Session? session;
       try {
@@ -24,7 +26,9 @@ class _SplashScreenState extends State<SplashScreen> {
         session = null;
       }
       if (session != null) {
-        context.go('/worker');
+        final route = await homeRouteForCurrentUser(MeRepository.fromApi());
+        if (!mounted) return;
+        context.go(route);
       } else {
         context.go('/onboarding');
       }

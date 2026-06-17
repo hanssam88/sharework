@@ -27,6 +27,19 @@ class _MyPageScreenState extends State<MyPageScreen> {
     _future = _repo.getMe();
   }
 
+  Future<void> _switchRole() async {
+    final other = widget.appType == 'worker' ? 'giver' : 'worker';
+    try {
+      await _repo.setRole(other);
+      if (mounted) context.go(other == 'giver' ? '/giver' : '/worker');
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('전환에 실패했어요. 잠시 후 다시 시도해주세요')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,9 +162,8 @@ class _MyPageScreenState extends State<MyPageScreen> {
                 ),
               _Tile(
                 icon: Icons.swap_horiz,
-                label: widget.appType == 'worker' ? '구인자 모드로 전환' : '구직자 모드로 전환',
-                onTap: () => context
-                    .go(widget.appType == 'worker' ? '/giver' : '/worker'),
+                label: widget.appType == 'worker' ? '구인자로 전환' : '구직자로 전환',
+                onTap: _switchRole,
               ),
               _Tile(
                 icon: Icons.notifications_outlined,

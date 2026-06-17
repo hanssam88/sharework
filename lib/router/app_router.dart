@@ -94,9 +94,8 @@ class AppRouter {
       final isProtected = loc.startsWith('/worker') ||
           loc.startsWith('/giver') ||
           loc.startsWith('/me');
-      // DEMO ONLY (uncommitted, reverted after screenshots): guard disabled.
       if (session == null && isProtected) {
-        return null; // normally: return '/auth/phone';
+        return '/auth/phone';
       }
       return null;
     },

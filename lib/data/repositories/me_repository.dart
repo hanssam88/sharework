@@ -13,6 +13,12 @@ class MeRepository {
     final data = (res.data as Map)['data'] as Map<String, Object?>;
     return Profile.fromJson(data);
   }
+
+  Future<Profile> setRole(String role) async {
+    final res = await _dio.patch('/api/me', data: {'role': role});
+    final data = (res.data as Map)['data'] as Map<String, Object?>;
+    return Profile.fromJson(data);
+  }
 }
 
 extension MeApplicationsApi on MeRepository {

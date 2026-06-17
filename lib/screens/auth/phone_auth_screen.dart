@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../data/repositories/auth_repository.dart';
+import '../../data/repositories/me_repository.dart';
+import '../../data/role_routing.dart';
 
 class PhoneAuthScreen extends StatefulWidget {
   final AuthRepository? authRepository;
@@ -63,8 +65,9 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
       if (ok) {
         if (widget.onAuthenticated != null) {
           widget.onAuthenticated!();
-        } else if (mounted) {
-          context.go('/worker');
+        } else {
+          final route = await homeRouteForCurrentUser(MeRepository.fromApi());
+          if (mounted) context.go(route);
         }
       } else if (mounted) {
         setState(() => _error = '인증 실패: 코드를 다시 확인해주세요.');
